@@ -1,0 +1,16 @@
+version: "2"
+services:
+  web:
+    build: .
+    image: simple_chat:latest
+    links:
+      - xmpp:xmpp
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/simple_chat
+  xmpp:
+    image: ejabberd/ecs
+    ports:
+      - "5222:5222"
+      - "5280:5280"
