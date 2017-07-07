@@ -7,9 +7,13 @@
 </head>
 <body>
     <h1>Congratulations! It Works!</h1>
+    <h3>Add a user</h3>
+    <p>docker-compose exec xmpp /home/p1/ejabberd-api register --endpoint=http://127.0.0.1:5280/ --jid=admin@localhost --password=icanseeyou</p>
+    <h3>Run the echobot</h3>
+    <p>docker-compose exec web python echobot.py -d -j admin@localhost -p icanseeyou</p>
     <script>
         converse.initialize({
-            bosh_service_url: 'http://localhost:5280/http-bind',
+            bosh_service_url: '{{ url }}',
             show_controlbox_by_default: true
         });
     </script>

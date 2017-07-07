@@ -3,6 +3,6 @@ from bottle import route, run, template
 
 @route('/')
 def index():
-    return template('index.html')
+    return template('index.html', {'url': 'http://localhost:5280/http-bind'})
 
-run(host='localhost', port=8080)
+run(host='0.0.0.0', port=8080)
