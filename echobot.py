@@ -9,11 +9,13 @@
     See the file LICENSE for copying permission.
 """
 
-import sys
-import logging
 import getpass
+import logging
+import os
+import sys
 from optparse import OptionParser
 
+import requests
 import sleekxmpp
 
 # Python versions before 3.0 do not use UTF-8 encoding
@@ -78,7 +80,18 @@ class EchoBot(sleekxmpp.ClientXMPP):
                    how it may be used.
         """
         if msg['type'] in ('chat', 'normal'):
-            msg.reply("Thanks for sending\n%(body)s" % msg).send()
+            try:
+                r = requests.post(
+                    '%s/%s' % (os.getenv('MESSAGEGW_URL'), 'messages'),
+                    json={'message': msg['body']}
+                )
+                r.raise_for_status()
+                response = r.json().get('response')
+                msg.reply(response).send()
+            except requests.exceptions.HTTPError:
+                logger = logging.getLogger()
+                logger.exception('Failed to get response from messagegw.')
+                raise
 
 
 if __name__ == '__main__':

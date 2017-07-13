@@ -3,6 +3,8 @@ services:
   web:
     build: .
     image: simple_chat:latest
+    environment:
+      MESSAGEGW_URL: "http://localhost"
     links:
       - xmpp:xmpp
     ports:
