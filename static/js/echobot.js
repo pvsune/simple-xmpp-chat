@@ -39,17 +39,22 @@ function onMessage(msg) {
 
         log('ECHOBOT: I got a message from ' + from + ': ' +
             Strophe.getText(body));
-
-        var reply = $msg({to: from, from: to, type: 'chat'})
-                .cnode(Strophe.copyElement(body));
-        connection.send(reply.tree());
-
-        log('ECHOBOT: I sent ' + from + ': ' + Strophe.getText(body));
     }
 
     // we must return true to keep the handler alive.
     // returning false would remove it after it finishes.
     return true;
+}
+
+function onSend() {
+    var form = $('form[name="message"]');
+    var body = form.find('input[name="message"]').val();
+    var user = form.find('input[name="jid"]').val();
+
+    var reply = $msg({to: user, from: connection.jid, type: 'chat'})
+        .c("body").t(body);
+    connection.send(reply.tree());
+    log('ECHOBOT: I sent ' + user + ': ' + body);
 }
 
 $(document).ready(function () {
@@ -64,16 +69,17 @@ $(document).ready(function () {
 
 
     $('#connect').bind('click', function () {
-    var button = $('#connect').get(0);
-    if (button.value == 'connect') {
-        button.value = 'disconnect';
+        var button = $('#connect').get(0);
+        if (button.value == 'connect') {
+            button.value = 'disconnect';
 
-        connection.connect($('#jid').get(0).value,
-                   $('#pass').get(0).value,
-                   onConnect);
-    } else {
-        button.value = 'connect';
-        connection.disconnect();
-    }
+            connection.connect($('#jid').get(0).value,
+                       $('#pass').get(0).value,
+                       onConnect);
+            $('#send').bind('click', onSend);
+        } else {
+            button.value = 'connect';
+            connection.disconnect();
+        }
     });
 });
