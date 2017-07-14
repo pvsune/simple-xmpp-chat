@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: schat-service
+  namespace: dev
+spec:
+  selector:
+    app: simple-chat
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: schat-http
+  type: LoadBalancer

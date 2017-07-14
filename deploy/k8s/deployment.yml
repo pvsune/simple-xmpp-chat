@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: schat-deployment
+  namespace: dev
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: simple-chat
+    spec:
+      containers:
+      - name: simple-chat
+        imagePullPolicy: Always
+        image: us.gcr.io/panoptez/simple_chat:latest
+        ports:
+        - containerPort: 80
+          name: schat-http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 120
