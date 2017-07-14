@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ejabberd-deployment
+  namespace: dev
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ejabberd
+    spec:
+      containers:
+      - name: ejabberd
+        imagePullPolicy: Always
+        image: ejabberd/ecs:latest
+        ports:
+        - containerPort: 5222
+          name: ejabberd-c2s
+        - containerPort: 5280
+          name: ejabberd-http
+        readinessProbe:
+          httpGet:
+            path: /http-bind
+            port: 5280
+          initialDelaySeconds: 30
+          periodSeconds: 120

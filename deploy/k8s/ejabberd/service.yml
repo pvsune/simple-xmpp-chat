@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: ejabberd-service
+  namespace: dev
+spec:
+  selector:
+    app: ejabberd
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5280
+      targetPort: ejabberd-http
+    - name: c2s
+      protocol: TCP
+      port: 5222
+      targetPort: ejabberd-c2s
+  type: LoadBalancer
