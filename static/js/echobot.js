@@ -68,18 +68,6 @@ $(document).ready(function () {
     //Strophe.log = function (level, msg) { log('LOG: ' + msg); };
 
 
-    $('#connect').bind('click', function () {
-        var button = $('#connect').get(0);
-        if (button.value == 'connect') {
-            button.value = 'disconnect';
-
-            connection.connect($('#jid').get(0).value,
-                       $('#pass').get(0).value,
-                       onConnect);
-            $('#send').bind('click', onSend);
-        } else {
-            button.value = 'connect';
-            connection.disconnect();
-        }
-    });
+    connection.connect('localhost', null, onConnect);
+    $('#send').bind('click', onSend);
 });
