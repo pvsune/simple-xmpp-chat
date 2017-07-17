@@ -16,3 +16,5 @@ services:
     ports:
       - "5222:5222"
       - "5280:5280"
+    volumes:
+      - ./ejabberd.yml:/home/p1/cfg/ejabberd.yml
