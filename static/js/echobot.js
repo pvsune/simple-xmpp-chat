@@ -49,7 +49,7 @@ function onMessage(msg) {
 function onSend() {
     var form = $('form[name="message"]');
     var body = form.find('input[name="message"]').val();
-    var user = form.find('input[name="jid"]').val();
+    var user = 'admin@localhost';
 
     var reply = $msg({to: user, from: connection.jid, type: 'chat'})
         .c("body").t(body);
