@@ -2,7 +2,7 @@ version: "2"
 services:
   web:
     build: .
-    image: simple_chat:latest
+    image: us.gcr.io/panoptez/simple_chat:latest
     environment:
       MESSAGEGW_URL: "http://localhost"
     links:
@@ -17,4 +17,4 @@ services:
       - "5222:5222"
       - "5280:5280"
     volumes:
-      - ./ejabberd.yml:/home/p1/cfg/ejabberd.yml
+      - ./deploy/ejabberd/ejabberd.yml:/home/p1/cfg/ejabberd.yml
