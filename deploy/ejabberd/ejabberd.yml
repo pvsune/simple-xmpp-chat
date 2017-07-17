@@ -306,7 +306,9 @@ auth_method: internal
 ##
 host_config:
   "localhost":
-    auth_method: anonymous
+    auth_method:
+      - anonymous
+      - internal
     allow_multiple_connections: true
     anonymous_protocol: sasl_anon
 ##
