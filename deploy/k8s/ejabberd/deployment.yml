@@ -13,7 +13,7 @@ spec:
       containers:
       - name: ejabberd
         imagePullPolicy: Always
-        image: ejabberd/ecs:latest
+        image: us.gcr.io/panoptez/ejabberd_ecs:latest
         ports:
         - containerPort: 5222
           name: ejabberd-c2s
