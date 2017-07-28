@@ -12,12 +12,12 @@ function onConnect(status)
         log('Strophe is connecting.');
     } else if (status == Strophe.Status.CONNFAIL) {
         log('Strophe failed to connect.');
-        $('#connect').get(0).value = 'connect';
+        // $('#connect').get(0).value = 'connect';
     } else if (status == Strophe.Status.DISCONNECTING) {
         log('Strophe is disconnecting.');
     } else if (status == Strophe.Status.DISCONNECTED) {
         log('Strophe is disconnected.');
-        $('#connect').get(0).value = 'connect';
+        // $('#connect').get(0).value = 'connect';
     } else if (status == Strophe.Status.CONNECTED) {
         log('Strophe is connected.');
         log('ECHOBOT: Send a message to ' + connection.jid +
@@ -47,8 +47,7 @@ function onMessage(msg) {
 }
 
 function onSend() {
-    var form = $('form[name="message"]');
-    var body = form.find('input[name="message"]').val();
+    var body = $('#btn-input').val()
     var user = 'admin@localhost';
 
     var reply = $msg({to: user, from: connection.jid, type: 'chat'})
@@ -69,5 +68,5 @@ $(document).ready(function () {
 
 
     connection.connect('localhost', null, onConnect);
-    $('#send').bind('click', onSend);
+    $('#btn-chat').bind('click', onSend);
 });

@@ -1,0 +1,11 @@
+div.pez-chat {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+}
+div.pez-chat div.panel-body {
+    min-height: 400px;
+    max-height: 400px;
+    overflow-y: scroll;
+}
