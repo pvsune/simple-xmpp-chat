@@ -402,9 +402,9 @@ acl:
   ## The 'admin' ACL grants administrative privileges to XMPP accounts.
   ## You can put here as many accounts as you want.
   ##
-  ## admin:
-  ##   user:
-  ##     - "aleksey": "localhost"
+  admin:
+    user:
+      - "admin": "localhost"
   ##     - "ermine": "example.org"
   ##
   ## Blocked users
