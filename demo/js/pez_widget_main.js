@@ -312,7 +312,7 @@ function activate_chat() {
     i_message.focus();
 }
 
-function append_message(sender,message,time=null) {
+function append_message(sender,message,time) {
     if (time == null) {
         time = date_timestamp(new Date())
     }

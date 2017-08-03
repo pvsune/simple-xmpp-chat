@@ -13,7 +13,7 @@ var pez_widget_url = null;
         pez_build_chatbox();
 
         var style = document.createElement('link');
-        style.href = pez_widget_url+'css/pez_widget.css?'+seed;
+        style.href = pez_widget_url+'css/pez_widget.min.css?'+seed;
         style.rel = 'stylesheet';
         style.type = 'text/css';
         style.media = 'all';
@@ -51,7 +51,7 @@ var pez_widget_url = null;
     function pez_main_widget_load() {
         var widgetjs = document.createElement('script');
         widgetjs.async = true;
-        widgetjs.src = pez_widget_url+'js/pez_widget_main.js?'+seed
+        widgetjs.src = pez_widget_url+'js/pez_widget_main.min.js?'+seed
         document.body.appendChild(widgetjs);
     }
 
