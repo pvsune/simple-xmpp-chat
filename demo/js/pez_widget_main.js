@@ -6,7 +6,7 @@ var pez_widget_debug = false;
 
 var pez_widget_name = 'FundKo';
 var pez_widget_avatar = 'fundko_logo.png';
-var pez_widget_url = 'http://localhost:8080/demo/';
+var pez_widget_url = 'http://35.188.25.143/demo/';
 
 var xmpp_server_url = 'http://35.188.27.220:5280/http-bind';
 var xmpp_host = 'localhost';

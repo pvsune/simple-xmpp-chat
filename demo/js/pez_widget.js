@@ -4,7 +4,7 @@ var pez_widget_url = null;
 
 (function() {
 
-    pez_widget_url = 'http://localhost:8080/demo/';
+    pez_widget_url = 'http://35.188.25.143/demo/';
     pez_widget_api_key = document.getElementById('pez-widget-embed').getAttribute("data-apikey")
     pez_widget_client_domain = document.domain;
     var seed = Math.floor(Date.now() / 1000);
