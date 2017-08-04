@@ -161,8 +161,8 @@ function userDataSentHandler(result) {
     }
     */
     log('User Data Sent.'+datastr);
-    post_auth();
     send_message(user_question);
+    activate_chat();
 }
 
 function userDataNotSentHandler(result) {
@@ -234,6 +234,7 @@ function post_connection() {
 function send_user_info() {
     if (pez_widget_online) {
         if (pez_widget_payload_sending == 'dataform') {
+            /*
             var i, fields = [
                 ['Name',user_name,'user_name'],
                 ['Email',user_email,'user_email'],
@@ -255,6 +256,8 @@ function send_user_info() {
               fields: fields
             });
             connection.send(form.tree());
+            */
+            activate_chat()
             send_message(user_question);
         } else if (pez_widget_payload_sending == 'iq') {
             var iq = $iq({type: 'set', id: 'userdata'})//, from: connection.jid, to: xmpp_admin_user})
@@ -289,7 +292,7 @@ function send_auth() {
               </field>
             </x>
             */
-            post_auth();
+            post_auth()
             /*
             var form = $build("x", {xmlns:'jabber:x:data', type:'result', from: connection.jid, to: xmpp_admin_user})
                 .c('title','clientauth')
