@@ -1,18 +1,46 @@
 var pez_widget_online = true;
 var pez_widget_required_auth = false;
-var pez_widget_auth_reply = false;
 var pez_widget_payload_sending = 'iq';
 var pez_widget_debug = false;
+var prefix = 'pez-widget-';
+
+var pez_widget_auth_reply = false;
 
 var pez_widget_name = 'FundKo';
 var pez_widget_avatar = 'fundko_logo.png';
-var pez_widget_url = 'http://35.188.25.143/demo/';
 
 var xmpp_server_url = 'http://35.188.27.220:5280/http-bind';
 var xmpp_host = 'localhost';
 var xmpp_admin_user = 'admin@localhost';
 
 var pez_widget_jid = null; 
+
+// divs
+var i_chatbox = document.getElementById(prefix+'chatbox');
+var i_form = document.getElementById(prefix+'form');
+var i_form_button = document.getElementById(prefix+'form-button');
+var i_form_error = document.getElementById(prefix+'form-error');
+var i_user_name = document.getElementById(prefix+'form-name');
+var i_user_email = document.getElementById(prefix+'form-email');
+var i_user_phone = document.getElementById(prefix+'form-phone');
+var i_user_question = document.getElementById(prefix+'form-question');
+var i_input_area = document.getElementById(prefix+'input-area');
+var i_message = document.getElementById(prefix+'message');
+var i_send_button = document.getElementById(prefix+'send-button');
+var i_launcher = document.getElementById(prefix+'launcher');
+var i_bubble = document.getElementById(prefix+'speech-bubble');
+var i_collapsible = document.getElementById(prefix+'collapsible');
+var i_messages_area = document.getElementById(prefix+'messages-area');
+var i_messages_area_inner = document.getElementById(prefix+'messages-area-inner');
+
+var user_name = '';
+var user_email = '';
+var user_phone = '';
+var user_question = '';
+
+function log(message) {
+    console.log(message);
+}
 
 function connect() {
     connection.connect(xmpp_host, null, connectHandler)
@@ -78,24 +106,13 @@ function messageHandler(msg) {
     log(type+' received from '+from) //+' to '+to);
 
     if (type == "chat" && elems.length > 0) {
-        log(elems);
-        if (pez_widget_auth_reply) {
-            if (elems[1] != undefined) {
-                var auth_result = Strophe.getText(elems[1]);
-                if (auth_result == 1) {
-                    pez_widget_auth_reply = false;
-                    post_auth();
-                } else log('Authentication failed!');
-            } else log('Authentication failed!');
-        } else {
-            var body = Strophe.getText(elems[0]);
-            if (body) {
-                add_message_cookie('server',body);
-                append_message('server',body);
-                log(from + ": " + body);
-            }    
-            increment_unread_count();
-        }
+        var body = Strophe.getText(elems[0]);
+        if (body) {
+            add_message_cookie('server',body);
+            append_message('server',body);
+            log(from + ": " + body);
+        }    
+        increment_unread_count();
     }
 
     return true;
@@ -138,6 +155,7 @@ function userDataSuccessHandler(result) {
     }
     log('User Data Sent.'+datastr);
     post_auth();
+    send_message(user_question);
 }
 
 function userDataFailHandler(result) {
@@ -170,25 +188,25 @@ function post_auth() {
     setInterval(update_timestamps,5000);
 }
 
-function send_message() {
+function send_message(msg) {
+    /*
     i_message.disabled = true;
     i_send_button.disabled = true;
+    */
     var message = $msg({to: xmpp_admin_user, from: pez_widget_jid, type:"chat"})
-        .c("body").t(i_message.value);
+        .c("body").t(msg);
     connection.send(message.tree());
-    log('To: '+xmpp_admin_user+' Message: '+i_message.value)
-    add_message_cookie('user',i_message.value);
-    var time = append_message('user',i_message.value);
-    process_non_text(i_message.value,time);
-    if (!pez_widget_online) fake_reply(i_message.value)
+    log('To: '+xmpp_admin_user+' Message: '+msg)
+    add_message_cookie('user',msg);
+    var time = append_message('user',msg);
+    process_non_text(msg,time);
+    if (!pez_widget_online) fake_reply(msg)
+    /*
     i_send_button.disabled = false;
-    i_message.value = '';
     i_message.disabled = false;
-    i_message.focus()
-}
-
-function log(message) {
-    console.log(message);
+    */
+    i_message.value = '';
+    i_message.focus();
 }
 
 function update_status(show,status) {
@@ -234,6 +252,7 @@ function send_user_info() {
               fields: fields
             });
             connection.send(form.tree());
+            send_message(user_question);
         } else if (pez_widget_payload_sending == 'iq') {
             var iq = $iq({type: 'set', id: 'userdata'})//, from: connection.jid, to: xmpp_admin_user})
               .c('query', {xmlns: 'jabber:iq:private'})
@@ -245,11 +264,6 @@ function send_user_info() {
             connection.sendIQ(iq,userDataSuccessHandler,userDataFailHandler);
         }   
     }
-    add_message_cookie('user',user_question);
-    append_message('user',user_question);
-    //if offline, fake reply
-    if (!pez_widget_online)
-        fake_reply(user_question)
 }
 
 function send_auth() {
@@ -325,19 +339,19 @@ function append_message(sender,message,time) {
         name = pez_widget_name
     }
     message = convert_links(message);
-    i_messages_area_inner.innerHTML += `
-        <div class="`+sender+` message">
-            <div class="info">
-                <img src="`+imgsrc+`" />
-                <div class="name">`+name+`</div>
-            </div>
-            <div class="text">
-                <div id="pez-widget-msg-`+time+`">`+message+`</div> 
-                <span class="pez-widget-timestamp `+time+`" title=""><em>Just Now</em></span>
-            </div>
-        </div>
-        <div class="divider"></div>
-    `;
+    //message = message.replace(/\n/g,'<br />');
+
+    var div = {
+        tag: 'div', className: sender+' message', children: [
+            {tag: 'div', className: 'info', children: [
+                {tag: 'img', src: imgsrc},
+                {tag: 'div', className: 'name', innerText: name}]},
+            {tag: 'div', className: 'text', children: [
+                {tag: 'div', id: 'msg-'+time, innerText: message},
+                {tag: 'span', className: 'pez-widget-timestamp '+time, title: '', innerHTML: '<em>Just Now</em>'}]}
+        ]}
+    i_messages_area_inner.appendChild(pez_widget_build_element(div))
+    i_messages_area_inner.innerHTML += '<div class="divider"></div>';
     setTimeout(scroll_down,500);
     return time
 }
@@ -371,10 +385,8 @@ function process_link(url,time) {
     xhr = new XMLHttpRequest();
     xhr.open('POST', pez_widget_url+'link');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    /*
     xhr.setRequestHeader('crossDomain', '*');
     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-    */
     xhr.onload = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             display_link(JSON.parse(xhr.responseText),time)
@@ -385,10 +397,17 @@ function process_link(url,time) {
     xhr.send("url="+url);
 }
 
+function ajaxpost(link,data,callback) {
+}
+
 function display_spinner(time) {
     var target = document.getElementById('pez-widget-msg-'+time)
-    target.className = 'preview'
-    target.innerHTML = '<div class="spinner"><img src="'+pez_widget_url+'images/spinner.gif" /></div>';
+    if (target != null) {
+        target.className = 'preview'
+        target.innerHTML = '<div class="spinner"><img src="'+pez_widget_url+'images/spinner.gif" /></div>';
+    } else {
+        log('Target: pez-widget-msg-'+time)
+    }
 }
 
 function process_non_text(message,time) {
@@ -436,7 +455,6 @@ function process_form(){
         i_form_button.disabled = true;
         i_form_error.innerText = 'Saving your info...';
         save_form();
-        activate_chat();
         send_user_info();
     }
 }
@@ -656,37 +674,14 @@ connection.rawOutput = rawOutputHandler;
 connection.addHandler(presenceHandler, null, "presence", pez_widget_jid)//, pez_widget_jid);
 connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get", pez_widget_jid);
 
-var prefix = 'pez-widget-';
-
-// divs
-    var i_chatbox = document.getElementById(prefix+'chatbox');
-    var i_form = document.getElementById(prefix+'form');
-    var i_form_button = document.getElementById(prefix+'form-button');
-    var i_form_error = document.getElementById(prefix+'form-error');
-    var i_user_name = document.getElementById(prefix+'form-name');
-    var i_user_email = document.getElementById(prefix+'form-email');
-    var i_user_phone = document.getElementById(prefix+'form-phone');
-    var i_user_question = document.getElementById(prefix+'form-question');
-    var i_input_area = document.getElementById(prefix+'input-area');
-    var i_message = document.getElementById(prefix+'message');
-    var i_send_button = document.getElementById(prefix+'send-button');
-    var i_launcher = document.getElementById(prefix+'launcher');
-    var i_bubble = document.getElementById(prefix+'speech-bubble');
-    var i_collapsible = document.getElementById(prefix+'collapsible');
-    var i_messages_area = document.getElementById(prefix+'messages-area');
-    var i_messages_area_inner = document.getElementById(prefix+'messages-area-inner');
-
-var user_name = '';
-var user_email = '';
-var user_phone = '';
-var user_question = '';
-
 i_form_button.onclick = process_form;
-i_send_button.onclick = send_message;
+i_send_button.onclick = function(e) {
+    send_message(i_message.value);
+}
 i_message.onkeyup = function (e) {
     e = e || window.event;
     if (e.keyCode == 13) { // Return key
-        send_message()
+        send_message(i_message.value)
     }
 }
 i_launcher.onclick = function(){

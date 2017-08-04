@@ -30,9 +30,34 @@
 #pez-widget-form .label {
   
 }
+#pez-widget-form .input-holder {
+  width: 100%;
+  margin: 5px 0 0;
+  padding: 0;
+  height: 30px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  overflow: hidden;
+}
 #pez-widget-form input[type="text"],
 #pez-widget-form textarea {
+  border: none;
+  font-family: Arial;
+  font-size: 14px;
+  line-height: 30px;
+  padding: 0 0 0 5px;
   width: 100%;
+  height: 30px;
+  margin: 0;
+  background: none;
+}
+#pez-widget-form .field-question .input-holder {
+  height: 80px;
+}
+#pez-widget-form textarea {
+  width: 98%;
+  height: 80px;
+  line-height: 20px;
 }
 #pez-widget-form .field {
   margin: 0 10px;

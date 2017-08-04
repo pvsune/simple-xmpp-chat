@@ -1,37 +1,51 @@
-from bottle import get, post, route, run, static_file, template, request, response
+from bottle import Bottle, get, post, route, run, static_file, template, request, response
 import requests, json, re
 
 
-@route('/')
+app = Bottle()
+
+@app.route('/')
 def index():
-    return template('index.html', {'url': 'http://localhost:5280/http-bind'})
+	return template('index.html', {'url': 'http://localhost:5280/http-bind'})
 
 
-@get("/static/js/<filepath:re:.*\.js>")
+@app.get("/static/js/<filepath:re:.*\.js>")
 def js(filepath):
-    return static_file(filepath, root="static/js")
+	return static_file(filepath, root="static/js")
 
 
-@get("/static/css/<filepath:re:.*\.css>")
+@app.get("/static/css/<filepath:re:.*\.css>")
 def css(filepath):
-    return static_file(filepath, root="static/css")
+	return static_file(filepath, root="static/css")
 
 
-@get("/demo/js/<filepath:re:.*\.js>")
+@app.get("/demo/js/<filepath:re:.*\.js>")
 def js(filepath):
-    return static_file(filepath, root="demo/js")
+	return static_file(filepath, root="demo/js")
 
 
-@get("/demo/css/<filepath:re:.*\.css>")
+@app.get("/demo/css/<filepath:re:.*\.css>")
 def css(filepath):
-    return static_file(filepath, root="demo/css")
+	return static_file(filepath, root="demo/css")
 
 
-@get("/demo/images/<filepath:re:.*>")
+@app.get("/demo/images/<filepath:re:.*>")
 def css(filepath):
-    return static_file(filepath, root="demo/images")
+	return static_file(filepath, root="demo/images")
 
-@post('/demo/link')
+def enable_cors(fn):
+	def _enable_cors(*args, **kwargs):
+		response.headers['Access-Control-Allow-Origin'] = '*'
+		response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
+		response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+
+		if request.method != 'OPTIONS':
+			return fn(*args, **kwargs)
+
+	return _enable_cors
+
+@app.route('/demo/link', method=['OPTIONS','POST'])
+@enable_cors
 def link():
 	url = request.forms.get('url')
 	r = requests.get(url)
@@ -106,5 +120,4 @@ def link():
 			'url': url
 		}
 
-
-run(host='0.0.0.0', port=80, debug=True)
+app.run(host='0.0.0.0', port=8080, debug=True)
