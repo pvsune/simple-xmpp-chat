@@ -1,7 +1,7 @@
 var pez_widget_api_key = null;
 var pez_widget_client_domain = null;
-var pez_widget_url = 'http://localhost:8080/demo/';
-//var pez_widget_url = 'http://35.188.25.143/demo/';
+//var pez_widget_url = 'http://localhost:8080/demo/';
+var pez_widget_url = 'http://35.188.25.143/demo/';
 
 function pez_widget_build_element(data) {
     var value, div = document.createElement(data.tag);
@@ -43,7 +43,7 @@ function pez_widget_build_element(data) {
         style.media = 'all';
         document.getElementsByTagName('head')[0].appendChild(style)
 
-        /*
+        
         if (typeof jQuery == 'undefined') {
             var js = document.createElement('script');
             js.src = "https://code.jquery.com/jquery-3.2.1.min.js"
@@ -55,15 +55,13 @@ function pez_widget_build_element(data) {
         } else {
             pez_widget_load2()
         }
-        */
-        pez_widget_load2();
     }
 
     function pez_widget_load2() {
         var js = document.createElement('script');
         js.src = pez_widget_url+'js/strophe.min.js?'+seed
         js.onreadystatechange = pez_widget_load3;
-        js.onload = pez_main_widget_load;
+        js.onload = pez_widget_load3;
         document.body.appendChild(js);
     }
 

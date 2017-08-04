@@ -1,35 +1,33 @@
-from bottle import Bottle, get, post, route, run, static_file, template, request, response
+from bottle import get, post, route, run, static_file, template, request, response
 import requests, json, re
 
 
-app = Bottle()
-
-@app.route('/')
+@route('/')
 def index():
 	return template('index.html', {'url': 'http://localhost:5280/http-bind'})
 
 
-@app.get("/static/js/<filepath:re:.*\.js>")
+@get("/static/js/<filepath:re:.*\.js>")
 def js(filepath):
 	return static_file(filepath, root="static/js")
 
 
-@app.get("/static/css/<filepath:re:.*\.css>")
+@get("/static/css/<filepath:re:.*\.css>")
 def css(filepath):
 	return static_file(filepath, root="static/css")
 
 
-@app.get("/demo/js/<filepath:re:.*\.js>")
+@get("/demo/js/<filepath:re:.*\.js>")
 def js(filepath):
 	return static_file(filepath, root="demo/js")
 
 
-@app.get("/demo/css/<filepath:re:.*\.css>")
+@get("/demo/css/<filepath:re:.*\.css>")
 def css(filepath):
 	return static_file(filepath, root="demo/css")
 
 
-@app.get("/demo/images/<filepath:re:.*>")
+@get("/demo/images/<filepath:re:.*>")
 def css(filepath):
 	return static_file(filepath, root="demo/images")
 
@@ -44,8 +42,8 @@ def enable_cors(fn):
 
 	return _enable_cors
 
-@app.route('/demo/link', method=['OPTIONS','POST'])
-@enable_cors
+@route('/demo/link', method=['OPTIONS','POST'])
+#@enable_cors
 def link():
 	url = request.forms.get('url')
 	r = requests.get(url)
@@ -120,4 +118,4 @@ def link():
 			'url': url
 		}
 
-app.run(host='0.0.0.0', port=8080, debug=True)
+run(host='0.0.0.0', port=80)

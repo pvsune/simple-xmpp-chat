@@ -1,6 +1,6 @@
 var pez_widget_online = true;
 var pez_widget_required_auth = false;
-var pez_widget_payload_sending = 'iq';
+var pez_widget_payload_sending = 'dataform'; // iq or dataform
 var pez_widget_debug = false;
 var prefix = 'pez-widget-';
 
@@ -10,6 +10,7 @@ var pez_widget_name = 'FundKo';
 var pez_widget_avatar = 'fundko_logo.png';
 
 var xmpp_server_url = 'http://35.188.27.220:5280/http-bind';
+//var xmpp_server_url = 'http://localhost:5280/http-bind';
 var xmpp_host = 'localhost';
 var xmpp_admin_user = 'admin@localhost';
 
@@ -39,7 +40,7 @@ var user_phone = '';
 var user_question = '';
 
 function log(message) {
-    console.log(message);
+    //console.log(message);
 }
 
 function connect() {
@@ -118,8 +119,9 @@ function messageHandler(msg) {
     return true;
 }
 
-function authSuccessHandler(result) {
+function authSentHandler(result) {
     var datastr = '';
+    /*
     if (pez_widget_debug) {
         var data = {}
         for (var key in result) {
@@ -127,12 +129,14 @@ function authSuccessHandler(result) {
         }
         datastr = ' Data: '+JSON.stringify(data)
     }
-    log('Auth Success.'+datastr);
+    */
+    log('Auth Sent.'+datastr);
     post_auth();
 }
 
-function authFailHandler(result) {
+function authNotSentHandler(result) {
     var datastr = '';
+    /*
     if (pez_widget_debug) {
         var data = {}
         for (var key in result) {
@@ -140,12 +144,14 @@ function authFailHandler(result) {
         }
         datastr = ' Data: '+JSON.stringify(data)
     }
-    log('Auth Failed.'+datastr);
+    */
+    log('Auth Not Sent.'+datastr);
 }
 
 
-function userDataSuccessHandler(result) {
+function userDataSentHandler(result) {
     var datastr = '';
+    /*
     if (pez_widget_debug) {
         var data = {}
         for (var key in result) {
@@ -153,13 +159,15 @@ function userDataSuccessHandler(result) {
         }
         datastr = ' Data: '+JSON.stringify(data)
     }
+    */
     log('User Data Sent.'+datastr);
     post_auth();
     send_message(user_question);
 }
 
-function userDataFailHandler(result) {
+function userDataNotSentHandler(result) {
     var datastr = '';
+    /*
     if (pez_widget_debug) {
         var data = {}
         for (var key in result) {
@@ -167,6 +175,7 @@ function userDataFailHandler(result) {
         }
         datastr = ' Data: '+JSON.stringify(data)
     }
+    */
     log('User Data Not Sent.'+datastr);
 }
 
@@ -189,11 +198,7 @@ function post_auth() {
 }
 
 function send_message(msg) {
-    /*
-    i_message.disabled = true;
-    i_send_button.disabled = true;
-    */
-    var message = $msg({to: xmpp_admin_user, from: pez_widget_jid, type:"chat"})
+    var message = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat"})
         .c("body").t(msg);
     connection.send(message.tree());
     log('To: '+xmpp_admin_user+' Message: '+msg)
@@ -201,10 +206,6 @@ function send_message(msg) {
     var time = append_message('user',msg);
     process_non_text(msg,time);
     if (!pez_widget_online) fake_reply(msg)
-    /*
-    i_send_button.disabled = false;
-    i_message.disabled = false;
-    */
     i_message.value = '';
     i_message.focus();
 }
@@ -219,6 +220,8 @@ function update_status(show,status) {
 function post_connection() {
     if (pez_widget_online) {
         update_jid();
+        connection.addHandler(presenceHandler, null, "presence", pez_widget_jid);
+        connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get", pez_widget_jid);
         connection.addHandler(messageHandler, null, "message", "chat", pez_widget_jid);
         connection.send($pres());
         if (pez_widget_required_auth)
@@ -261,7 +264,7 @@ function send_user_info() {
               .up().c('email', user_email)
               .up().c('phone', user_phone)
               .tree();
-            connection.sendIQ(iq,userDataSuccessHandler,userDataFailHandler);
+            connection.sendIQ(iq,userDataSentHandler,userDataNotSentHandler);
         }   
     }
 }
@@ -270,7 +273,38 @@ function send_auth() {
     if (pez_widget_online && pez_widget_required_auth) {
         log('Authenticating');
         if (pez_widget_payload_sending == 'dataform') {
-            var form = new Strophe.x.Form({
+            /*
+            <x xmlns='jabber:x:data'
+               type='{form-type}'>
+              <title/>
+              <instructions/>
+              <field var='field-name'
+                     type='{field-type}'
+                     label='description'>
+                <desc/>
+                <required/>
+                <value>field-value</value>
+                <option label='option-label'><value>option-value</value></option>
+                <option label='option-label'><value>option-value</value></option>
+              </field>
+            </x>
+            */
+            post_auth();
+            /*
+            var form = $build("x", {xmlns:'jabber:x:data', type:'result', from: connection.jid, to: xmpp_admin_user})
+                .c('title','clientauth')
+                .up().c('instructions','')
+                .up().c('field', {'var':'api_key', type:'text-single', label:'API Key'})
+                    .c('descp','API Key')
+                    .up().c('required')
+                    .up().c('value',pez_widget_api_key)
+                .up().up().c('field', {'var':'domain', type:'text-single', label:'Client Domain'})
+                    .c('descp','Client Domain')
+                    .up().c('required')
+                    .up().c('value',pez_widget_api_key)
+            */
+            /*
+            var form = $form({
               type: "submit",
               title: "clientauth",
               instructions: "Includes api key and domain of the embedding client",
@@ -291,15 +325,16 @@ function send_auth() {
                   value: pez_widget_domain
                 })]
             });
-            connection.send(form.tree());
+            */
+            //connection.send(form.tree());
         } else if (pez_widget_payload_sending == 'iq') {
-            var iq = $iq({type: 'set', id: 'clientauth'})//, from: connection.jid, to: xmpp_admin_user})
+            var iq = $iq({type: 'set', id: 'clientauth', from: connection.jid, to: xmpp_admin_user})
               .c('query', {xmlns: 'jabber:iq:private'})
               .c('clientauth', {xmlns: 'clientauth:prefs'})
               .c('api_key', pez_widget_api_key)
               .up().c('domain', pez_widget_client_domain)
               .tree();
-            connection.sendIQ(iq,authSuccessHandler,authFailHandler);
+            connection.sendIQ(iq,authSentHandler,authNotSentHandler);
         }
         pez_widget_auth_reply = true;
     }
@@ -671,8 +706,6 @@ function restore_data() {
 var connection = new Strophe.Connection(xmpp_server_url);
 connection.rawInput = rawInputHandler;
 connection.rawOutput = rawOutputHandler;
-connection.addHandler(presenceHandler, null, "presence", pez_widget_jid)//, pez_widget_jid);
-connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get", pez_widget_jid);
 
 i_form_button.onclick = process_form;
 i_send_button.onclick = function(e) {
