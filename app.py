@@ -6,6 +6,10 @@ import requests, json, re
 def index():
 	return template('index.html', {'url': 'http://localhost:5280/http-bind'})
 
+@route('/_healthz')
+def healthz():
+	return "I'm healthy!"
+
 
 @get("/static/js/<filepath:re:.*\.js>")
 def js(filepath):
@@ -75,7 +79,7 @@ def link():
 		title = ''
 		descp = ''
 		image = ''
-		
+
 		reg = re.compile('<meta (.*)>')
 		metas = reg.findall(htmltext)
 		for meta in metas:
@@ -90,7 +94,7 @@ def link():
 
 		if title == '':
 			if '<title>' in htmltext:
-				title = htmltext.split('<title>')[1].split('</title>')[0] 
+				title = htmltext.split('<title>')[1].split('</title>')[0]
 
 		if image == '':
 			reg = re.compile('<img (.*)>')
@@ -100,7 +104,7 @@ def link():
 					a = imagestr.split('logo')
 					image = a[0].split('"')[-1] + 'logo' + a[1].split('"')[0]
 					break;
-		
+
 		if image[:1] == '/':
 			base = url.split('://')
 			image = base[0]+'://'+base[1].split('/')[0]+image
@@ -109,7 +113,7 @@ def link():
 			title = title[:100].strip(' ')+'...'
 		if len(descp) > 100:
 			descp = descp[:100].strip(' ')+'...'
-		
+
 		return {
 			'data_type': 'page',
 			'title': title,

@@ -19,7 +19,7 @@ spec:
           name: schat-http
         readinessProbe:
           httpGet:
-            path: /
+            path: /_healthz
             port: 80
           initialDelaySeconds: 30
           periodSeconds: 120
