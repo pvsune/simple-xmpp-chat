@@ -1,7 +1,7 @@
 var pez_widget_api_key = null;
 var pez_widget_client_domain = null;
-//var pez_widget_url = 'http://localhost:8080/demo/';
-var pez_widget_url = 'http://35.188.25.143/demo/';
+var pez_widget_url = 'http://localhost:8080/demo/';
+//var pez_widget_url = 'http://35.188.25.143/demo/';
 
 function pez_widget_build_element(data) {
     var value, div = document.createElement(data.tag);

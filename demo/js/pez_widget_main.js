@@ -1,5 +1,5 @@
 var pez_widget_online = true;
-var pez_widget_required_auth = false;
+var pez_widget_required_auth = true;
 var pez_widget_payload_sending = 'dataform'; // iq or dataform
 var pez_widget_debug = false;
 var prefix = 'pez-widget-';
@@ -15,6 +15,9 @@ var xmpp_host = 'localhost';
 var xmpp_admin_user = 'admin@localhost';
 
 var pez_widget_jid = null; 
+
+var authsuccess_response = '<authsuccess>';
+var userdatareceived_response = '<userdatareceived>';
 
 // divs
 var i_chatbox = document.getElementById(prefix+'chatbox');
@@ -40,7 +43,7 @@ var user_phone = '';
 var user_question = '';
 
 function log(message) {
-    //console.log(message);
+    console.log(message);
 }
 
 function connect() {
@@ -109,34 +112,29 @@ function messageHandler(msg) {
     if (type == "chat" && elems.length > 0) {
         var body = Strophe.getText(elems[0]);
         if (body) {
-            add_message_cookie('server',body);
-            append_message('server',body);
-            log(from + ": " + body);
+            if (body == authsuccess_response) {
+                post_auth();
+            } else if (body == userdatreceived_response) {
+                post_auth();
+                send_message(user_question);
+            } else {
+                add_message_cookie('server',body);
+                append_message('server',body);
+                log(from + ": " + body);
+                increment_unread_count();
+            }
         }    
-        increment_unread_count();
     }
 
     return true;
 }
 
 function authSentHandler(result) {
-    var datastr = '';
-    /*
-    if (pez_widget_debug) {
-        var data = {}
-        for (var key in result) {
-            data[key] = result[key] 
-        }
-        datastr = ' Data: '+JSON.stringify(data)
-    }
-    */
-    log('Auth Sent.'+datastr);
-    post_auth();
+    //...
 }
 
 function authNotSentHandler(result) {
     var datastr = '';
-    /*
     if (pez_widget_debug) {
         var data = {}
         for (var key in result) {
@@ -144,25 +142,12 @@ function authNotSentHandler(result) {
         }
         datastr = ' Data: '+JSON.stringify(data)
     }
-    */
     log('Auth Not Sent.'+datastr);
 }
 
 
 function userDataSentHandler(result) {
-    var datastr = '';
-    /*
-    if (pez_widget_debug) {
-        var data = {}
-        for (var key in result) {
-            data[key] = result[key] 
-        }
-        datastr = ' Data: '+JSON.stringify(data)
-    }
-    */
-    log('User Data Sent.'+datastr);
-    post_auth();
-    send_message(user_question);
+    //...
 }
 
 function userDataNotSentHandler(result) {
@@ -290,8 +275,8 @@ function send_auth() {
             </x>
             */
             post_auth();
-            /*
-            var form = $build("x", {xmlns:'jabber:x:data', type:'result', from: connection.jid, to: xmpp_admin_user})
+            var form = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat"}) 
+                .c('x', {xmlns:'jabber:x:data', type:'result'})//, from: connection.jid, to: xmpp_admin_user})
                 .c('title','clientauth')
                 .up().c('instructions','')
                 .up().c('field', {'var':'api_key', type:'text-single', label:'API Key'})
@@ -302,7 +287,8 @@ function send_auth() {
                     .c('descp','Client Domain')
                     .up().c('required')
                     .up().c('value',pez_widget_api_key)
-            */
+
+
             /*
             var form = $form({
               type: "submit",
@@ -326,9 +312,9 @@ function send_auth() {
                 })]
             });
             */
-            //connection.send(form.tree());
+            connection.send(form);
         } else if (pez_widget_payload_sending == 'iq') {
-            var iq = $iq({type: 'set', id: 'clientauth', from: connection.jid, to: xmpp_admin_user})
+            var iq = $iq({type: 'set', id: 'clientauth'})//, from: connection.jid, to: xmpp_admin_user})
               .c('query', {xmlns: 'jabber:iq:private'})
               .c('clientauth', {xmlns: 'clientauth:prefs'})
               .c('api_key', pez_widget_api_key)
