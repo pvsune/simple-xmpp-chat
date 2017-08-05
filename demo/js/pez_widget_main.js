@@ -1,10 +1,8 @@
 var pez_widget_online = true;
 var pez_widget_required_auth = true;
 var pez_widget_payload_sending = 'dataform'; // iq or dataform
-var pez_widget_debug = false;
+var pez_widget_debug = true;
 var prefix = 'pez-widget-';
-
-var pez_widget_auth_reply = false;
 
 var pez_widget_name = 'FundKo';
 var pez_widget_avatar = 'fundko_logo.png';
@@ -113,10 +111,12 @@ function messageHandler(msg) {
         var body = Strophe.getText(elems[0]);
         if (body) {
             if (body == authsuccess_response) {
+                log('Auth Success')
                 post_auth();
-            } else if (body == userdatreceived_response) {
-                post_auth();
+            } else if (body == userdatareceived_response) {
+                log('User Data Sent')
                 send_message(user_question);
+                activate_chat();
             } else {
                 add_message_cookie('server',body);
                 append_message('server',body);
@@ -127,41 +127,6 @@ function messageHandler(msg) {
     }
 
     return true;
-}
-
-function authSentHandler(result) {
-    //...
-}
-
-function authNotSentHandler(result) {
-    var datastr = '';
-    if (pez_widget_debug) {
-        var data = {}
-        for (var key in result) {
-            data[key] = result[key] 
-        }
-        datastr = ' Data: '+JSON.stringify(data)
-    }
-    log('Auth Not Sent.'+datastr);
-}
-
-
-function userDataSentHandler(result) {
-    //...
-}
-
-function userDataNotSentHandler(result) {
-    var datastr = '';
-    /*
-    if (pez_widget_debug) {
-        var data = {}
-        for (var key in result) {
-            data[key] = result[key] 
-        }
-        datastr = ' Data: '+JSON.stringify(data)
-    }
-    */
-    log('User Data Not Sent.'+datastr);
 }
 
 function rawInputHandler(str) {
@@ -219,28 +184,27 @@ function post_connection() {
 function send_user_info() {
     if (pez_widget_online) {
         if (pez_widget_payload_sending == 'dataform') {
-            var i, fields = [
-                ['Name',user_name,'user_name'],
-                ['Email',user_email,'user_email'],
-                ['Phone',user_phone,'user_phone']
-            ];
-            for (i=0;i<fields.length;i++) {
-                fields[i] = new Strophe.x.Field({ 
-                    type: "text-single", required: true,
-                    value: fields[i][1],
-                    "var": fields[i][2],
-                    desc: fields[i][0],
-                    label: fields[i][0]
-                });
-            }
-            var form = new Strophe.x.Form({
-              type: "submit",
-              title: "userdata",
-              instructions: "Pre-chat form data",
-              fields: fields
-            });
-            connection.send(form.tree());
-            send_message(user_question);
+            var form = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat"}) 
+                .c('x', {xmlns:'jabber:x:data', type:'result'})//, from: connection.jid, to: xmpp_admin_user})
+                .c('title','userdata')
+                .up().c('instructions','Pre-chat form data')
+                .up().c('field', {'var':'user_name', type:'text-single', label:'User Name'})
+                    .c('descp','User Name')
+                    .up().c('required')
+                    .up().c('value',user_name)
+                .up().up().c('field', {'var':'user_email', type:'text-single', label:'User Email'})
+                    .c('descp','User Email')
+                    .up().c('required')
+                    .up().c('value',user_email)
+                .up().up().c('field', {'var':'user_phone', type:'text-single', label:'User Phone'})
+                    .c('descp','User Phone')
+                    .up().c('required')
+                    .up().c('value',user_phone)
+                .up().up().c('field', {'var':'user_question', type:'text-single', label:'User Question'})
+                    .c('descp','User Question')
+                    .up().c('required')
+                    .up().c('value',user_question)
+            connection.send(form);
         } else if (pez_widget_payload_sending == 'iq') {
             var iq = $iq({type: 'set', id: 'userdata'})//, from: connection.jid, to: xmpp_admin_user})
               .c('query', {xmlns: 'jabber:iq:private'})
@@ -249,7 +213,7 @@ function send_user_info() {
               .up().c('email', user_email)
               .up().c('phone', user_phone)
               .tree();
-            connection.sendIQ(iq,userDataSentHandler,userDataNotSentHandler);
+            connection.sendIQ(iq);
         }   
     }
 }
@@ -258,23 +222,6 @@ function send_auth() {
     if (pez_widget_online && pez_widget_required_auth) {
         log('Authenticating');
         if (pez_widget_payload_sending == 'dataform') {
-            /*
-            <x xmlns='jabber:x:data'
-               type='{form-type}'>
-              <title/>
-              <instructions/>
-              <field var='field-name'
-                     type='{field-type}'
-                     label='description'>
-                <desc/>
-                <required/>
-                <value>field-value</value>
-                <option label='option-label'><value>option-value</value></option>
-                <option label='option-label'><value>option-value</value></option>
-              </field>
-            </x>
-            */
-            post_auth();
             var form = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat"}) 
                 .c('x', {xmlns:'jabber:x:data', type:'result'})//, from: connection.jid, to: xmpp_admin_user})
                 .c('title','clientauth')
@@ -286,32 +233,7 @@ function send_auth() {
                 .up().up().c('field', {'var':'domain', type:'text-single', label:'Client Domain'})
                     .c('descp','Client Domain')
                     .up().c('required')
-                    .up().c('value',pez_widget_api_key)
-
-
-            /*
-            var form = $form({
-              type: "submit",
-              title: "clientauth",
-              instructions: "Includes api key and domain of the embedding client",
-              fields: [
-                new Strophe.x.Field({
-                  type: "text-single",
-                  "var": "api_key",
-                  desc: "API key of the embed script",
-                  label: "API Key",
-                  required: true,
-                  value: pez_widget_api_key
-                }), new Strophe.x.Field({
-                  type: "text-single",
-                  "var": "domain",
-                  desc: "Domain/Hostname of the client",
-                  label: "Domain",
-                  required: true,
-                  value: pez_widget_domain
-                })]
-            });
-            */
+                    .up().c('value',pez_widget_client_domain)
             connection.send(form);
         } else if (pez_widget_payload_sending == 'iq') {
             var iq = $iq({type: 'set', id: 'clientauth'})//, from: connection.jid, to: xmpp_admin_user})
@@ -320,9 +242,8 @@ function send_auth() {
               .c('api_key', pez_widget_api_key)
               .up().c('domain', pez_widget_client_domain)
               .tree();
-            connection.sendIQ(iq,authSentHandler,authNotSentHandler);
+            connection.sendIQ(iq);
         }
-        pez_widget_auth_reply = true;
     }
 }
 
