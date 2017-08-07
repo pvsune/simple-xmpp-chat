@@ -1,6 +1,5 @@
 var pez_widget_online = true;
 var pez_widget_required_auth = true;
-var pez_widget_payload_sending = 'dataform'; // iq or dataform
 var pez_widget_debug = false;
 
 function log(message) {
@@ -192,67 +191,46 @@ function post_connection() {
 
 function send_user_info() {
     if (pez_widget_online) {
-        if (pez_widget_payload_sending == 'dataform') {
-            var form = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat"}) 
-                .c('x', {xmlns:'jabber:x:data', type:'result'})//, from: connection.jid, to: xmpp_admin_user})
-                .c('title','userdata')
-                .up().c('instructions','Pre-chat form data')
-                .up().c('field', {'var':'user_name', type:'text-single', label:'User Name'})
-                    .c('descp','User Name')
-                    .up().c('required')
-                    .up().c('value',user_name)
-                .up().up().c('field', {'var':'user_email', type:'text-single', label:'User Email'})
-                    .c('descp','User Email')
-                    .up().c('required')
-                    .up().c('value',user_email)
-                .up().up().c('field', {'var':'user_phone', type:'text-single', label:'User Phone'})
-                    .c('descp','User Phone')
-                    .up().c('required')
-                    .up().c('value',user_phone)
-                .up().up().c('field', {'var':'user_question', type:'text-single', label:'User Question'})
-                    .c('descp','User Question')
-                    .up().c('required')
-                    .up().c('value',user_question)
-            connection.send(form);
-        } else if (pez_widget_payload_sending == 'iq') {
-            var iq = $iq({type: 'set', id: 'userdata'})//, from: connection.jid, to: xmpp_admin_user})
-              .c('query', {xmlns: 'jabber:iq:private'})
-              .c('userdata', {xmlns: 'userdata:prefs'})
-              .c('name', user_name)
-              .up().c('email', user_email)
-              .up().c('phone', user_phone)
-              .tree();
-            connection.sendIQ(iq);
-        }   
+        var form = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat"}) 
+            .c('x', {xmlns:'jabber:x:data', type:'result'})//, from: connection.jid, to: xmpp_admin_user})
+            .c('title','userdata')
+            .up().c('instructions','Pre-chat form data')
+            .up().c('field', {'var':'user_name', type:'text-single', label:'User Name'})
+                .c('descp','User Name')
+                .up().c('required')
+                .up().c('value',user_name)
+            .up().up().c('field', {'var':'user_email', type:'text-single', label:'User Email'})
+                .c('descp','User Email')
+                .up().c('required')
+                .up().c('value',user_email)
+            .up().up().c('field', {'var':'user_phone', type:'text-single', label:'User Phone'})
+                .c('descp','User Phone')
+                .up().c('required')
+                .up().c('value',user_phone)
+            .up().up().c('field', {'var':'user_question', type:'text-single', label:'User Question'})
+                .c('descp','User Question')
+                .up().c('required')
+                .up().c('value',user_question)
+        connection.send(form);
     }
 }
 
 function send_auth() {
     if (pez_widget_online && pez_widget_required_auth) {
-        log('Authenticating');
-        if (pez_widget_payload_sending == 'dataform') {
-            var form = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat"}) 
-                .c('x', {xmlns:'jabber:x:data', type:'result'})//, from: connection.jid, to: xmpp_admin_user})
-                .c('title','clientauth')
-                .up().c('instructions','')
-                .up().c('field', {'var':'api_key', type:'text-single', label:'API Key'})
-                    .c('descp','API Key')
-                    .up().c('required')
-                    .up().c('value',pez_widget_api_key)
-                .up().up().c('field', {'var':'domain', type:'text-single', label:'Client Domain'})
-                    .c('descp','Client Domain')
-                    .up().c('required')
-                    .up().c('value',pez_widget_client_domain)
-            connection.send(form);
-        } else if (pez_widget_payload_sending == 'iq') {
-            var iq = $iq({type: 'set', id: 'clientauth'})//, from: connection.jid, to: xmpp_admin_user})
-              .c('query', {xmlns: 'jabber:iq:private'})
-              .c('clientauth', {xmlns: 'clientauth:prefs'})
-              .c('api_key', pez_widget_api_key)
-              .up().c('domain', pez_widget_client_domain)
-              .tree();
-            connection.sendIQ(iq);
-        }
+        log('Authenticating API');
+        var form = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat"}) 
+            .c('x', {xmlns:'jabber:x:data', type:'result'})//, from: connection.jid, to: xmpp_admin_user})
+            .c('title','clientauth')
+            .up().c('instructions','')
+            .up().c('field', {'var':'api_key', type:'text-single', label:'API Key'})
+                .c('descp','API Key')
+                .up().c('required')
+                .up().c('value',pez_widget_api_key)
+            .up().up().c('field', {'var':'domain', type:'text-single', label:'Client Domain'})
+                .c('descp','Client Domain')
+                .up().c('required')
+                .up().c('value',pez_widget_client_domain)
+        connection.send(form);
     }
 }
 
