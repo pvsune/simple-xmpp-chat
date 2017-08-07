@@ -17,9 +17,9 @@ from optparse import OptionParser
 import sleekxmpp
 
 
-authsuccess_response = '<authsuccess>';
-userdatareceived_response = '<userdatareceived>';
-fail_response = '<fail>'
+authsuccess_response = '[authsuccess]';
+userdatareceived_response = '[userdatareceived]';
+fail_response = '[fail]'
 
 if sys.version_info < (3, 0):
     reload(sys)
@@ -34,6 +34,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
         sleekxmpp.ClientXMPP.__init__(self, jid, password)
         self.add_event_handler("session_start", self.start)
         self.add_event_handler("message", self.message)
+        self.add_event_handler("message_xform", self.message_xform)
+        '''
         self.add_event_handler("connected", self.connected)
         self.add_event_handler("changed_status", self.changed_status)
         self.add_event_handler("changed_subscription", self.changed_subscription)
@@ -50,7 +52,6 @@ class EchoBot(sleekxmpp.ClientXMPP):
         self.add_event_handler("groupchat_presence", self.groupchat_presence)
         self.add_event_handler("groupchat_subject", self.groupchat_subject)
         self.add_event_handler("message_form", self.message_form)
-        self.add_event_handler("message_xform", self.message_xform)
         self.add_event_handler("presence_available", self.presence_available)
         self.add_event_handler("presence_error", self.presence_error)
         self.add_event_handler("presence_form", self.presence_form)
@@ -62,6 +63,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
         self.add_event_handler("presence_unsubscribed", self.presence_unsubscribed)
         self.add_event_handler("roster_update", self.roster_update)
         self.add_event_handler("sent_presence", self.sent_presence)
+        '''
 
     def start(self, event):
         self.send_presence()
@@ -69,8 +71,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
     def message(self, msg):
         print msg
-        if msg['type'] in ('chat', 'normal'):
-            msg.reply("Thanks for sending\n%(body)s" % msg).send()
+        #if msg['type'] in ('chat', 'normal'):
+        #    msg.reply("Thanks for sending\n%(body)s" % msg).send()
 
     def message_xform(self, data):
         print "message_xform"
@@ -99,6 +101,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
         print "reply: "+reply
         data.reply(reply).send()
 
+    '''
     def connected(self, data):
 		print "connected"
 		print data
@@ -206,6 +209,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
     def sent_presence(self, data):
 		print "sent_presence"
 		print data
+    '''
 
 
 if __name__ == '__main__':

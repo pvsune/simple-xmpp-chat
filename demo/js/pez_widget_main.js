@@ -3,7 +3,7 @@ var pez_widget_required_auth = true;
 var pez_widget_debug = false;
 
 function log(message) {
-    //console.log(message);
+    console.log(message);
 }
 
 var prefix = 'pez-widget-';
@@ -18,8 +18,8 @@ var xmpp_admin_user = 'admin@localhost';
 
 var pez_widget_jid = null; 
 
-var authsuccess_response = '<authsuccess>';
-var userdatareceived_response = '<userdatareceived>';
+var authsuccess_response = '[authsuccess]';
+var userdatareceived_response = '[userdatareceived]';
 
 // divs
 var i_chatbox = document.getElementById(prefix+'chatbox');
@@ -176,9 +176,9 @@ function update_status(show,status) {
 function post_connection() {
     if (pez_widget_online) {
         update_jid();
-        connection.addHandler(presenceHandler, null, "presence", pez_widget_jid);
-        connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get", pez_widget_jid);
-        connection.addHandler(messageHandler, null, "message", "chat", pez_widget_jid);
+        connection.addHandler(presenceHandler, null, "presence");//, pez_widget_jid);
+        connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get");//, pez_widget_jid);
+        connection.addHandler(messageHandler, null, "message", "chat");//, pez_widget_jid);
         connection.send($pres());
         if (pez_widget_required_auth)
             send_auth();
