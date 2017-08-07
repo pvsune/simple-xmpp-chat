@@ -2,6 +2,11 @@ var pez_widget_online = true;
 var pez_widget_required_auth = true;
 var pez_widget_payload_sending = 'dataform'; // iq or dataform
 var pez_widget_debug = false;
+
+function log(message) {
+    //console.log(message);
+}
+
 var prefix = 'pez-widget-';
 
 var pez_widget_name = 'FundKo';
@@ -148,6 +153,8 @@ function post_auth() {
 }
 
 function send_message(msg) {
+    msg = msg.trim()
+    if (msg == '') return;
     var message = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat"})
         .c("body").t(msg);
     connection.send(message.tree());
@@ -176,8 +183,10 @@ function post_connection() {
         connection.send($pres());
         if (pez_widget_required_auth)
             send_auth();
-        else
+        else {
+            log('Skipped authentication')
             post_auth();
+        }
     }
 }
 
@@ -424,7 +433,7 @@ function set_cookie(name,value) {
 
 function get_cookie(name) {
     var data = get_all_cookies();
-    if (data[name] != undefined) 
+    if (data != {} && data[name] != undefined) 
         return data[name]
     else
         return null
@@ -432,15 +441,23 @@ function get_cookie(name) {
 
 function get_all_cookies() {
     var result = document.cookie.match(new RegExp(prefix+'data=([^;]+)'))
-    if (result)
+    if (result) {
         try {
-            var data = JSON.parse(result[1]);
-            return data
-        } catch(e) {
+            var obj = JSON.parse(result[1]);
+            return obj
+        } catch (e) {
+            delete_all_cookies();
             return {}
         }
-    else
+    } else {
         return {}
+    }
+}
+
+function delete_all_cookies() {
+    var expiry = new Date(new Date().getTime() - 365 * 86400000);
+    document.cookie = prefix+'data=; expires='+expiry.toUTCString()+'; path=/';
+    log('Deleted Corrupt Cookies');
 }
 
 function add_message_cookie(sender,message) {
@@ -571,8 +588,7 @@ function update_jid() {
         set_cookie('jid',pez_widget_jid);
     }
     */
-    if (get_cookie('jid') != null)
-        set_cookie('jid',connection.jid);
+    pez_widget_jid = connection.jid;
 }
 
 function restore_launcher_status() {
@@ -585,13 +601,16 @@ function restore_launcher_status() {
 }
 
 function restore_data() {
-    var i, data = get_cookie('user-name');
+    var data = get_cookie('user-name');
     if (data != null && data != '') {
+        activate_chat();
         // get user data
         user_name = data;
         user_email = get_cookie('user-email');
         user_phone = get_cookie('user-phone');
         user_question = get_cookie('user-question');
+
+        log('User data is present');
 
         // get message history
         var messages = get_cookie('messages');
@@ -602,7 +621,7 @@ function restore_data() {
             keys = keys.sort();
             if (keys.length > 30)
                 keys = keys.slice((keys.length - 30), keys.length)
-            var msg;
+            var msg, i;
             for (i=0;i<keys.length;i++) {
                 key = keys[i]
                 msg = messages[key]
@@ -610,8 +629,9 @@ function restore_data() {
             }
             update_timestamps();
             i_message.focus();
+            
+            log('Previous messages are present')
         }
-        activate_chat();
     }
 }
 
