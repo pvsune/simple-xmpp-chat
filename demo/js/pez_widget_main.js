@@ -1,6 +1,6 @@
 var pez_widget_online = true;
 var pez_widget_required_auth = true;
-var pez_widget_debug = false;
+var pez_widget_debug = true;
 
 function log(message) {
     console.log(message);
@@ -154,8 +154,9 @@ function post_auth() {
 function send_message(msg) {
     msg = msg.trim()
     if (msg == '') return;
-    var message = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat"})
-        .c("body").t(msg);
+    var message = $msg({to: xmpp_admin_user, from: connection.jid, type:"chat", "authkey": "12344|localhost"})
+        .c("body").t(msg)
+        .up().c("auth").t(pez_widget_api_key+'|'+pez_widget_client_domain)
     connection.send(message.tree());
     log('To: '+xmpp_admin_user+' Message: '+msg)
     add_message_cookie('user',msg);
