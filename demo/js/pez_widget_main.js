@@ -1,7 +1,7 @@
 var pez_widget_online = true;
 var pez_widget_required_auth = true;
 var pez_widget_payload_sending = 'dataform'; // iq or dataform
-var pez_widget_debug = true;
+var pez_widget_debug = false;
 var prefix = 'pez-widget-';
 
 var pez_widget_name = 'FundKo';
@@ -433,7 +433,12 @@ function get_cookie(name) {
 function get_all_cookies() {
     var result = document.cookie.match(new RegExp(prefix+'data=([^;]+)'))
     if (result)
-        return JSON.parse(result[1]);
+        try {
+            var data = JSON.parse(result[1]);
+            return data
+        } catch(e) {
+            return {}
+        }
     else
         return {}
 }
