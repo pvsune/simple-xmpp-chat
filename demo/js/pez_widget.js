@@ -1,5 +1,6 @@
 var pez_widget_api_key = null;
 var pez_widget_client_domain = null;
+var pez_widget_prefix = 'pez-widget-';
 var pez_widget_url = 'http://localhost:8080/demo/';
 //var pez_widget_url = 'http://35.188.25.143/demo/';
 
@@ -8,7 +9,7 @@ function pez_widget_build_element(data) {
     for (var prop in data) {
         if (data.hasOwnProperty(prop) && prop!='tag' && prop!='children') {
             value = data[prop]
-            if (prop == 'id') value = 'pez-widget-'+value;
+            if (prop == 'id') value = pez_widget_prefix+value;
             div[prop] = value;
         }
     }
@@ -23,7 +24,7 @@ function pez_widget_build_element(data) {
 
 (function() {
 
-    var embedjs = document.getElementById('pez-widget-embed');
+    var embedjs = document.getElementById(pez_widget_prefix+'embed');
     var srclen = embedjs.src.length
     var dotmin = '';
     if (embedjs.src.substring(srclen-7,srclen) == '.min.js')
@@ -43,31 +44,8 @@ function pez_widget_build_element(data) {
         style.media = 'all';
         document.getElementsByTagName('head')[0].appendChild(style)
 
-        
-        if (typeof jQuery == 'undefined') {
-            var js = document.createElement('script');
-            js.src = "https://code.jquery.com/jquery-3.2.1.min.js"
-            js.setAttribute('integrity',"sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=");
-            js.setAttribute('crossorigin',"anonymous");
-            js.onreadystatechange = pez_widget_load2;
-            js.onload = pez_widget_load2;
-            document.body.appendChild(js);
-        } else {
-            pez_widget_load2()
-        }
-    }
-
-    function pez_widget_load2() {
         var js = document.createElement('script');
         js.src = pez_widget_url+'js/strophe.min.js?'+seed
-        js.onreadystatechange = pez_widget_load3;
-        js.onload = pez_widget_load3;
-        document.body.appendChild(js);
-    }
-
-    function pez_widget_load3() {
-        var js = document.createElement('script');
-        js.src = pez_widget_url+'js/strophe.dataform.js?'+seed
         js.onreadystatechange = pez_main_widget_load;
         js.onload = pez_main_widget_load;
         document.body.appendChild(js);
@@ -81,7 +59,6 @@ function pez_widget_build_element(data) {
     }
 
     function pez_build_chatbox() {
-        var prefix = 'pez-widget-';
         var chatbox = {tag: 'div', id: 'container', children: [
                 {tag: 'div', id: "speech-bubble", className: 'speech-bubble shadow gradient', hidden: true},
                 {tag: 'div', id: 'chatbox', className: 'shadow', hidden: true, children: [

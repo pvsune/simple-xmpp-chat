@@ -72,8 +72,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
     def message(self, msg):
         print 'Message: '+msg['body']
         print 'Auth: '+('%s' % msg).split('<auth>')[1].split('</auth>')[0]
-        #if msg['type'] in ('chat', 'normal'):
-        #    msg.reply("Thanks for sending\n%(body)s" % msg).send()
+        if msg['type'] in ('chat', 'normal'):
+            msg.reply("Thanks for sending\n%(body)s" % msg).send()
 
     def message_form(self, data):
         print "message_form"
@@ -246,7 +246,10 @@ if __name__ == '__main__':
 
     # xmpp.ca_certs = "path/to/ca/cert"
 
-    if xmpp.connect(('35.188.27.220',5222)):
+    #url = '35.188.27.220'
+    url = 'localhost'
+
+    if xmpp.connect((url,5222)):
         xmpp.process(block=True)
         print("Done")
     else:
