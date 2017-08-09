@@ -154,8 +154,10 @@
                     // Uncomment the following line to see all the debug output.
                     //Strophe.log = function (level, msg) { log('LOG: ' + msg); };
 
+                    // Set user id as epoch for uniqueness.
+                    var user_id = new Date().getTime();
 
-                    connection.connect('localhost', null, onConnect);
+                    connection.connect(user_id+'@localhost', '', onConnect);
                     jQuery('#btn-chat').bind('click', onSend);
                 });
             });

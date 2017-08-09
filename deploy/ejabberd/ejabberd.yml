@@ -309,8 +309,7 @@ host_config:
     auth_method:
       - anonymous
       - internal
-    allow_multiple_connections: true
-    anonymous_protocol: sasl_anon
+    anonymous_protocol: login_anon
 ##
 ## To use both anonymous and internal authentication:
 ##
