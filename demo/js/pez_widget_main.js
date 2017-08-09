@@ -589,23 +589,32 @@
 
 //---------------- CONNECTION -----------------
 
+    function update_jid() {
+        trace(' -> update_jid');
+        pez_widget_jid = get_cookie('jid');
+        if (pez_widget_jid == null) {
+            pez_widget_jid = new Date().getTime()+'@localhost';
+            set_cookie('jid',pez_widget_jid);
+        }
+    }
+
     function connect() {
         trace(' -> connect');
-        connection.connect(xmpp.host, null, connectHandler)
+        update_jid();
+        connection.connect(pez_widget_jid, '', connectHandler)
     }
 
     function connectHandler(cond) {
         trace(' -> connectHandler');
         if (cond == Strophe.Status.CONNECTED){ 
-            log("Connected"); 
-            update_jid();
-            connection.addHandler(presenceHandler, null, "presence");//, pez_widget_jid);
-            connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get");//, pez_widget_jid);
-            connection.addHandler(messageHandler, null, "message", "chat");
+            log("Connected");
+            connection.addHandler(presenceHandler, null, "presence", connection.jid);
+            connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get", connection.jid);
+            connection.addHandler(messageHandler, null, "message", "chat", connection.jid);
             connection.send($pres());
             post_connection(); 
         } 
-        else if (cond == Strophe.Status.AUTHFAIL)       { log("Authentication Fail");} 
+        else if (cond == Strophe.Status.AUTHFAIL)       { log("Authentication Fail"); } 
         else if (cond == Strophe.Status.CONNECTING)     { log("Connecting"); } 
         else if (cond == Strophe.Status.CONNFAIL)       { log("Connection Fail"); setTimeout(connect,5000) }
         else if (cond == Strophe.Status.DISCONNECTED)   { log("Disconnected"); setTimeout(connect,5000) }
@@ -625,19 +634,6 @@
                 post_auth();
             }
         }
-    }
-
-    function update_jid() {
-        trace(' -> update_jid');
-    // disabled for now
-        /*
-        pez_widget_jid = get_cookie('jid');
-        if (pez_widget_jid == null) {
-            pez_widget_jid = connection.jid.split('@localhost')[0]+'@localhost';
-            set_cookie('jid',pez_widget_jid);
-        }
-        */
-        pez_widget_jid = connection.jid;
     }
 
 // ------------ OTHER EVENTS HANDLERS ----------------------
