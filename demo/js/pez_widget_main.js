@@ -2,11 +2,15 @@
 // ---------------- CONFIGS ---------------
 
     var pez_widget_online = true;
-    var pez_widget_required_auth = false;
+    var pez_widget_required_auth = true;
     var pez_widget_debug = true;
 
     function log(message) {
         console.log(message);
+    }
+
+    function trace(message) {
+        //console.log(message);
     }
 
     function get_client_data() {
@@ -17,18 +21,22 @@
     }
 
     function get_xmpp_config() {
-        return {
-            //url: 'http://35.188.27.220:5280/http-bind',
-            url: 'http://localhost:5280/http-bind',
+        var config =  {
+            url: null,
             host: 'localhost',
             admin_user: 'admin@localhost'
         }
+        if (pez_widget_url.indexOf('localhost') > -1)
+            config.url = 'http://localhost:5280/http-bind';
+        else
+            config.url = 'http://35.188.27.220:5280/http-bind';
+        return config
     }
 
     function get_dataform_response(name) {
         var responses = {
-            clientauth: 'authsuccess',
-            userdata: 'userdatareceived'
+            clientauth: '[authsuccess]',
+            userdata: '[userdatareceived]'
         }
         if (responses[name] != undefined) {
             return responses[name]
@@ -72,6 +80,7 @@
 // ---------------- MESSAGES ---------------
 
     function messageHandler(msg) {
+        trace(' -> messageHandler');
         var to = msg.getAttribute('to');
         var from = msg.getAttribute('from');
         var type = msg.getAttribute('type');
@@ -86,13 +95,14 @@
                 } else if (body == get_dataform_response('userdata')) {
                     log('User Data Sent')
                     send_message(user_question);
+                    activate_chat();
                 } else {
-                    append_message('server',body);
-                    add_message_cookie('server',body);
                     log(from + ": " + body);
+                    var time = append_message('server',body,null);
+                    add_message_cookie('server',body,time);
                     increment_unread_count();
+                    activate_chat();
                 }
-                activate_chat();
             }    
         } else {
             log('Received '+type+' with body:')
@@ -103,44 +113,45 @@
     }
 
     function send_message(msg) {
+        trace(' -> send_message');
         msg = msg.trim()
         if (msg == '') return;
         var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"})
             .c("body").t(msg)
             .up().c("auth").t(pez_widget_api_key+'|'+pez_widget_client_domain)
         connection.send(message.tree());
-        var time = append_message('user',msg);
-        add_message_cookie('user',msg);
+        var time = append_message('user',msg,null);
+        add_message_cookie('user',msg,time);
         process_non_text(msg,time);
-        offline_options()
+        offline_options();
         i_message.value = '';
         i_message.focus();
     }
 
     function append_message(sender,message,time) {
+        trace(' -> append_message');
         if (time == null) {
             time = date_timestamp(new Date())
         }
-        var name = '', imgsrc = ''
+        var name = '', imgsrc = '';
         if (sender == 'user') {
             imgsrc = pez_widget_url+'images/anonymous-user-icon.png';
             name = user_name;
         } else {
-            imgsrc = pez_widget_url+'images/'+pez_widget_avatar
-            name = pez_widget_name
+            imgsrc = pez_widget_url+'images/'+client.avatar
+            name = client.name
         }
         message = convert_links(message);
-
-        var div = {
-            tag: 'div', className: sender+' message', children: [
+        
+        var div = pez_widget_build_element(
+            {tag: 'div', className: sender+' message', children: [
                 {tag: 'div', className: 'info', children: [
                     {tag: 'img', src: imgsrc},
                     {tag: 'div', className: 'name', innerText: name}]},
                 {tag: 'div', className: 'text', children: [
                     {tag: 'div', id: 'msg-'+time, innerText: message},
-                    {tag: 'span', className: 'pez-widget-timestamp '+time, title: '', innerHTML: '<em>Just Now</em>'}]}
-            ]}
-        i_messages_area_inner.appendChild(pez_widget_build_element(div))
+                    {tag: 'span', className: 'pez-widget-timestamp '+time, title: '', innerHTML: '<em>Just Now</em>'}]}]})
+        i_messages_area_inner.appendChild(div);
         i_messages_area_inner.innerHTML += '<div class="divider"></div>';
         setTimeout(scroll_down,500);
         return time
@@ -149,6 +160,7 @@
 // ---------------- API KEY AUTHENTICATION -----------
 
     function send_auth() {
+        trace(' -> send_auth');
         if (pez_widget_online && pez_widget_required_auth) {
             log('Authenticating API');
             var form = $msg({to: xmpp.admin_user, from: connection.jid, type:"chat"}) 
@@ -168,6 +180,7 @@
     }
 
     function post_auth() {
+        trace(' -> post_auth');
         restore_data();
         restore_launcher_status();
         setInterval(update_timestamps,5000);
@@ -177,6 +190,7 @@
 
 
     function process_form(){
+        trace(' -> process_form');
         user_name = i_user_name.value.trim();
         user_email = i_user_email.value.trim();
         user_phone = i_user_phone.value.trim();
@@ -208,6 +222,7 @@
     }
 
     function save_form() {
+        trace(' -> save_form');
         var question = user_question.replace('\n',' ').replace(';','');
         set_cookie('user-name',user_name);
         set_cookie('user-email',user_email);
@@ -216,11 +231,13 @@
     }
 
     function validate_email(email) {
+        trace(' -> validate_email');
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
     }
 
     function send_user_info() {
+        trace(' -> send_user_info');
         if (pez_widget_online) {
             var form = $msg({to: xmpp.admin_user, from: connection.jid, type:"chat"}) 
                 .c('x', {xmlns:'jabber:x:data', type:'result'})//, from: connection.jid, to: xmpp_admin_user})
@@ -247,10 +264,12 @@
     }
 
     function restore_data() {
+        trace(' -> restore_data');
         var data = get_cookie('user-name');
         if (data != null && data != '') {
             activate_chat();
-        // get user data
+            
+            // get user data
             user_name = data;
             user_email = get_cookie('user-email');
             user_phone = get_cookie('user-phone');
@@ -258,7 +277,7 @@
 
             log('User data is present');
 
-        // get message history
+            // get message history
             var messages = get_cookie('messages');
             if (messages!={}) {
                 log('Previous messages are present');
@@ -285,10 +304,12 @@
 // ---------------- OFFLINE REPLIES -----------
 
     function offline_options() {
+        trace(' -> offline_options');
         if (!pez_widget_online) fake_reply(msg)
     }
 
     function fake_reply(message) {
+        trace(' -> fake_reply');
         setTimeout(function(){
             var reply = "Chat server is offline";
             if (message == 'show link')
@@ -297,13 +318,14 @@
                 reply = 'http://pez.ai/wp-content/uploads/2015/08/brian.jpg';
             else if (message == 'show video') 
                 reply =  'https://www.youtube.com/embed/WXHM_i-fgGo';
-            add_message_cookie('server',reply);
-            var time = append_message('server',reply);
+            add_message_cookie('server',reply,new Date());
+            var time = append_message('server',reply,null);
             process_non_text(reply,time)
         },2000);
     }
 
     function process_non_text(message,time) {
+        trace(' -> process_non_text');
         if (message.substring(0,4) == 'http') {
             display_spinner(time);
             process_link(message,time);
@@ -311,6 +333,7 @@
     }
 
     function process_link(url,time) {
+        trace(' -> process_link');
         xhr = new XMLHttpRequest();
         xhr.open('POST', pez_widget_url+'link');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -327,6 +350,7 @@
     }
 
     function display_link(data,time) {
+        trace(' -> display_link');
         if (data.data_type == 'image') {
             var target = document.getElementById('pez-widget-msg-'+time)
             target.innerHTML = '<div class="image"><a href="'+data.image+'" target="_blank"><img src="'+data.image+'" /></a></div>';
@@ -352,6 +376,7 @@
     }
 
     function convert_links(message) {
+        trace(' -> convert_links');
         if (message.substring(0,4) == 'http') {
             message = '<a href="'+message+'" target="_blank">'+message+'</a>';
         }
@@ -361,6 +386,7 @@
 // ---------------- UI ----------------------
 
     function activate_chat() {
+        trace(' -> activate_chat');
         i_chatbox.hidden = false;
         i_form.style.display = 'none';
         i_input_area.style.display = 'block';
@@ -368,10 +394,12 @@
     }
 
     function scroll_down() {
+        trace(' -> scroll_down');
         i_messages_area.scrollTop = i_messages_area.scrollHeight
     }
 
     function display_spinner(time) {
+        trace(' -> display_spinner');
         var target = document.getElementById('pez-widget-msg-'+time)
         if (target != null) {
             target.className = 'preview'
@@ -382,6 +410,7 @@
     }
 
     function restore_launcher_status() {
+        trace(' -> restore_launcher_status');
         if (get_cookie('launcher-status') == 'closed') {
             i_launcher.click();
         } else {
@@ -390,6 +419,7 @@
     }
 
     function update_timestamps() {
+        trace(' -> update_timestamps');
         var times = document.getElementsByClassName('pez-widget-timestamp');
         if (times.length > 0) {
             var i, t, d, h, a, seconds, text, timestr
@@ -449,6 +479,7 @@
 
 
     function increment_unread_count() {
+        trace(' -> increment_unread_count');
         if (get_cookie('launcher-status')=='closed') {
             var cnt = parseInt(get_cookie('unread-messages'));
             set_cookie('unread-messages',cnt+1);
@@ -458,6 +489,7 @@
     }
 
     function update_speech_bubble() {
+        trace(' -> update_speech_bubble');
         var cnt = parseInt(get_cookie('unread-messages'));
         if (cnt > 0)
             i_bubble.innerHTML = '<span id="'+pez_widget_prefix+'unread-counter" class="unread">'+cnt+' Unread Messages</span>';
@@ -468,6 +500,7 @@
 // ---------------- COOKIES HANDLING ----------------------
 
     function set_cookie(name,value) {
+        trace(' -> set_cookie');
         var data = get_all_cookies();
         data[name] = value
         var expiry = new Date(new Date().getTime() + 365 * 86400000 * 5);
@@ -476,6 +509,7 @@
     }
 
     function get_cookie(name) {
+        trace(' -> get_cookie');
         var data = get_all_cookies();
         if (data != {} && data[name] != undefined) 
             return data[name]
@@ -484,6 +518,7 @@
     }
 
     function get_all_cookies() {
+        trace(' -> get_all_cookies');
         var result = document.cookie.match(new RegExp(pez_widget_prefix+'data=([^;]+)'))
         if (result) {
             try {
@@ -498,18 +533,20 @@
     }
 
     function delete_all_cookies() {
+        trace(' -> delete_all_cookies');
         var expiry = new Date(new Date().getTime() - 365 * 86400000);
         document.cookie = pez_widget_prefix+'data=; expires='+expiry.toUTCString()+'; path=/';
         log('Deleted Corrupt Cookies');
     }
 
-    function add_message_cookie(sender,message) {
+    function add_message_cookie(sender,message,time) {
+        trace(' -> add_message_cookie');
         var data = get_all_cookies()
         if (data['messages'] == undefined) {
             data['messages'] = {}
         }
         if (data['messages'])
-        data['messages'][date_timestamp(new Date())] = {
+        data['messages'][date_timestamp(time)] = {
             sender: sender,
             message: message
         }
@@ -519,9 +556,12 @@
 // ----------------- TOOLS -------------------
 
     function date_timestamp(date) {
+        trace(' -> date_timestamp');
         function pad2(n) {  // always returns a string
             return (n < 10 ? '0' : '') + n;
         }
+        if (!(date instanceof Date))
+            date = new Date()
         return date.getFullYear() +
            pad2(date.getMonth() + 1) + 
            pad2(date.getDate()) +
@@ -550,16 +590,18 @@
 //---------------- CONNECTION -----------------
 
     function connect() {
+        trace(' -> connect');
         connection.connect(xmpp.host, null, connectHandler)
     }
 
     function connectHandler(cond) {
+        trace(' -> connectHandler');
         if (cond == Strophe.Status.CONNECTED){ 
             log("Connected"); 
             update_jid();
             connection.addHandler(presenceHandler, null, "presence");//, pez_widget_jid);
             connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get");//, pez_widget_jid);
-            connection.addHandler(messageHandler, null, "message", "chat", null, 'admin@localhost');
+            connection.addHandler(messageHandler, null, "message", "chat");
             connection.send($pres());
             post_connection(); 
         } 
@@ -574,6 +616,7 @@
     }
 
     function post_connection() {
+        trace(' -> post_connection');
         if (pez_widget_online) {
             if (pez_widget_required_auth)
                 send_auth();
@@ -585,6 +628,7 @@
     }
 
     function update_jid() {
+        trace(' -> update_jid');
     // disabled for now
         /*
         pez_widget_jid = get_cookie('jid');
@@ -599,6 +643,7 @@
 // ------------ OTHER EVENTS HANDLERS ----------------------
 
     function presenceHandler(presence) {
+        trace(' -> presenceHandler');
         var from = presence.getAttribute("from");
         var show = "", status = "";
         Strophe.forEachChild(presence, "show", function(elem) { show = elem.textContent; });
@@ -608,6 +653,7 @@
     }
 
     function pingHandler(ping) {
+        trace(' -> pingHandler');
         var pingId = ping.getAttribute("id");
         var from = ping.getAttribute("from");
         var to = ping.getAttribute("to");
@@ -617,11 +663,13 @@
     }
 
     function set_raw_handlers() {
+        trace(' -> set_raw_handlers');
         connection.rawInput = function(str) { if (pez_widget_debug) log('Raw Received: '+str); }
         connection.rawOutput = function(str) { if (pez_widget_debug) log('Raw Sent: '+str); }
     }
 
     function update_status(show,status) {
+        trace(' -> update_status');
         var pres = $pres().c("show").t(show).up().c("status").t(status);
         connection.send(pres);
     }

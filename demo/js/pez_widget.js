@@ -1,8 +1,8 @@
 var pez_widget_api_key = null;
 var pez_widget_client_domain = null;
 var pez_widget_prefix = 'pez-widget-';
-var pez_widget_url = 'http://localhost:8080/demo/';
-//var pez_widget_url = 'http://35.188.25.143/demo/';
+var pez_widget_url = null;
+//http://35.188.25.143/demo/';
 
 function pez_widget_build_element(data) {
     var value, div = document.createElement(data.tag);
@@ -32,6 +32,8 @@ function pez_widget_build_element(data) {
 
     pez_widget_api_key = embedjs.getAttribute("data-apikey");
     pez_widget_client_domain = document.domain;
+    pez_widget_url = embedjs.src.split('/js/')[0]+'/'
+
     var seed = Math.floor(Date.now() / 1000);
 
     function pez_widget_load(){

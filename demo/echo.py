@@ -17,6 +17,9 @@ from optparse import OptionParser
 import sleekxmpp
 
 
+#xmpp_url = '35.188.27.220'
+xmpp_url = 'localhost'
+
 authsuccess_response = '[authsuccess]';
 userdatareceived_response = '[userdatareceived]';
 fail_response = '[fail]'
@@ -246,10 +249,7 @@ if __name__ == '__main__':
 
     # xmpp.ca_certs = "path/to/ca/cert"
 
-    #url = '35.188.27.220'
-    url = 'localhost'
-
-    if xmpp.connect((url,5222)):
+    if xmpp.connect((xmpp_url,5222)):
         xmpp.process(block=True)
         print("Done")
     else:
