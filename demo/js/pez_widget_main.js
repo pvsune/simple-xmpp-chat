@@ -591,11 +591,14 @@
 
     function update_jid() {
         trace(' -> update_jid');
+        /*
         pez_widget_jid = get_cookie('jid');
         if (pez_widget_jid == null) {
             pez_widget_jid = new Date().getTime()+'@localhost';
             set_cookie('jid',pez_widget_jid);
         }
+        */
+        pez_widget_jid = '123456789@localhost';
     }
 
     function connect() {
@@ -608,16 +611,16 @@
         trace(' -> connectHandler');
         if (cond == Strophe.Status.CONNECTED){ 
             log("Connected");
-            connection.addHandler(presenceHandler, null, "presence", connection.jid);
-            connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get", connection.jid);
-            connection.addHandler(messageHandler, null, "message", "chat", connection.jid);
-            connection.send($pres());
+            connection.addHandler(presenceHandler, null, "presence");//, connection.jid);
+            connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get");//, connection.jid);
+            connection.addHandler(messageHandler, null, "message", null, null, null);//, connection.jid);
+            connection.send($pres().tree());
             post_connection(); 
         } 
         else if (cond == Strophe.Status.AUTHFAIL)       { log("Authentication Fail"); } 
         else if (cond == Strophe.Status.CONNECTING)     { log("Connecting"); } 
-        else if (cond == Strophe.Status.CONNFAIL)       { log("Connection Fail"); setTimeout(connect,5000) }
-        else if (cond == Strophe.Status.DISCONNECTED)   { log("Disconnected"); setTimeout(connect,5000) }
+        else if (cond == Strophe.Status.CONNFAIL)       { log("Connection Fail"); } //setTimeout(connect,5000) }
+        else if (cond == Strophe.Status.DISCONNECTED)   { log("Disconnected"); }//setTimeout(connect,5000) }
         else if (cond == Strophe.Status.DISCONNECTING)  { log("Disconnectin"); }
         else if (cond == Strophe.Status.ERROR)          { log("Error"); }
         else if (cond == Strophe.Status.ATTACHED)       { log("Attached"); }

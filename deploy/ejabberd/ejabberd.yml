@@ -307,8 +307,8 @@ auth_method: internal
 host_config:
   "localhost":
     auth_method:
-      - anonymous
       - internal
+      - anonymous
     anonymous_protocol: login_anon
 ##
 ## To use both anonymous and internal authentication:
