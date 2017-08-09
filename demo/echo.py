@@ -237,7 +237,7 @@ if __name__ == '__main__':
                         format='%(levelname)-8s %(message)s')
 
     opts.jid = 'admin@localhost'
-    opts.password = ''
+    opts.password = 'icanseeyou'
 
     xmpp = EchoBot(opts.jid, opts.password)
     xmpp.register_plugin('xep_0030') # Service Discovery

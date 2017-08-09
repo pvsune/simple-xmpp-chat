@@ -591,14 +591,11 @@
 
     function update_jid() {
         trace(' -> update_jid');
-        /*
         pez_widget_jid = get_cookie('jid');
         if (pez_widget_jid == null) {
             pez_widget_jid = new Date().getTime()+'@localhost';
             set_cookie('jid',pez_widget_jid);
         }
-        */
-        pez_widget_jid = '123456789@localhost';
     }
 
     function connect() {
