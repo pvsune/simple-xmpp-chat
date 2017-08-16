@@ -7,16 +7,6 @@ def index():
 	return template('index.html', {'url': 'http://localhost:5280/http-bind'})
 
 
-@get("/static/js/<filepath:re:.*\.js>")
-def js(filepath):
-	return static_file(filepath, root="static/js")
-
-
-@get("/static/css/<filepath:re:.*\.css>")
-def css(filepath):
-	return static_file(filepath, root="static/css")
-
-
 @get("/demo/js/<filepath:re:.*\.js>")
 def demojs(filepath):
 	return static_file(filepath, root="demo/js")
