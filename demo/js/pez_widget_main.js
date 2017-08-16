@@ -1,9 +1,9 @@
 
 // ---------------- CONFIGS ---------------
 
-    var pez_widget_online = true;
-    var pez_widget_required_auth = true;
-    var pez_widget_debug = true;
+    var pez_widget_online = false;
+    var pez_widget_required_auth = false;
+    var pez_widget_debug = false;
 
     function log(message) {
         console.log(message);
@@ -109,6 +109,7 @@
             log(elems)
         }
 
+        unit_test('messageHandler',msg);
         return true;
     }
 
@@ -123,13 +124,16 @@
         var time = append_message('user',msg,null);
         add_message_cookie('user',msg,time);
         process_non_text(msg,time);
-        offline_options();
+        offline_options(msg);
         i_message.value = '';
         i_message.focus();
+        unit_test('send_message',msg);
     }
 
     function append_message(sender,message,time) {
         trace(' -> append_message');
+        var passed_time = time;
+        var passed_message
         if (time == null) {
             time = date_timestamp(new Date())
         }
@@ -154,6 +158,7 @@
         i_messages_area_inner.appendChild(div);
         i_messages_area_inner.innerHTML += '<div class="divider"></div>';
         setTimeout(scroll_down,500);
+        unit_test('append_message',[sender,message,passed_time])
         return time
     }
 
@@ -303,7 +308,7 @@
 
 // ---------------- OFFLINE REPLIES -----------
 
-    function offline_options() {
+    function offline_options(msg) {
         trace(' -> offline_options');
         if (!pez_widget_online) fake_reply(msg)
     }
@@ -633,6 +638,8 @@
                 log('Skipped authentication')
                 post_auth();
             }
+        } else {
+            post_auth();
         }
     }
 
@@ -675,17 +682,20 @@
     var connection = new Strophe.Connection(xmpp.url);
     set_raw_handlers();
 
-    i_form_button.onclick = process_form;
-    i_send_button.onclick = function(e) {
+    i_form_button.addEventListener("click", process_form, false);
+    
+    i_send_button.addEventListener("click", function(e) {
         send_message(i_message.value);
-    }
-    i_message.onkeyup = function (e) {
+    }, false);
+    
+    i_message.addEventListener("keyup", function (e) {
         e = e || window.event;
         if (e.keyCode == 13) { // Return key
             send_message(i_message.value)
         }
-    }
-    i_launcher.onclick = function(){
+    }, false);
+    
+    i_launcher.addEventListener("click", function(){
         i_collapsible.className = 'slide-down';
         i_launcher.classList.remove('open');
         i_launcher.classList.add('closed');
@@ -693,8 +703,9 @@
         i_bubble.hidden = false;
         i_chatbox.hidden = false;
         set_cookie('launcher-status','closed');
-    }
-    i_bubble.onclick = function() {
+    }, false);
+
+    i_bubble.addEventListener("click", function() {
         i_collapsible.className = 'slide-up';
         i_launcher.classList.remove('closed');
         i_launcher.classList.add('open');
@@ -704,6 +715,10 @@
         i_chatbox.hidden = false;
         set_cookie('unread-messages', 0);
         set_cookie('launcher-status','open');
-    }
+    }, false);
 
-    if (pez_widget_online) connect();
+    if (pez_widget_online) 
+        connect();
+    else
+        post_connection();
+

@@ -1,4 +1,4 @@
-from bottle import get, post, route, run, static_file, template, request, response
+from bottle import get, post, route, run, static_file, template, request, response, template
 import requests, json, re
 
 
@@ -18,18 +18,22 @@ def css(filepath):
 
 
 @get("/demo/js/<filepath:re:.*\.js>")
-def js(filepath):
+def demojs(filepath):
 	return static_file(filepath, root="demo/js")
 
 
 @get("/demo/css/<filepath:re:.*\.css>")
-def css(filepath):
+def democss(filepath):
 	return static_file(filepath, root="demo/css")
 
 
 @get("/demo/images/<filepath:re:.*>")
-def css(filepath):
+def demoimages(filepath):
 	return static_file(filepath, root="demo/images")
+
+@get("/demo/jasmine/<filepath:re:.*>")
+def demojasmine(filepath):
+	return static_file(filepath, root="demo/jasmine")
 
 def enable_cors(fn):
 	def _enable_cors(*args, **kwargs):
@@ -117,5 +121,12 @@ def link():
 			'image': image,
 			'url': url
 		}
+
+
+@route('/demo/iframe', method=['GET'])
+#@enable_cors
+def iframe():
+	data = {}
+	return template('demo/case-studies/intercom/iframe.html',data)
 
 run(host='0.0.0.0', port=8080, debug=True, reload=True)

@@ -49,8 +49,8 @@ function pez_widget_build_element(data) {
         var js = document.createElement('script');
         js.src = pez_widget_url+'js/strophe.min.js?'+seed
         js.onreadystatechange = pez_main_widget_load;
-        js.onload = pez_main_widget_load;
-        document.body.appendChild(js);
+        //js.onload = pez_main_widget_load;
+        //document.body.appendChild(js);
     }
 
     function pez_main_widget_load() {
@@ -61,6 +61,29 @@ function pez_widget_build_element(data) {
     }
 
     function pez_build_chatbox() {
+        var iframe_url = pez_widget_url+'iframe';
+        /*
+        var htmlstr = `
+        <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; padding: 0px; border: 0px none; background: transparent none repeat scroll 0% 0%; overflow: hidden; position: fixed; z-index: 16000014; right: 10px; bottom: 0px; border-top-left-radius: 5px; border-top-right-radius: 5px; display: block; width: 290px; height: 400px; box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.1);">
+            <iframe id="pez-widget-iframe" style="background-color: transparent; vertical-align: text-bottom; position: relative; width: 100%; height: 100%; min-width: 100%; min-height: 100%; max-width: 100%; max-height: 100%; margin: 0px; overflow: hidden; display: block;" src="`+iframe_url+`" frameborder="0"></iframe>
+        </div>`;
+        */
+        var htmlstr = `
+        <div style="position: fixed; width: 0px; height: 0px; bottom: 0px; right: 0px; z-index: 2147483647;">
+            <div>
+                <span>
+                    <div class="intercom-messenger-frame">
+                        <iframe allowfullscreen="true" src="http://localhost:8080/demo/iframe"></iframe>
+                    </div>
+                </span>
+            </div>
+        </div>`
+        var div = document.createElement('div');
+        div.innerHTML = htmlstr;
+        document.body.appendChild(div);
+    }
+    
+    function pez_build_chatbox2() {
         var chatbox = {tag: 'div', id: 'container', children: [
                 {tag: 'div', id: "speech-bubble", className: 'speech-bubble shadow gradient', hidden: true},
                 {tag: 'div', id: 'chatbox', className: 'shadow', hidden: true, children: [
@@ -100,6 +123,6 @@ function pez_widget_build_element(data) {
         document.body.appendChild(pez_widget_build_element(chatbox));
     }
 
-    document.addEventListener("DOMContentLoaded", pez_widget_load);
+    document.addEventListener("DOMContentLoaded", pez_build_chatbox);
   
 })();
