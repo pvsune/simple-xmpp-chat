@@ -36,7 +36,8 @@
     function get_dataform_response(name) {
         var responses = {
             clientauth: '[authsuccess]',
-            userdata: '[userdatareceived]'
+            userdata: '[userdatareceived]',
+            authfail: '[fail]'
         }
         if (responses[name] != undefined) {
             return responses[name]
@@ -96,7 +97,7 @@
                     log('User Data Sent')
                     send_message(user_question);
                     activate_chat();
-                } else {
+                } else if (body != get_dataform_response('authfail')) {
                     log(from + ": " + body);
                     var time = append_message('server',body,null);
                     add_message_cookie('server',body,time);
