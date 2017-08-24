@@ -112,11 +112,4 @@ def link():
 			'url': url
 		}
 
-
-@route('/demo/iframe', method=['GET'])
-#@enable_cors
-def iframe():
-	data = {}
-	return template('demo/case-studies/intercom/iframe.html',data)
-
 run(host='0.0.0.0', port=8080, debug=True, reload=True)
