@@ -15,4 +15,4 @@ def js(filepath):
 def css(filepath):
     return static_file(filepath, root="static/css")
 
-run(host='0.0.0.0', port=8080)
+run(host='0.0.0.0', port=8080, server='gunicorn')
