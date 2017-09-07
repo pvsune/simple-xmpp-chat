@@ -3,8 +3,19 @@ import requests, json, re
 
 
 @route('/')
+def index():
+    return template('index.html', {'url': 'http://localhost:5280/http-bind'})
+
+
+@get("/static/js/<filepath:re:.*\.js>")
+def js(filepath):
+    return static_file(filepath, root="static/js")
+
+
+@route('/fundko')
 def fundko():
 	return template('fundko.html')
+
 
 @route('/mercer')
 def mercer():
@@ -41,6 +52,7 @@ def enable_cors(fn):
 			return fn(*args, **kwargs)
 
 	return _enable_cors
+
 
 @route('/widget/link', method=['OPTIONS','POST'])
 #@enable_cors
@@ -117,5 +129,6 @@ def link():
 			'image': image,
 			'url': url
 		}
+
 
 run(host='0.0.0.0', port=8080, debug=True, reload=True)
