@@ -580,7 +580,7 @@
         <!DOCTYPE html>
         <html>
         <head>
-            <link href="`+pez_widget_url+`common/css/pez_widget_main_`+pez_widget_device+`.css?`+seed+`" rel="stylesheet" type="text/css" />
+            <link href="`+pez_widget_url+`common/css/pez_widget_main_`+pez_widget_device+pez_widget_dotmin`.css?`+seed+`" rel="stylesheet" type="text/css" />
             <link href="`+pez_widget_url+`clients/`+pez_widget_client+`.css?`+seed+`" rel="stylesheet" type="text/css" />
         </head>
         <body id="`+pez_widget_prefix+`container-body">
