@@ -4,6 +4,7 @@ var pez_widget_client_domain = null;
 var pez_widget_prefix = 'pez-widget-';
 var pez_widget_url = null;
 var pez_widget_url = 'http://35.188.25.143/widget/';
+var pez_widget_dotmin = '.min';
 
 function device_os() {
     var useragent = navigator.userAgent;
@@ -52,9 +53,6 @@ function get_client_data() {
 
     var embedjs = document.getElementById(pez_widget_prefix+'embed');
     var srclen = embedjs.src.length
-    var dotmin = '';
-    if (embedjs.src.substring(srclen-7,srclen) == '.min.js')
-        dotmin = '.min';
 
     pez_widget_api_key = embedjs.getAttribute("data-apikey");
     pez_widget_client = embedjs.getAttribute("data-client");
@@ -68,14 +66,14 @@ function get_client_data() {
         pez_build_container();
 
         var style = document.createElement('link');
-        style.href = pez_widget_url+'common/css/pez_widget_'+pez_widget_device+dotmin+'.css?'+seed;
+        style.href = pez_widget_url+'common/css/pez_widget_'+pez_widget_device+pez_widget_dotmin+'.css?'+seed;
         style.rel = 'stylesheet';
         style.type = 'text/css';
         style.media = 'all';
         document.getElementsByTagName('head')[0].appendChild(style)
 
         var style = document.createElement('link');
-        style.href = pez_widget_url+'clients/'+pez_widget_client+dotmin+'.css?'+seed;
+        style.href = pez_widget_url+'clients/'+pez_widget_client+'.css?'+seed;
         style.rel = 'stylesheet';
         style.type = 'text/css';
         style.media = 'all';
@@ -91,7 +89,7 @@ function get_client_data() {
     function pez_widget_load_main() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = pez_widget_url+'common/js/pez_widget_main'+dotmin+'.js?'+seed;
+        script.src = pez_widget_url+'common/js/pez_widget_main.js?'+seed;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
 

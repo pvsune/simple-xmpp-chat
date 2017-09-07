@@ -2,7 +2,7 @@
 // ---------------- CONFIGS ---------------
 
     var pez_widget_online = true;
-    var pez_widget_required_auth = true;
+    var pez_widget_required_auth = false;
     var pez_widget_debug = false;
 
     var pez_widget_prefix = 'pez-widget-';
@@ -569,6 +569,7 @@
     }
 
     function load_widget() {
+        trace(' -> load_widget');
         var container = docdiv('container-span')
         container.innerHTML = '<div class="'+pez_widget_prefix+'frame"></div>';
         i_frame = document.createElement('iframe');
@@ -580,7 +581,7 @@
         <!DOCTYPE html>
         <html>
         <head>
-            <link href="`+pez_widget_url+`common/css/pez_widget_main_`+pez_widget_device+`.css?`+seed+`" rel="stylesheet" type="text/css" />
+            <link href="`+pez_widget_url+`common/css/pez_widget_main_`+pez_widget_device+pez_widget_dotmin+`.css?`+seed+`" rel="stylesheet" type="text/css" />
             <link href="`+pez_widget_url+`clients/`+pez_widget_client+`.css?`+seed+`" rel="stylesheet" type="text/css" />
         </head>
         <body id="`+pez_widget_prefix+`container-body">

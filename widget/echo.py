@@ -17,8 +17,8 @@ from optparse import OptionParser
 import sleekxmpp
 
 
-#xmpp_url = '35.188.27.220'
-xmpp_url = 'localhost'
+xmpp_url = '35.188.27.220'
+#xmpp_url = 'localhost'
 
 authsuccess_response = '[authsuccess]';
 userdatareceived_response = '[userdatareceived]';
@@ -111,6 +111,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
         print "reply: "+reply
         data.reply(reply).send()
 
+
+    '''
     def connected(self, data):
 		print "connected"
 		#print data
@@ -214,6 +216,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
     def sent_presence(self, data):
 		print "sent_presence"
 		#print data
+    '''
 
 
 if __name__ == '__main__':
