@@ -2,7 +2,7 @@
 // ---------------- CONFIGS ---------------
 
     var pez_widget_online = true;
-    var pez_widget_required_auth = true;
+    var pez_widget_required_auth = false;
     var pez_widget_debug = false;
 
     var pez_widget_prefix = 'pez-widget-';
