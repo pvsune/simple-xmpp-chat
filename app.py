@@ -3,16 +3,6 @@ import requests, json, re
 
 
 @route('/')
-def index():
-    return template('index.html', {'url': 'http://localhost:5280/http-bind'})
-
-
-@get("/static/js/<filepath:re:.*\.js>")
-def js(filepath):
-    return static_file(filepath, root="static/js")
-
-
-@route('/fundko')
 def fundko():
 	return template('fundko.html')
 
