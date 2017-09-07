@@ -1,0 +1,20 @@
+#pez-widget-container .pez-widget-conversation-body-profile,
+#pez-widget-container .pez-widget-comment-container-user .pez-widget-comment {
+	background-color: #00a8c8 !important;
+}
+
+#pez-widget-send-button {
+	background-color: #444 !important;
+}
+
+#pez-widget-send-button:hover {
+	background-color: #666 !important;
+}
+
+#pez-widget-launcher-open {
+  background: #00a8c8 !important;
+}
+
+#pez-widget-launcher-open:after {
+    border-color: #00a8c8 transparent !important;
+}
