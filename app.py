@@ -6,24 +6,34 @@ import requests, json, re
 def index():
 	return template('index.html', {'url': 'http://localhost:5280/http-bind'})
 
+@route('/fundko')
+def fundko():
+	return template('fundko.html')
 
-@get("/demo/js/<filepath:re:.*\.js>")
-def demojs(filepath):
-	return static_file(filepath, root="demo/js")
-
-
-@get("/demo/css/<filepath:re:.*\.css>")
-def democss(filepath):
-	return static_file(filepath, root="demo/css")
+@route('/mercer')
+def mercer():
+	return template('mercer.html')
 
 
-@get("/demo/images/<filepath:re:.*>")
-def demoimages(filepath):
-	return static_file(filepath, root="demo/images")
+@get("/widget/common/js/<filepath:re:.*\.js>")
+def commonjs(filepath):
+	return static_file(filepath, root="widget/common/js")
 
-@get("/demo/jasmine/<filepath:re:.*>")
-def demojasmine(filepath):
-	return static_file(filepath, root="demo/jasmine")
+
+@get("/widget/common/css/<filepath:re:.*\.css>")
+def commoncss(filepath):
+	return static_file(filepath, root="widget/common/css")
+
+
+@get("/widget/common/images/<filepath:re:.*>")
+def commonimages(filepath):
+	return static_file(filepath, root="widget/common/images")
+
+
+@get("/widget/clients/<filepath:re:.*>")
+def clientfiles(filepath):
+	return static_file(filepath, root="widget/clients")
+
 
 def enable_cors(fn):
 	def _enable_cors(*args, **kwargs):
@@ -36,7 +46,7 @@ def enable_cors(fn):
 
 	return _enable_cors
 
-@route('/demo/link', method=['OPTIONS','POST'])
+@route('/widget/link', method=['OPTIONS','POST'])
 #@enable_cors
 def link():
 	url = request.forms.get('url')
