@@ -39,6 +39,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
         self.add_event_handler("message", self.message)
         self.add_event_handler("message_xform", self.message_xform)
 
+        '''
         self.add_event_handler("connected", self.connected)
         self.add_event_handler("changed_status", self.changed_status)
         self.add_event_handler("changed_subscription", self.changed_subscription)
@@ -66,6 +67,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
         self.add_event_handler("presence_unsubscribed", self.presence_unsubscribed)
         self.add_event_handler("roster_update", self.roster_update)
         self.add_event_handler("sent_presence", self.sent_presence)
+        '''
 
     def start(self, event):
         self.send_presence()
@@ -111,107 +113,107 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
     def connected(self, data):
 		print "connected"
-		print data
+		#print data
 
     def changed_status(self, data):
 		print "changed_status"
-		print data
+		#print data
 
     def changed_subscription(self, data):
 		print "changed_subscription"
-		print data
+		#print data
 
     def disco_info(self, data):
 		print "disco_info"
-		print data
+		#print data
 
     def disco_info_request(self, data):
 		print "disco_info_request"
-		print data
+		#print data
 
     def disco_items(self, data):
 		print "disco_items"
-		print data
+		#print data
 
     def disco_items_request(self, data):
 		print "disco_items_request"
-		print data
+		#print data
 
     def disconnected(self, data):
 		print "disconnected"
-		print data
+		#print data
 
     def failed_auth(self, data):
 		print "failed_auth"
-		print data
+		#print data
 
     def gmail_notify(self, data):
 		print "gmail_notify"
-		print data
+		#print data
 
     def got_online(self, data):
 		print "got_online"
-		print data
+		#print data
 
     def got_offline(self, data):
 		print "got_offline"
-		print data
+		#print data
 
     def groupchat_message(self, data):
 		print "groupchat_message"
-		print data
+		#print data
 
     def groupchat_presence(self, data):
 		print "groupchat_presence"
-		print data
+		#print data
 
     def groupchat_subject(self, data):
 		print "groupchat_subject"
-		print data
+		#print data
 
     def presence_available(self, data):
 		print "presence_available"
-		print data
+		#print data
 
     def presence_error(self, data):
 		print "presence_error"
-		print data
+		#print data
 
     def presence_form(self, data):
 		print "presence_form"
-		print data
+		#print data
 
     def presence_probe(self, data):
 		print "presence_probe"
-		print data
+		#print data
 
     def presence_subscribe(self, data):
 		print "presence_subscribe"
-		print data
+		#print data
 
     def presence_subscribed(self, data):
 		print "presence_subscribed"
-		print data
+		#print data
 
     def presence_unavailable(self, data):
 		print "presence_unavailable"
-		print data
+		#print data
 
     def presence_unsubscribe(self, data):
 		print "presence_unsubscribe"
-		print data
+		#print data
 
     def presence_unsubscribed(self, data):
 		print "presence_unsubscribed"
-		print data
+		#print data
 
     def roster_update(self, data):
 		print "roster_update"
-		print data
+		#print data
 
     def sent_presence(self, data):
 		print "sent_presence"
-		print data
+		#print data
 
 
 if __name__ == '__main__':
