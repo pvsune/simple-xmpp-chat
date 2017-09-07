@@ -3,6 +3,8 @@ var pez_widget_client = null;
 var pez_widget_client_domain = null;
 var pez_widget_prefix = 'pez-widget-';
 var pez_widget_url = null;
+var pez_widget_url = 'http://localhost:8080/widget/';
+//var pez_widget_url = 'http://192.168.0.105:8080/widget/';
 //http://35.188.25.143/demo/';
 
 function device_os() {
@@ -59,7 +61,6 @@ function get_client_data() {
     pez_widget_api_key = embedjs.getAttribute("data-apikey");
     pez_widget_client = embedjs.getAttribute("data-client");
     pez_widget_client_domain = document.domain;
-    pez_widget_url = embedjs.src.split('/common/js/')[0]+'/'
 
     var client = get_client_data();
 

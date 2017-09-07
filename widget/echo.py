@@ -38,7 +38,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
         self.add_event_handler("session_start", self.start)
         self.add_event_handler("message", self.message)
         self.add_event_handler("message_xform", self.message_xform)
-        '''
+
         self.add_event_handler("connected", self.connected)
         self.add_event_handler("changed_status", self.changed_status)
         self.add_event_handler("changed_subscription", self.changed_subscription)
@@ -66,7 +66,6 @@ class EchoBot(sleekxmpp.ClientXMPP):
         self.add_event_handler("presence_unsubscribed", self.presence_unsubscribed)
         self.add_event_handler("roster_update", self.roster_update)
         self.add_event_handler("sent_presence", self.sent_presence)
-        '''
 
     def start(self, event):
         self.send_presence()
@@ -88,8 +87,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
         reply = fail_response
 
         api_keys = {
-            "s0A1m2P3l4e5K6e7Y": ['localhost','35.188.25.143'],
-            "s0A1m2P3l4e5K6e7T": ['localhost','35.188.25.143']
+            "s0A1m2P3l4e5K6e7Y": ['localhost','35.188.25.143','192.168.0.105'],
+            "s0A1m2P3l4e5K6e7T": ['localhost','35.188.25.143','192.168.0.105']
         }
 
         if form['title'] == 'clientauth':
@@ -110,7 +109,6 @@ class EchoBot(sleekxmpp.ClientXMPP):
         print "reply: "+reply
         data.reply(reply).send()
 
-    '''
     def connected(self, data):
 		print "connected"
 		print data
@@ -214,7 +212,6 @@ class EchoBot(sleekxmpp.ClientXMPP):
     def sent_presence(self, data):
 		print "sent_presence"
 		print data
-    '''
 
 
 if __name__ == '__main__':

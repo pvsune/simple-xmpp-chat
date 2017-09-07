@@ -5,7 +5,6 @@
     var pez_widget_required_auth = true;
     var pez_widget_debug = false;
 
-    var pez_widget_url = 'http://localhost:8080/widget/';
     var pez_widget_prefix = 'pez-widget-';
 
     function log(message) {

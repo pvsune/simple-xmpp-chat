@@ -3,10 +3,6 @@ import requests, json, re
 
 
 @route('/')
-def index():
-	return template('index.html', {'url': 'http://localhost:5280/http-bind'})
-
-@route('/fundko')
 def fundko():
 	return template('fundko.html')
 
