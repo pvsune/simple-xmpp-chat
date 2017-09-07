@@ -3,9 +3,7 @@ var pez_widget_client = null;
 var pez_widget_client_domain = null;
 var pez_widget_prefix = 'pez-widget-';
 var pez_widget_url = null;
-var pez_widget_url = 'http://localhost:8080/widget/';
-//var pez_widget_url = 'http://192.168.0.105:8080/widget/';
-//http://35.188.25.143/demo/';
+var pez_widget_url = 'http://35.188.25.143/widget/';
 
 function device_os() {
     var useragent = navigator.userAgent;
