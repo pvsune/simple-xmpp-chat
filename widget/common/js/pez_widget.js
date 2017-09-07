@@ -73,7 +73,7 @@ function get_client_data() {
         document.getElementsByTagName('head')[0].appendChild(style)
 
         var style = document.createElement('link');
-        style.href = pez_widget_url+'clients/'+pez_widget_client+pez_widget_dotmin+'.css?'+seed;
+        style.href = pez_widget_url+'clients/'+pez_widget_client+'.css?'+seed;
         style.rel = 'stylesheet';
         style.type = 'text/css';
         style.media = 'all';
@@ -89,7 +89,7 @@ function get_client_data() {
     function pez_widget_load_main() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = pez_widget_url+'common/js/pez_widget_main'+pez_widget_dotmin+'.js?'+seed;
+        script.src = pez_widget_url+'common/js/pez_widget_main.js?'+seed;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
 
