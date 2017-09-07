@@ -17,8 +17,8 @@ from optparse import OptionParser
 import sleekxmpp
 
 
-xmpp_url = '35.188.27.220'
-#xmpp_url = 'localhost'
+#xmpp_url = '35.188.27.220'
+xmpp_url = 'localhost'
 
 authsuccess_response = '[authsuccess]';
 userdatareceived_response = '[userdatareceived]';
@@ -240,7 +240,7 @@ if __name__ == '__main__':
                         format='%(levelname)-8s %(message)s')
 
     opts.jid = 'admin@localhost'
-    opts.password = 'toomanyeyes'
+    opts.password = 'icanseeyou'
 
     xmpp = EchoBot(opts.jid, opts.password)
     xmpp.register_plugin('xep_0030') # Service Discovery
