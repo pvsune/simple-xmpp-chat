@@ -399,9 +399,12 @@
     }
 
     function process_link(url,time) {
-        trace(' -> process_link');
+        var urlEncoded = encodeURIComponent(url);
+        var apiKey = '59b23d0ebf6665630cf1e35a';
+        var requestUrl = "https://opengraph.io/api/1.0/site/" + urlEncoded + '?app_id=' + apiKey;
+
         xhr = new XMLHttpRequest();
-        xhr.open('POST', pez_widget_url+'link');
+        xhr.open('POST', reque);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('crossDomain', '*');
         xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
@@ -415,9 +418,27 @@
         xhr.send("url="+url);
     }
 
-    function display_link(data,time) {
+    function process_link2(url,time) {
+        trace(' -> process_link');
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', pez_widget_url+'link');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('crossDomain', '*');
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.onload = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                display_link(JSON.parse(xhr.responseText),url,time)
+            } else {
+                log('Error '+xhr.status);
+            }
+        }
+        xhr.send("url="+url);
+    }
+
+    function display_link(data,url,time) {
         trace(' -> display_link');
         var target = framediv('msg-'+time);
+        /*
         if (data.data_type == 'image') {
             target.innerHTML = `
                 <div class="image"><a href="`+data.image+`" target="_blank"><img src="`+data.image+`" /></a></div>
@@ -429,19 +450,21 @@
                 <div class="url"><a href="`+data.url+`" target="_blank">Watch in YouTube</a></div>
                 `;
         } else {
+        */
+        .hybridGraph.
             var imgstr = '';
             if (data.image != '')
-                imgstr = '<div class="image"><a href="'+data.url+'" target="_blank"><img src="'+data.image+'" style="width:100%;height:auto;" /></a></div>'
-            title = data.title
+                imgstr = '<div class="image"><a href="'+url+'" target="_blank"><img src="'+data.hybridGraph.image+'" style="width:100%;height:auto;" /></a></div>'
+            title = data.hybridGraph.title
             if (title == '') 
                 title = 'Untitled'
             target.innerHTML = `
                 `+imgstr+`
-                <div class="title"><a href="`+data.url+`" target="_blank">`+title+`</a></div>
-                <div class="descp">`+data.descp+`</div>
-                <div class="url"><a href="`+data.url+`" target="_blank">Open Link</a></div>
+                <div class="title"><a href="`+url+`" target="_blank">`+title+`</a></div>
+                <div class="descp">`+data.hybridGraph.description+`</div>
+                <div class="url"><a href="`+url+`" target="_blank">Open Link</a></div>
                 `;
-        }
+        //}
         setTimeout(scroll_down,500);
     }
 
@@ -472,7 +495,7 @@
         var target = framediv('msg-'+time)
         if (target != null) {
             target.className = 'preview'
-            target.innerHTML = '<div class="spinner"><img src="'+pez_widget_url+'images/spinner.gif?'+seed+'" width="24" height="24" /></div>';
+            target.innerHTML = '<div class="spinner"><img src="'+pez_widget_url+'common/images/spinner.gif?'+seed+'" width="24" height="24" /></div>';
         }
     }
 
