@@ -393,8 +393,29 @@
         container.classList.remove('wide');
         if (message.substring(0,4) == 'http') {
             display_spinner(time);
-            process_link(message,time);
             container.classList.add('wide');
+            process_video(message,time);
+        }
+    }
+
+    function process_video(message,time) {
+        if (message.indexOf('youtube.com/watch') !== -1 || 
+            message.indexOf('youtube.com/embed/') !== -1 || 
+            message.indexOf('youtu.be/') !== -1) {
+            var video_id = '';
+            var embed_url = message;
+            if (message.indexOf('watch?v=') !== -1)
+                video_id = message.split('watch?v=')[1].split('?')[0].split('#')[0].split('&')[0];
+            else if (message.indexOf('youtu.be/') !== -1)
+                video_id = url.split('youtu.be/')[1].split('?')[0].split('#')[0].split('&')[0];
+            if (video_id != '')
+                embed_url = 'https://www.youtube.com/embed/'+video_id
+            framediv('msg-'+time).innerHTML = `
+                <div class="video"><iframe style="width:100% !important;height:250px;" src="`+embed_url+`" frameborder="0" allowfullscreen></iframe></div>
+                <div class="url"><a href="`+message+`" target="_blank">Watch in YouTube</a></div>
+                `;
+        } else {
+            process_link(message,time);
         }
     }
 
@@ -404,27 +425,7 @@
         var requestUrl = "https://opengraph.io/api/1.0/site/" + urlEncoded + '?app_id=' + apiKey;
 
         xhr = new XMLHttpRequest();
-        xhr.open('POST', reque);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('crossDomain', '*');
-        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-        xhr.onload = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                display_link(JSON.parse(xhr.responseText),time)
-            } else {
-                log('Error '+xhr.status);
-            }
-        }
-        xhr.send("url="+url);
-    }
-
-    function process_link2(url,time) {
-        trace(' -> process_link');
-        xhr = new XMLHttpRequest();
-        xhr.open('POST', pez_widget_url+'link');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('crossDomain', '*');
-        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.open('GET', requestUrl, true);
         xhr.onload = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 display_link(JSON.parse(xhr.responseText),url,time)
@@ -432,28 +433,32 @@
                 log('Error '+xhr.status);
             }
         }
-        xhr.send("url="+url);
+        xhr.send();
+    }
+    
+    function process_image(message,time) {
+        var img = document.createElement('img');
+        img.setAttribute('src', message);
+        img.onerror = (function(message,time){
+            process_video(message,time);
+        })(message,time);
+        framediv('msg-'+time).innerHTML = `
+            <div class="image"><a href="`+img.src+`" target="_blank"><img src="`+img.src+`" /></a></div>
+            <div class="url"><a href="`+img.src+`" target="_blank">View Full Size</a></div>
+            `;
     }
 
     function display_link(data,url,time) {
         trace(' -> display_link');
         var target = framediv('msg-'+time);
-        /*
-        if (data.data_type == 'image') {
-            target.innerHTML = `
-                <div class="image"><a href="`+data.image+`" target="_blank"><img src="`+data.image+`" /></a></div>
-                <div class="url"><a href="`+data.image+`" target="_blank">View Full Size</a></div>
+        if (data.error != null) {
+            framediv('msg-'+time).innerHTML = `
+                <div class="image"><a href="`+url+`" target="_blank"><img src="`+url+`" /></a></div>
+                <div class="url"><a href="`+url+`" target="_blank">View Full Size</a></div>
                 `;
-        } else if (data.data_type == 'youtube') {
-            target.innerHTML = `
-                <div class="video"><iframe style="width:100% !important;height:250px;" src="`+data.embed_url+`" frameborder="0" allowfullscreen></iframe></div>
-                <div class="url"><a href="`+data.url+`" target="_blank">Watch in YouTube</a></div>
-                `;
-        } else {
-        */
-        .hybridGraph.
+        } else if (data.hybridGraph != null) {
             var imgstr = '';
-            if (data.image != '')
+            if (data.hybridGraph.image != '')
                 imgstr = '<div class="image"><a href="'+url+'" target="_blank"><img src="'+data.hybridGraph.image+'" style="width:100%;height:auto;" /></a></div>'
             title = data.hybridGraph.title
             if (title == '') 
@@ -464,7 +469,8 @@
                 <div class="descp">`+data.hybridGraph.description+`</div>
                 <div class="url"><a href="`+url+`" target="_blank">Open Link</a></div>
                 `;
-        //}
+
+        }
         setTimeout(scroll_down,500);
     }
 
