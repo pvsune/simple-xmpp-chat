@@ -76,8 +76,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
     def message(self, msg):
         print 'Message: '+msg['body']
         print 'Auth: '+('%s' % msg).split('<auth>')[1].split('</auth>')[0]
-        if msg['type'] in ('chat', 'normal'):
-            msg.reply("Thanks for sending\n%(body)s" % msg).send()
+        #if msg['type'] in ('chat', 'normal'):
+        #    msg.reply("Thanks for sending\n%(body)s" % msg).send()
 
     def message_form(self, data):
         print "message_form"

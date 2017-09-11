@@ -3,7 +3,7 @@ var pez_widget_client = null;
 var pez_widget_client_domain = null;
 var pez_widget_prefix = 'pez-widget-';
 var pez_widget_url = null;
-var pez_widget_url = 'http://35.188.25.143/widget/';
+var pez_widget_url = '//s3-ap-southeast-1.amazonaws.com/pezwebchat/';
 var pez_widget_dotmin = '.min';
 
 function device_os() {
