@@ -3,6 +3,7 @@
 
     var pez_widget_online = true;
     var pez_widget_required_auth = false;
+    var pez_widget_send_userdata = false;
     var pez_widget_debug = false;
 
     var pez_widget_prefix = 'pez-widget-';
@@ -280,7 +281,12 @@
             i_form_button.disabled = true;
             i_form_error.innerText = 'Saving your info...';
             save_form();
-            send_user_info();
+            if (pez_widget_send_userdata) {
+                send_user_info();
+            } else {
+                send_message(user_question);
+                activate_chat();
+            }
         }
     }
 
