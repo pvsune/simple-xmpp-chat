@@ -175,8 +175,9 @@ listen:
 # We can use API from local machine to pass ejabberd commands
 api_permissions:
   "API used from localhost allows all calls":
-    - who:
-      - ip: "127.0.0.1/8"
+    # - who:
+    #   - ip: "127.0.0.1/8"
+    - who: all
     - what:
       - "*"
       - "!stop"
@@ -567,7 +568,7 @@ language: "en"
 ##
 modules:
   mod_adhoc: {}
-  ## mod_admin_extra: {}
+  mod_admin_extra: {}
   mod_announce: # recommends mod_adhoc
     access: announce
   mod_blocking: {} # requires mod_privacy
