@@ -37,13 +37,15 @@ function get_client_data() {
         return {
             name: 'FundKo',
             avatar: 'fundko.png',
-            slogan: 'Invest and transform lives'
+            slogan: 'Invest and transform lives',
+            pre_chat: true
         }
     } else if (pez_widget_client == 'mercer') {
         return {
             name: 'Mercer',
             avatar: 'mercer.png',
-            slogan: 'Make Tomorrow, Today'
+            slogan: 'Make Tomorrow, Today',
+            pre_chat: false
         }
     }
 }
