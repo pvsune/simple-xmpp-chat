@@ -733,6 +733,14 @@
         i_container.style.display = 'block';
         restore_data();
         restore_launcher_status();
+        var client = get_client_data();
+        if (client.pre_chat == false) {
+            set_cookie('user-name','User');
+            set_cookie('user-email','');
+            set_cookie('user-phone','');
+            set_cookie('user-question','');
+            activate_chat();
+        }
         setInterval(update_timestamps,5000);
     }
 
