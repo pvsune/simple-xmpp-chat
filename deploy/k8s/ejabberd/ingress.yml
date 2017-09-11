@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ejabberd-ingress
+  namespace: dev
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "gce"
+spec:
+  tls:
+  - secretName: ejabberd-tls
+    hosts:
+    - xmpp.brianbaquiran.com
+  rules:
+  - host: xmpp.brianbaquiran.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: ejabberd-service
+          servicePort: http
+  # tls secret created with
+  # kubectl create secret tls api.pez.ai --cert=<.crt file> --key=<.key file>
+  # tls:
+  #  - secretName: api.pez.ai
