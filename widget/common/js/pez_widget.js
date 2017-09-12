@@ -97,12 +97,7 @@ function get_client_data() {
 
     function pez_build_container() {
         var iframe_url = pez_widget_url+'iframe';
-        var htmlstr = `
-        <div id="pez-widget-container" style="display:none;">
-            <div id="pez-widget-launcher-close" style="display:none;">CLOSE</div>
-            <div id="pez-widget-launcher-open" class="speech-bubble shadow gradient" style="display:none;">Talk to `+client.name+`!</div>
-            <span id="pez-widget-container-span" style="display:none;"></span>
-        </div>`
+        var htmlstr = '<div id="pez-widget-container" style="display:none;">\n<div id="pez-widget-launcher-close" style="display:none;">CLOSE</div>\n<div id="pez-widget-launcher-open" class="speech-bubble shadow gradient" style="display:none;">Talk to '+client.name+'!</div>\n<span id="pez-widget-container-span" style="display:none;"></span>\n</div>'
         var div = document.createElement('div');
         div.innerHTML = htmlstr;
         document.body.appendChild(div);
