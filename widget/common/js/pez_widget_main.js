@@ -435,7 +435,12 @@
             title = data.hybridGraph.title
             if (title == '') 
                 title = 'Untitled'
-            target.innerHTML = imgstr+'\n<div class="title"><a href="'+url+'" target="_blank">'+title+'</a></div>\n<div class="descp">'+data.hybridGraph.description+'</div>\n<div class="url"><a href="'+url+'" target="_blank">Open Link</a></div>';
+            else if (title.length > 100)
+                title = title.substring(0,100).trim()+'...'
+            descp = data.hybridGraph.description
+            if (descp.length > 100) 
+                descp = descp.substring(0,100).trim()+'...'
+            target.innerHTML = imgstr+'\n<div class="title"><a href="'+url+'" target="_blank">'+title+'</a></div>\n<div class="descp">'+descp+'</div>\n<div class="url"><a href="'+url+'" target="_blank">Open Link</a></div>';
 
         }
         setTimeout(scroll_down,500);
