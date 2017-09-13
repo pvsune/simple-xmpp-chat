@@ -187,36 +187,11 @@
         message = convert_links(message);
         var avatar = '';
         if (sender == 'server') {
-            avatar = `
-            <div class="pez-widget-comment-container-`+sender+`-avatar">
-                <div class="pez-widget-avatar">
-                    <img src="`+imgsrc+`">
-                </div>
-            </div>`;
+            avatar = '<div class="pez-widget-comment-container-'+sender+'-avatar">\n<div class="pez-widget-avatar">\n<img src="'+imgsrc+'">\n</div>\n</div>';
         }
         var d = i_framedoc.createElement('div');
         d.className = pez_widget_prefix+"conversation-part "+pez_widget_prefix+"conversation-part-"+sender+" "+pez_widget_prefix+"conversation-part-grouped"
-        d.innerHTML = `
-            <div id="`+pez_widget_prefix+`container-`+time+`" class="`+pez_widget_prefix+`comment-container `+pez_widget_prefix+`comment-container-`+sender+`">
-                `+avatar+`
-                <div class="`+pez_widget_prefix+`comment">
-                    <div class="`+pez_widget_prefix+`blocks">
-                        <div class="`+pez_widget_prefix+`block `+pez_widget_prefix+`block-paragraph">
-                            <div id="`+pez_widget_prefix+`msg-`+time+`" class="text">
-                                `+message+`
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <span>
-                <div class="`+pez_widget_prefix+`conversation-part-metadata">
-                    <div class="`+pez_widget_prefix+`conversation-part-metadata-save-state">
-                        <span class="`+pez_widget_prefix+`timestamp `+time+`"><em>Just Now</em></span>
-                    </div>
-                </div>
-            </span>
-        `;
+        d.innerHTML = '<div id="'+pez_widget_prefix+'container-'+time+'" class="'+pez_widget_prefix+'comment-container '+pez_widget_prefix+'comment-container-'+sender+'">\n'+avatar+'\n<div class="'+pez_widget_prefix+'comment">\n<div class="'+pez_widget_prefix+'blocks">\n<div class="'+pez_widget_prefix+'block '+pez_widget_prefix+'block-paragraph">\n<div id="'+pez_widget_prefix+'msg-'+time+'" class="text">\n'+message+'\n</div>\n</div>\n</div>\n</div>\n</div>\n<span>\n<div class="'+pez_widget_prefix+'conversation-part-metadata">\n<div class="'+pez_widget_prefix+'conversation-part-metadata-save-state">\n<span class="'+pez_widget_prefix+'timestamp '+time+'"><em>Just Now</em></span>\n</div>\n</div>\n</span>';
         i_messages_area_inner.appendChild(d);
         setTimeout(scroll_down,500);
         unit_test('append_message',[sender,message,passed_time])
@@ -416,10 +391,7 @@
                 video_id = url.split('youtu.be/')[1].split('?')[0].split('#')[0].split('&')[0];
             if (video_id != '')
                 embed_url = 'https://www.youtube.com/embed/'+video_id
-            framediv('msg-'+time).innerHTML = `
-                <div class="video"><iframe style="width:100% !important;height:250px;" src="`+embed_url+`" frameborder="0" allowfullscreen></iframe></div>
-                <div class="url"><a href="`+message+`" target="_blank">Watch in YouTube</a></div>
-                `;
+            framediv('msg-'+time).innerHTML = '<div class="video"><iframe style="width:100% !important;height:250px;" src="'+embed_url+'" frameborder="0" allowfullscreen></iframe></div>\n<div class="url"><a href="'+message+'" target="_blank">Watch in YouTube</a></div>';
         } else {
             process_link(message,time);
         }
@@ -448,20 +420,14 @@
         img.onerror = (function(message,time){
             process_video(message,time);
         })(message,time);
-        framediv('msg-'+time).innerHTML = `
-            <div class="image"><a href="`+img.src+`" target="_blank"><img src="`+img.src+`" /></a></div>
-            <div class="url"><a href="`+img.src+`" target="_blank">View Full Size</a></div>
-            `;
+        framediv('msg-'+time).innerHTML = '<div class="image"><a href="'+img.src+'" target="_blank"><img src="'+img.src+'" /></a></div>\n<div class="url"><a href="'+img.src+'" target="_blank">View Full Size</a></div>';
     }
 
     function display_link(data,url,time) {
         trace(' -> display_link');
         var target = framediv('msg-'+time);
         if (data.error != null) {
-            framediv('msg-'+time).innerHTML = `
-                <div class="image"><a href="`+url+`" target="_blank"><img src="`+url+`" /></a></div>
-                <div class="url"><a href="`+url+`" target="_blank">View Full Size</a></div>
-                `;
+            framediv('msg-'+time).innerHTML = '<div class="image"><a href="'+url+'" target="_blank"><img src="'+url+'" /></a></div>\n<div class="url"><a href="'+url+'" target="_blank">View Full Size</a></div>';
         } else if (data.hybridGraph != null) {
             var imgstr = '';
             if (data.hybridGraph.image != '')
@@ -469,12 +435,12 @@
             title = data.hybridGraph.title
             if (title == '') 
                 title = 'Untitled'
-            target.innerHTML = `
-                `+imgstr+`
-                <div class="title"><a href="`+url+`" target="_blank">`+title+`</a></div>
-                <div class="descp">`+data.hybridGraph.description+`</div>
-                <div class="url"><a href="`+url+`" target="_blank">Open Link</a></div>
-                `;
+            else if (title.length > 100)
+                title = title.substring(0,100).trim()+'...'
+            descp = data.hybridGraph.description
+            if (descp.length > 100) 
+                descp = descp.substring(0,100).trim()+'...'
+            target.innerHTML = imgstr+'\n<div class="title"><a href="'+url+'" target="_blank">'+title+'</a></div>\n<div class="descp">'+descp+'</div>\n<div class="url"><a href="'+url+'" target="_blank">Open Link</a></div>';
 
         }
         setTimeout(scroll_down,500);
@@ -612,96 +578,7 @@
         i_frame.style.height = '530px';
         i_frame.id = pez_widget_prefix+'iframe';
         document.getElementsByClassName(pez_widget_prefix+'frame')[0].appendChild(i_frame);
-        var iframe_content = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <link href="`+pez_widget_url+`common/css/pez_widget_main_`+pez_widget_device+pez_widget_dotmin+`.css?`+seed+`" rel="stylesheet" type="text/css" />
-            <link href="`+pez_widget_url+`clients/`+pez_widget_client+`.css?`+seed+`" rel="stylesheet" type="text/css" />
-        </head>
-        <body id="`+pez_widget_prefix+`container-body">
-            <div id="`+pez_widget_prefix+`container">
-                <div data-reactroot="" class="`+pez_widget_prefix+`messenger">
-                    <div class="`+pez_widget_prefix+`messenger-background"></div>
-                    <span>
-                        <div class="`+pez_widget_prefix+`conversation">
-                            <div class="`+pez_widget_prefix+`conversation-body-container">
-                                <div class="`+pez_widget_prefix+`conversation-body" style="transform: translateY(-228.2px); bottom: -228.2px;">
-                                    <div class="`+pez_widget_prefix+`conversation-body-profile">
-                                        <div class="`+pez_widget_prefix+`conversation-profile">
-                                            <div class="`+pez_widget_prefix+`team-profile">
-                                                <div class="`+pez_widget_prefix+`team-profile-compact">
-                                                    <div class="`+pez_widget_prefix+`team-profile-compact-contents">
-                                                        <div class="`+pez_widget_prefix+`team-profile-compact-body">
-                                                            <div class="`+pez_widget_prefix+`team-profile-compact-team-name">`+client.name+`</div>
-                                                            <div class="`+pez_widget_prefix+`team-profile-compact-response-delay">
-                                                                <span class="`+pez_widget_prefix+`team-profile-response-delay-text">`+client.slogan+`</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="`+pez_widget_prefix+`messages-area" class="`+pez_widget_prefix+`conversation-body-parts" style="top: 303.2px; bottom: 56px;">
-                                        <div class="`+pez_widget_prefix+`conversation-body-parts-wrapper">
-                                            <div class="`+pez_widget_prefix+`conversation-parts `+pez_widget_prefix+`conversation-parts-scrolled" style="transform: translateY(0px);">
-                                                <div id="`+pez_widget_prefix+`messages"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="`+pez_widget_prefix+`form" style="display:block;">
-                                        <div class="field field-name">
-                                            <div class="label">Name*</div>
-                                            <div class="input-holder">
-                                                <input type="text" id="`+pez_widget_prefix+`form-name" />
-                                            </div>
-                                        </div>
-                                        <div class="field field-email">
-                                            <div class="label">E-mail*</div>
-                                            <div class="input-holder">
-                                                <input type="text" id="`+pez_widget_prefix+`form-email" />
-                                            </div>
-                                        </div>
-                                        <div class="field field-phone">
-                                            <div class="label">Phone</div>
-                                            <div class="input-holder">
-                                                <input type="text" id="`+pez_widget_prefix+`form-phone" />
-                                            </div>
-                                        </div>
-                                        <div class="field field-question">
-                                            <div class="label">Your Question*</div>
-                                            <div class="input-holder">
-                                                <textarea size="3" id="`+pez_widget_prefix+`form-question"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="field button">
-                                            <button type="button" id="`+pez_widget_prefix+`form-button" class="gradient">Start Chat!</button>
-                                        </div>
-                                        <div class="field error">
-                                            <div id="`+pez_widget_prefix+`form-error"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span></span>
-                            </div>
-                            <div class="`+pez_widget_prefix+`conversation-footer" id="`+pez_widget_prefix+`input-area" style="display:none;">
-                                <div class="`+pez_widget_prefix+`composer">
-                                    <pre><br></pre>
-                                    <textarea placeholder="Write a reply…" id="`+pez_widget_prefix+`message"></textarea>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="`+pez_widget_prefix+`composer-buttons">
-                                        <button type="button" id="`+pez_widget_prefix+`send-button">Send</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </span>
-                </div>
-            </div>
-        </body>
-        </html>`;
+        var iframe_content = '<!DOCTYPE html>\n<html>\n<head>\n<link href="'+pez_widget_url+'common/css/pez_widget_main_'+pez_widget_device+pez_widget_dotmin+'.css?'+seed+'" rel="stylesheet" type="text/css" />\n<link href="'+pez_widget_url+'clients/'+pez_widget_client+'.css?'+seed+'" rel="stylesheet" type="text/css" />\n</head>\n<body id="'+pez_widget_prefix+'container-body">\n<div id="'+pez_widget_prefix+'container">\n<div data-reactroot="" class="'+pez_widget_prefix+'messenger">\n<div class="'+pez_widget_prefix+'messenger-background"></div>\n<span>\n<div class="'+pez_widget_prefix+'conversation">\n<div class="'+pez_widget_prefix+'conversation-body-container">\n<div class="'+pez_widget_prefix+'conversation-body" style="transform: translateY(-228.2px); bottom: -228.2px;">\n<div class="'+pez_widget_prefix+'conversation-body-profile">\n<div class="'+pez_widget_prefix+'conversation-profile">\n<div class="'+pez_widget_prefix+'team-profile">\n<div class="'+pez_widget_prefix+'team-profile-compact">\n<div class="'+pez_widget_prefix+'team-profile-compact-contents">\n<div class="'+pez_widget_prefix+'team-profile-compact-body">\n<div class="'+pez_widget_prefix+'team-profile-compact-team-name">'+client.name+'</div>\n<div class="'+pez_widget_prefix+'team-profile-compact-response-delay">\n<span class="'+pez_widget_prefix+'team-profile-response-delay-text">'+client.slogan+'</span>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div id="'+pez_widget_prefix+'messages-area" class="'+pez_widget_prefix+'conversation-body-parts" style="top: 303.2px; bottom: 56px;">\n<div class="'+pez_widget_prefix+'conversation-body-parts-wrapper">\n<div class="'+pez_widget_prefix+'conversation-parts '+pez_widget_prefix+'conversation-parts-scrolled" style="transform: translateY(0px);">\n<div id="'+pez_widget_prefix+'messages"></div>\n</div>\n</div>\n</div>\n<div id="'+pez_widget_prefix+'form" style="display:block;">\n<div class="field field-name">\n<div class="label">Name*</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-name" />\n</div>\n</div>\n<div class="field field-email">\n<div class="label">E-mail*</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-email" />\n</div>\n</div>\n<div class="field field-phone">\n<div class="label">Phone</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-phone" />\n</div>\n</div>\n<div class="field field-question">\n<div class="label">Your Question*</div>\n<div class="input-holder">\n<textarea size="3" id="'+pez_widget_prefix+'form-question"></textarea>\n</div>\n</div>\n<div class="field button">\n<button type="button" id="'+pez_widget_prefix+'form-button" class="gradient">Start Chat!</button>\n</div>\n<div class="field error">\n<div id="'+pez_widget_prefix+'form-error"></div>\n</div>\n</div>\n</div>\n<span></span>\n</div>\n<div class="'+pez_widget_prefix+'conversation-footer" id="'+pez_widget_prefix+'input-area" style="display:none;">\n<div class="'+pez_widget_prefix+'composer">\n<pre><br></pre>\n<textarea placeholder="Write a reply…" id="'+pez_widget_prefix+'message"></textarea>\n<span></span>\n<span></span>\n<div class="'+pez_widget_prefix+'composer-buttons">\n<button type="button" id="'+pez_widget_prefix+'send-button">Send</button>\n</div>\n</div>\n</div>\n</div>\n</span>\n</div>\n</div>\n</body>\n</html>';
         i_framedoc = i_frame.contentDocument || i_frame.contentWindow.document;
         i_framedoc.open();
         i_framedoc.write(iframe_content);
