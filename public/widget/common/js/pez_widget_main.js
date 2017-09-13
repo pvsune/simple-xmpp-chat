@@ -27,7 +27,7 @@
         if (pez_widget_url.indexOf('localhost') > -1)
             config.url = 'http://localhost:5280/http-bind';
         else
-            config.url = '//xmpp.brianbaquiran.com/http-bind';
+            config.url = '//xmpp.dev.pez.ai/http-bind';
         return config
     }
 

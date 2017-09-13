@@ -3,7 +3,7 @@ var pez_widget_client = null;
 var pez_widget_client_domain = null;
 var pez_widget_prefix = 'pez-widget-';
 var pez_widget_url = null;
-var pez_widget_url = '//s3-ap-southeast-1.amazonaws.com/pezwebchat/';
+var pez_widget_url = 'https://panoptez.firebaseapp.com/widget/';
 var pez_widget_dotmin = '.min';
 
 function device_os() {
@@ -91,7 +91,7 @@ function get_client_data() {
     function pez_widget_load_main() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = pez_widget_url+'common/js/pez_widget_main.js?'+seed;
+        script.src = pez_widget_url+'common/js/pez_widget_main.min.js?'+seed;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
 
