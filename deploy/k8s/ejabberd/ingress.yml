@@ -10,9 +10,9 @@ spec:
   tls:
   - secretName: ejabberd-tls
     hosts:
-    - xmpp.brianbaquiran.com
+    - xmpp.dev.pez.ai
   rules:
-  - host: xmpp.brianbaquiran.com
+  - host: xmpp.dev.pez.ai
     http:
       paths:
       - path: /*
