@@ -5,7 +5,7 @@ var pez_widget_prefix = 'pez-widget-';
 var pez_widget_url = null;
 var pez_widget_url = 'https://panoptez.firebaseapp.com/widget/';
 var pez_widget_dotmin = '.min';
-var pez_widget_use_msgpack = true;
+var pez_widget_use_msgpack = false;
 
 
 function device_os() {
