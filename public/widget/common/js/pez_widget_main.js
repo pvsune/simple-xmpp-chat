@@ -130,10 +130,6 @@
                 if (body == get_dataform_response('clientauth')) {
                     log('Auth Success')
                     post_auth();
-                } else if (body == get_dataform_response('userdata')) {
-                    log('User Data Sent')
-                    send_message(user_question);
-                    activate_chat();
                 } else if (body != get_dataform_response('authfail')) {
                     log(from + ": " + body);
                     var time = append_message('server',body,null);
@@ -261,12 +257,9 @@
             i_form_button.disabled = true;
             i_form_error.innerText = 'Saving your info...';
             save_form();
-            if (pez_widget_send_userdata) {
-                send_user_info();
-            } else {
-                send_message(user_question);
-                activate_chat();
-            }
+            if (pez_widget_send_userdata) send_user_info();
+            send_message(user_question);
+            activate_chat();
         }
     }
 
