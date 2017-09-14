@@ -2,10 +2,8 @@ var pez_widget_api_key = null;
 var pez_widget_client = null;
 var pez_widget_client_domain = null;
 var pez_widget_prefix = 'pez-widget-';
-var pez_widget_url = null;
 var pez_widget_url = 'http://localhost:8080/widget/';
 var pez_widget_dotmin = '';
-var pez_widget_use_msgpack = true;
 
 
 function device_os() {
@@ -86,8 +84,7 @@ function get_client_data() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = pez_widget_url+'common/js/strophe.min.js?'+seed;
-        if (pez_widget_use_msgpack) script.onload = pez_widget_load_msgpk;
-        else script.onload = pez_widget_load_main;
+        script.onload = pez_widget_load_msgpk;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
 
