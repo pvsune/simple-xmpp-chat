@@ -84,10 +84,19 @@ function get_client_data() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = pez_widget_url+'common/js/strophe.min.js?'+seed;
-        script.onload = pez_widget_load_main;
+        script.onload = pez_widget_load_msgpk;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
 
+
+    function pez_widget_load_msgpk() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = pez_widget_url+'common/js/msgpack/msgpack.min.js?'+seed;
+        script.onload = pez_widget_load_main;
+        document.getElementsByTagName('body')[0].appendChild(script)
+    }
+    
     function pez_widget_load_main() {
         var script = document.createElement('script');
         script.type = 'text/javascript';

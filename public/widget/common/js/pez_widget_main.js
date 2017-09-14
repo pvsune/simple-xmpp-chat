@@ -156,9 +156,13 @@
         trace(' -> send_message');
         msg = msg.trim()
         if (msg == '') return;
+        mpk = msgpack.encode({
+            message: msg,
+            api_key: pez_widget_api_key,
+            page_id: pez_widget_client_domain,
+        });
         var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"})
-            .c("body").t(msg)
-            .up().c("auth").t(pez_widget_api_key+'|'+pez_widget_client_domain)
+            .c("body").t(mpk)
         connection.send(message.tree());
         var time = append_message('user',msg,null);
         add_message_cookie('user',msg,time);
