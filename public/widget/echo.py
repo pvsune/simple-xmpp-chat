@@ -13,12 +13,13 @@ import sys
 import logging
 import getpass
 from optparse import OptionParser
+import json
 
 import sleekxmpp
+import msgpack
 
-
-xmpp_url = '35.188.27.220'
-#xmpp_url = 'localhost'
+#xmpp_url = '35.188.27.220'
+xmpp_url = 'localhost'
 
 authsuccess_response = '[authsuccess]';
 userdatareceived_response = '[userdatareceived]';
@@ -74,10 +75,12 @@ class EchoBot(sleekxmpp.ClientXMPP):
         self.get_roster()
 
     def message(self, msg):
-        print 'Message: '+msg['body']
-        print 'Auth: '+('%s' % msg).split('<auth>')[1].split('</auth>')[0]
-        #if msg['type'] in ('chat', 'normal'):
-        #    msg.reply("Thanks for sending\n%(body)s" % msg).send()
+        print "message"
+        if msg['type'] in ('chat', 'normal'):
+            hex_data = bytearray.fromhex(msg['body'])
+            msg_data = json.loads(msgpack.unpackb(hex_data, encoding='utf-8'))
+            print msg_data
+            msg.reply("Thanks for sending\n%s" % msg_data['message']).send()
 
     def message_form(self, data):
         print "message_form"
@@ -107,6 +110,11 @@ class EchoBot(sleekxmpp.ClientXMPP):
             print "user data: "+user_name+' | '+user_email+' | '+user_phone+' | '+user_question
             # under construction
             reply = userdatareceived_response
+        elif form['title'] == 'usermessage':
+            hexstr = form['fields']['message']['value']
+            hex_data = bytearray.fromhex(hexstr)
+            unpacked_data = msgpack.unpackb(hex_data, encoding='utf-8')
+            print unpacked_data
         
         print "reply: "+reply
         data.reply(reply).send()
@@ -114,108 +122,108 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
     '''
     def connected(self, data):
-		print "connected"
-		#print data
+        print "connected"
+        #print data
 
     def changed_status(self, data):
-		print "changed_status"
-		#print data
+        print "changed_status"
+        #print data
 
     def changed_subscription(self, data):
-		print "changed_subscription"
-		#print data
+        print "changed_subscription"
+        #print data
 
     def disco_info(self, data):
-		print "disco_info"
-		#print data
+        print "disco_info"
+        #print data
 
     def disco_info_request(self, data):
-		print "disco_info_request"
-		#print data
+        print "disco_info_request"
+        #print data
 
     def disco_items(self, data):
-		print "disco_items"
-		#print data
+        print "disco_items"
+        #print data
 
     def disco_items_request(self, data):
-		print "disco_items_request"
-		#print data
+        print "disco_items_request"
+        #print data
 
     def disconnected(self, data):
-		print "disconnected"
-		#print data
+        print "disconnected"
+        #print data
 
     def failed_auth(self, data):
-		print "failed_auth"
-		#print data
+        print "failed_auth"
+        #print data
 
     def gmail_notify(self, data):
-		print "gmail_notify"
-		#print data
+        print "gmail_notify"
+        #print data
 
     def got_online(self, data):
-		print "got_online"
-		#print data
+        print "got_online"
+        #print data
 
     def got_offline(self, data):
-		print "got_offline"
-		#print data
+        print "got_offline"
+        #print data
 
     def groupchat_message(self, data):
-		print "groupchat_message"
-		#print data
+        print "groupchat_message"
+        #print data
 
     def groupchat_presence(self, data):
-		print "groupchat_presence"
-		#print data
+        print "groupchat_presence"
+        #print data
 
     def groupchat_subject(self, data):
-		print "groupchat_subject"
-		#print data
+        print "groupchat_subject"
+        #print data
 
     def presence_available(self, data):
-		print "presence_available"
-		#print data
+        print "presence_available"
+        #print data
 
     def presence_error(self, data):
-		print "presence_error"
-		#print data
+        print "presence_error"
+        #print data
 
     def presence_form(self, data):
-		print "presence_form"
-		#print data
+        print "presence_form"
+        #print data
 
     def presence_probe(self, data):
-		print "presence_probe"
-		#print data
+        print "presence_probe"
+        #print data
 
     def presence_subscribe(self, data):
-		print "presence_subscribe"
-		#print data
+        print "presence_subscribe"
+        #print data
 
     def presence_subscribed(self, data):
-		print "presence_subscribed"
-		#print data
+        print "presence_subscribed"
+        #print data
 
     def presence_unavailable(self, data):
-		print "presence_unavailable"
-		#print data
+        print "presence_unavailable"
+        #print data
 
     def presence_unsubscribe(self, data):
-		print "presence_unsubscribe"
-		#print data
+        print "presence_unsubscribe"
+        #print data
 
     def presence_unsubscribed(self, data):
-		print "presence_unsubscribed"
-		#print data
+        print "presence_unsubscribed"
+        #print data
 
     def roster_update(self, data):
-		print "roster_update"
-		#print data
+        print "roster_update"
+        #print data
 
     def sent_presence(self, data):
-		print "sent_presence"
-		#print data
+        print "sent_presence"
+        #print data
     '''
 
 

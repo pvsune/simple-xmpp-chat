@@ -5,7 +5,6 @@ var pez_widget_prefix = 'pez-widget-';
 var pez_widget_url = null;
 var pez_widget_url = 'https://panoptez.firebaseapp.com/widget/';
 var pez_widget_dotmin = '.min';
-var pez_widget_use_msgpack = false;
 
 
 function device_os() {
@@ -86,8 +85,7 @@ function get_client_data() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = pez_widget_url+'common/js/strophe.min.js?'+seed;
-        if (pez_widget_use_msgpack) script.onload = pez_widget_load_msgpk;
-        else script.onload = pez_widget_load_main;
+        script.onload = pez_widget_load_msgpk;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
 

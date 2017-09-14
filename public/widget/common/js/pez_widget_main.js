@@ -4,15 +4,15 @@
     var pez_widget_online = true;
     var pez_widget_required_auth = false;
     var pez_widget_send_userdata = true;
-    var pez_widget_debug = true;
+    var pez_widget_debug = false;
     var pez_widget_prefix = 'pez-widget-';
 
     function log(message) {
-        console.log(message);
+        //console.log(message);
     }
 
     function trace(message) {
-        console.log(message);
+        //console.log(message);
     }
 
     var seed = Math.floor(Date.now() / 1000);
@@ -151,23 +151,26 @@
         trace(' -> send_message');
         msg = msg.trim()
         if (msg == '') return;
-        if (pez_widget_use_msgpack) {
-            msg = msgpack.packb({
-                message: msg,
-                api_key: pez_widget_api_key,
-                page_id: pez_widget_client_domain,
-            });
-        }
-        var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"})
-            .c("body").t(msg)
+        var orig_msg = msg
+        var uint8array = msgpack.encode(JSON.stringify({
+            "message": msg,
+            "api_key": pez_widget_api_key,
+            "page_id": pez_widget_client_domain
+        }));
+        msg = buf2hex(uint8array);
+        var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"}).c("body").t(msg)
         connection.send(message.tree());
-        var time = append_message('user',msg,null);
-        add_message_cookie('user',msg,time);
-        process_non_text(msg,time);
-        offline_options(msg);
+        var time = append_message('user',orig_msg,null);
+        add_message_cookie('user',orig_msg,time);
+        process_non_text(orig_msg,time);
+        offline_options(orig_msg);
         i_message.value = '';
         i_message.focus();
-        unit_test('send_message',msg);
+        unit_test('send_message',orig_msg);
+    }
+
+    function buf2hex(buffer) {
+        return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
     }
 
     function append_message(sender,message,time) {
