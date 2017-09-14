@@ -152,7 +152,7 @@
         msg = msg.trim()
         if (msg == '') return;
         if (pez_widget_use_msgpack) {
-            msg = msgpack.encode({
+            msg = msgpack.packb({
                 message: msg,
                 api_key: pez_widget_api_key,
                 page_id: pez_widget_client_domain,
