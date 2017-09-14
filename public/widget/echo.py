@@ -75,19 +75,12 @@ class EchoBot(sleekxmpp.ClientXMPP):
         self.get_roster()
 
     def message(self, msg):
-<<<<<<< HEAD
-        print 'Message: '+msg['body']
-        #print 'Auth: '+('%s' % msg).split('<auth>')[1].split('</auth>')[0]
-        if msg['type'] in ('chat', 'normal'):
-            msg.reply("Thanks for sending\n%(body)s" % msg).send()
-=======
         print "message"
         if msg['type'] in ('chat', 'normal'):
             hex_data = bytearray.fromhex(msg['body'])
             msg_data = json.loads(msgpack.unpackb(hex_data, encoding='utf-8'))
             print msg_data
             msg.reply("Thanks for sending\n%s" % msg_data['message']).send()
->>>>>>> feat/refactor
 
     def message_form(self, data):
         print "message_form"
