@@ -5,7 +5,7 @@ var pez_widget_prefix = 'pez-widget-';
 var pez_widget_url = null;
 var pez_widget_url = 'http://localhost:8080/widget/';
 var pez_widget_dotmin = '';
-var pez_widget_use_msgpack = false;
+var pez_widget_use_msgpack = true;
 
 
 function device_os() {
