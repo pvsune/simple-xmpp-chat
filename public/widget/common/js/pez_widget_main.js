@@ -4,8 +4,7 @@
     var pez_widget_online = true;
     var pez_widget_required_auth = false;
     var pez_widget_send_userdata = false;
-    var pez_widget_debug = false;
-
+    var pez_widget_debug = true;
     var pez_widget_prefix = 'pez-widget-';
 
     function log(message) {
@@ -156,13 +155,15 @@
         trace(' -> send_message');
         msg = msg.trim()
         if (msg == '') return;
-        mpk = msgpack.encode({
-            message: msg,
-            api_key: pez_widget_api_key,
-            page_id: pez_widget_client_domain,
-        });
+        if (pez_widget_use_msgpack) {
+            msg = msgpack.encode({
+                message: msg,
+                api_key: pez_widget_api_key,
+                page_id: pez_widget_client_domain,
+            });
+        }
         var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"})
-            .c("body").t(mpk)
+            .c("body").t(msg)
         connection.send(message.tree());
         var time = append_message('user',msg,null);
         add_message_cookie('user',msg,time);
