@@ -1,0 +1,10 @@
+PhantomJS is launching GhostDriver...
+[INFO  - 2017-09-14T11:19:47.229Z] GhostDriver - Main - running on port 45304
+[INFO  - 2017-09-14T11:19:48.184Z] Session [9e593d00-993e-11e7-9a35-7badb523abd3] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34","webSecurityEnabled":true}
+[INFO  - 2017-09-14T11:19:48.184Z] Session [9e593d00-993e-11e7-9a35-7badb523abd3] - page.customHeaders:  - {}
+[INFO  - 2017-09-14T11:19:48.184Z] Session [9e593d00-993e-11e7-9a35-7badb523abd3] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"1.9.8","driverName":"ghostdriver","driverVersion":"1.1.0","platform":"linux-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-09-14T11:19:48.184Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 9e593d00-993e-11e7-9a35-7badb523abd3
+[ERROR - 2017-09-14T11:19:48.211Z] Session [9e593d00-993e-11e7-9a35-7badb523abd3] - page.onError - msg: TypeError: 'undefined' is not a function (evaluating 'function(){this._onIdle()}.bind(this)')
+[ERROR - 2017-09-14T11:19:48.211Z] Session [9e593d00-993e-11e7-9a35-7badb523abd3] - page.onError - stack:
+  (anonymous function) (http://localhost:8080/widget/common/js/strophe.min.js?1505387988:31)
+  (anonymous function) (http://localhost:8080/widget/common/js/pez_widget_main.min.js?1505387988:1)
