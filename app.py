@@ -14,22 +14,22 @@ def mercer():
 
 @get("/widget/common/js/<filepath:re:.*\.js>")
 def commonjs(filepath):
-	return static_file(filepath, root="widget/common/js")
+	return static_file(filepath, root="public/widget/common/js")
 
 
 @get("/widget/common/css/<filepath:re:.*\.css>")
 def commoncss(filepath):
-	return static_file(filepath, root="widget/common/css")
+	return static_file(filepath, root="public/widget/common/css")
 
 
 @get("/widget/common/images/<filepath:re:.*>")
 def commonimages(filepath):
-	return static_file(filepath, root="widget/common/images")
+	return static_file(filepath, root="public/widget/common/images")
 
 
 @get("/widget/clients/<filepath:re:.*>")
 def clientfiles(filepath):
-	return static_file(filepath, root="widget/clients")
+	return static_file(filepath, root="public/widget/clients")
 
 
 run(host='0.0.0.0', port=8080, debug=True, reload=True)
