@@ -27,7 +27,7 @@
         if (pez_widget_url.indexOf('localhost') > -1)
             config.url = 'http://localhost:5280/http-bind';
         else
-            config.url = '//xmpp.brianbaquiran.com/http-bind';
+            config.url = '//xmpp.dev.pez.ai/http-bind';
         return config
     }
 
@@ -156,9 +156,13 @@
         trace(' -> send_message');
         msg = msg.trim()
         if (msg == '') return;
+        mpk = msgpack.encode({
+            message: msg,
+            api_key: pez_widget_api_key,
+            page_id: pez_widget_client_domain,
+        });
         var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"})
-            .c("body").t(msg)
-            .up().c("auth").t(pez_widget_api_key+'|'+pez_widget_client_domain)
+            .c("body").t(mpk)
         connection.send(message.tree());
         var time = append_message('user',msg,null);
         add_message_cookie('user',msg,time);
@@ -435,7 +439,12 @@
             title = data.hybridGraph.title
             if (title == '') 
                 title = 'Untitled'
-            target.innerHTML = imgstr+'\n<div class="title"><a href="'+url+'" target="_blank">'+title+'</a></div>\n<div class="descp">'+data.hybridGraph.description+'</div>\n<div class="url"><a href="'+url+'" target="_blank">Open Link</a></div>';
+            else if (title.length > 100)
+                title = title.substring(0,100).trim()+'...'
+            descp = data.hybridGraph.description
+            if (descp.length > 100) 
+                descp = descp.substring(0,100).trim()+'...'
+            target.innerHTML = imgstr+'\n<div class="title"><a href="'+url+'" target="_blank">'+title+'</a></div>\n<div class="descp">'+descp+'</div>\n<div class="url"><a href="'+url+'" target="_blank">Open Link</a></div>';
 
         }
         setTimeout(scroll_down,500);
