@@ -3,7 +3,7 @@
 
     var pez_widget_online = true;
     var pez_widget_required_auth = false;
-    var pez_widget_send_userdata = false;
+    var pez_widget_send_userdata = true;
     var pez_widget_debug = true;
     var pez_widget_prefix = 'pez-widget-';
 
