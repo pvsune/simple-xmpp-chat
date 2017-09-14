@@ -17,8 +17,8 @@ from optparse import OptionParser
 import sleekxmpp
 
 
-xmpp_url = '35.188.27.220'
-#xmpp_url = 'localhost'
+#xmpp_url = '35.188.27.220'
+xmpp_url = 'localhost'
 
 authsuccess_response = '[authsuccess]';
 userdatareceived_response = '[userdatareceived]';
