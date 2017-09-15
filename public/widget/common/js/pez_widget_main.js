@@ -152,7 +152,7 @@
         msg = msg.trim()
         if (msg == '') return;
         var orig_msg = msg
-        var uint8array = msgpack.encode(JSON.stringify({
+        var buf = msgpack.encode(JSON.stringify({
             "message": msg,
             "api_key": pez_widget_api_key,
             "page_id": pez_widget_client_domain
