@@ -169,8 +169,12 @@
         unit_test('send_message',orig_msg);
     }
 
-    function buf2hex(buffer) {
-        return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+    function buf2Hex(buf) {
+        var r = '';
+        for (var i = 0, x = buf.length; i < x; i += 1) {
+            r += (buf[i] <= 0xf ? '0' : '') + buf[i].toString(16);
+        }
+        return r;
     }
 
     function append_message(sender,message,time) {
