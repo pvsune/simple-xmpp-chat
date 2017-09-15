@@ -157,7 +157,10 @@
             "api_key": pez_widget_api_key,
             "page_id": pez_widget_client_domain
         }));
-        msg = buf2hex(uint8array);
+        msg = '';
+        for (var i = 0, x = buf.length; i < x; i += 1) {
+            msg += (buf[i] <= 0xf ? '0' : '') + buf[i].toString(16);
+        }
         var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"}).c("body").t(msg)
         connection.send(message.tree());
         var time = append_message('user',orig_msg,null);
@@ -168,15 +171,7 @@
         i_message.focus();
         unit_test('send_message',orig_msg);
     }
-
-    function buf2Hex(buf) {
-        var r = '';
-        for (var i = 0, x = buf.length; i < x; i += 1) {
-            r += (buf[i] <= 0xf ? '0' : '') + buf[i].toString(16);
-        }
-        return r;
-    }
-
+    
     function append_message(sender,message,time) {
         trace(' -> append_message');
         var passed_time = time;
