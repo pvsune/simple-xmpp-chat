@@ -92,8 +92,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
         reply = fail_response
 
         api_keys = {
-            "s0A1m2P3l4e5K6e7Y": ['localhost','35.188.25.143','192.168.0.105'],
-            "s0A1m2P3l4e5K6e7T": ['localhost','35.188.25.143','192.168.0.105']
+            "s0A1m2P3l4e5K6e7Y": ['localhost'],
+            "s0A1m2P3l4e5K6e7T": ['localhost']
         }
 
         if form['title'] == 'clientauth':
@@ -109,12 +109,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
             user_question = form['fields']['user_question']['value']
             print "user data: "+user_name+' | '+user_email+' | '+user_phone+' | '+user_question
             # under construction
-            reply = userdatareceived_response
-        elif form['title'] == 'usermessage':
-            hexstr = form['fields']['message']['value']
-            hex_data = bytearray.fromhex(hexstr)
-            unpacked_data = msgpack.unpackb(hex_data, encoding='utf-8')
-            print unpacked_data
+            #reply = userdatareceived_response
         
         print "reply: "+reply
         data.reply(reply).send()
