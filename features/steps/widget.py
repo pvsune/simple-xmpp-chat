@@ -2,11 +2,7 @@ import time, json
 
 from behave import given, when, then
 
-@given('that the client name is "{client}"')
-def step(context,client):
-	context.client_name = client
-
-@given('the client website is "{url}"')
+@given('that the client website is "{url}"')
 def step(context,url):
 	context.server_url = url
 
@@ -24,18 +20,23 @@ def step(context,button_text):
 	for k in context.browsers:
 		br = context.browsers[k]
 		btnid = None
+		in_frame = False
 		if button_text == 'Start Chat!':
 			btnid = 'pez-widget-form-button'
+			in_frame = True
 		elif button_text == 'Send':
 			btnid = 'pez-widget-send-button'
-		elif button_text == 'Talk to '+context.client_name+'!':
+			in_frame = True
+		elif button_text[:8] == 'Talk to ':
 			btnid = 'pez-widget-launcher-open'
 		elif button_text == 'CLOSE':
 			btnid = 'pez-widget-launcher-close'
 		if btnid is not None:
-			switch_frame(br)
+			if in_frame:
+				switch_frame(br)
 			br.find_element_by_id(btnid).click()
-			switch_back(br)
+			if in_frame:
+				switch_back(br)
 
 @when('I write "{value}" for "{field}" field')
 def step(context,value,field):
@@ -73,8 +74,7 @@ def step(context,question):
 			print('Actual message: '+actual)
 		assert actual == question
 
-@given('that the page is loaded for "{seconds}" seconds')
-@when('page is loaded for "{seconds}" seconds')
+@when('I go to the website and let it load for "{seconds}" seconds')
 def step(context,seconds):
 	for k in context.browsers:
 		br = context.browsers[k]
@@ -105,20 +105,24 @@ def step(context,name,email,phone,question):
 def step(context,element,visibility):
 	for k in context.browsers:
 		br = context.browsers[k]
+		displayed = False
+		in_frame = False
 		if element == 'webchat widget':
-			displayed = br.find_element_by_id('pez-widget-container').get_attribute('style') == 'display: block;'
-			if visibility == 'visible':
-				success = displayed
-			else:
-				success = not displayed
+			elid = 'pez-widget-container'
+		elif element == 'webchat widget box':
+			elid = 'pez-widget-container-span'
 		elif element == 'pre-chat form':
+			elid = 'pez-widget-form'
+			in_frame = True
+		if in_frame:
 			switch_frame(br)
-			displayed = br.find_element_by_id('pez-widget-form').get_attribute('style') == 'display: block;'
+		displayed = br.find_element_by_id(elid).get_attribute('style') == 'display: block;'
+		if in_frame:
 			switch_back(br)
-			if visibility == 'visible':
-				success = displayed
-			else:
-				success = not displayed
+		if visibility == 'visible':
+			success = displayed
+		else:
+			success = not displayed
 		if not success:
 			print('browser: '+k)
 		assert success

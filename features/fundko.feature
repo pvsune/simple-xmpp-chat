@@ -2,18 +2,25 @@ Feature: Webchat Widget on Fundko Sample Site
 
 	Scenario: Load webchat widget
 
-		Given that the client is "FundKo"
-		And the client website is "http://localhost:8080/"
-		When page is loaded for "5" seconds
+		Given that the client website is "http://localhost:8080/"
+		When I go to the website and let it load for "5" seconds
 		Then the "webchat widget" should be "visible"
 
-	Scenario: Open / close widget box
+	Scenario: Close the widget box
 
 		When I click the "CLOSE" button
-		Then the "webchat widget" should be "hidden"
+		Then the "webchat widget box" should be "hidden"
+
+	Scenario: Check widget persistence 
+
+		Given that the client website is "http://localhost:8080/"
+		When I go to the website and let it load for "5" seconds
+		Then the "webchat widget box" should be "hidden"
+
+	Scenario: Open the widget box
 
 		When I click the "Talk to FundKo!" button
-		Then the "webchat widget" should be "visible"
+		Then the "webchat widget box" should be "visible"
 
 	Scenario: Load pre-chat form
 
