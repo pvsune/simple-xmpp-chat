@@ -2,7 +2,11 @@ import time, json
 
 from behave import given, when, then
 
-@given('that we are testing the widget on "{url}"')
+@given('that the client name is "{client}"')
+def step(context,client):
+	context.client_name = client
+
+@given('the client website is "{url}"')
 def step(context,url):
 	context.server_url = url
 
@@ -24,6 +28,10 @@ def step(context,button_text):
 			btnid = 'pez-widget-form-button'
 		elif button_text == 'Send':
 			btnid = 'pez-widget-send-button'
+		elif button_text == 'Talk to '+context.client_name+'!':
+			btnid = 'pez-widget-launcher-open'
+		elif button_text == 'CLOSE':
+			btnid = 'pez-widget-launcher-close'
 		if btnid is not None:
 			switch_frame(br)
 			br.find_element_by_id(btnid).click()
