@@ -39,6 +39,7 @@ function get_client_data() {
             name: 'FundKo',
             avatar: 'fundko.png',
             slogan: 'Invest and transform lives',
+            welcome_message: 'Hi, how may I help you?',
             pre_chat: true
         }
     } else if (pez_widget_client == 'mercer') {
@@ -46,6 +47,7 @@ function get_client_data() {
             name: 'Mercer',
             avatar: 'mercer.png',
             slogan: 'Make Tomorrow, Today',
+            welcome_message: 'Hi, how may I help you?',
             pre_chat: false
         }
     }

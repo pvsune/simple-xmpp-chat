@@ -118,6 +118,9 @@
     var user_phone = '';
     var user_question = '';
 
+    var has_previous_messages = false;
+    
+
 // ---------------- MESSAGES ---------------
 
     function messageHandler(msg) {
@@ -248,16 +251,10 @@
         } else if (user_lastname == '') {
             i_form_error.innerText = 'Last Name is required';
             i_user_lastname.focus();
-        } else if (user_email == '') {
-            i_form_error.innerText = 'Email is required';
-            i_user_email.focus();
-        } else if (!validate_email(user_email)) {
+        } else if (user_email != '' && !validate_email(user_email)) {
             i_form_error.innerText = 'Email is invalid';
             i_user_email.focus();
             i_user_email.select();
-        } else if (user_question == '') {
-            i_form_error.innerText = 'Question is required';
-            i_user_question.focus();
         } else{
             i_user_firstname.disabled = true;
             i_user_lastname.disabled = true;
@@ -268,7 +265,14 @@
             i_form_error.innerText = 'Saving your info...';
             save_form();
             if (pez_widget_send_userdata) send_user_info();
-            send_message(user_question);
+            if (user_question != '') {
+                send_message(user_question);
+            } else {
+                client = get_client_data();
+                var time = append_message('server',client.welcome_message,null);
+                add_message_cookie('server',client.welcome_message,time);
+                increment_unread_count();
+            }
             activate_chat();
         }
     }
@@ -300,7 +304,7 @@
                     .c('descp','First Name')
                     .up().c('required')
                     .up().c('value',user_firstname)
-                .up().c('field', {'var':'user_lastname', type:'text-single', label:'Last Name'})
+                .up().up().c('field', {'var':'user_lastname', type:'text-single', label:'Last Name'})
                     .c('descp','Last Name')
                     .up().c('required')
                     .up().c('value',user_lastname)
@@ -342,6 +346,7 @@
             // get message history
             var messages = get_cookie('messages');
             if (messages!={}) {
+                has_previous_messages = true;
                 log('Previous messages are present');
                 var keys = [];
                 for (var key in messages)
@@ -630,10 +635,16 @@
         restore_launcher_status();
         var client = get_client_data();
         if (client.pre_chat == false) {
-            set_cookie('user-name','User');
-            set_cookie('user-email','');
-            set_cookie('user-phone','');
-            set_cookie('user-question','');
+            if (has_previous_messages == false) {
+                var time = append_message('server',client.welcome_message,null);
+                add_message_cookie('server',client.welcome_message,time);
+                increment_unread_count();
+                send_user_info();
+                set_cookie('user-name','');
+                set_cookie('user-email','');
+                set_cookie('user-phone','');
+                set_cookie('user-question','');
+            }
             activate_chat();
         }
         setInterval(update_timestamps,5000);
