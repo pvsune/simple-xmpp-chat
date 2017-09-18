@@ -4,15 +4,15 @@
     var pez_widget_online = true;
     var pez_widget_required_auth = false;
     var pez_widget_send_userdata = true;
-    var pez_widget_debug = false;
+    var pez_widget_debug = true;
     var pez_widget_prefix = 'pez-widget-';
 
     function log(message) {
-        //console.log(message);
+        console.log(message);
     }
 
     function trace(message) {
-        //console.log(message);
+        console.log(message);
     }
 
     var seed = Math.floor(Date.now() / 1000);

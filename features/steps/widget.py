@@ -9,11 +9,7 @@ def step(context,url):
 @given('that there are no pre-chat data stored in cookies')
 def step(context):
 	for k in context.browsers:
-		br = context.browsers[k]
-		cookies = br.get_cookies()
-		for cookie in cookies:
-			data = json.loads(cookie['value'])
-			assert 'user-name' not in data
+		context.browsers[k].delete_all_cookies()
 
 @when('I click the "{button_text}" button')
 def step(context,button_text):
@@ -41,7 +37,8 @@ def step(context,button_text):
 @when('I write "{value}" for "{field}" field')
 def step(context,value,field):
 	fields = {
-		'Name': 'pez-widget-form-name',
+		'First Name': 'pez-widget-form-first-name',
+		'Last Name': 'pez-widget-form-last-name',
 		'E-mail': 'pez-widget-form-email',
 		'Phone': 'pez-widget-form-phone',
 		'Your Question': 'pez-widget-form-question'
@@ -63,12 +60,23 @@ def step(context,error_message):
 			print('Actual error message: '+actual)
 		assert actual == error_message
 
+@then('the chatbot will say "{text}"')
+def step(context,text):
+	for k in context.browsers:
+		br = context.browsers[k]
+		switch_frame(br)
+		actual = br.find_element_by_css_selector('#pez-widget-messages .pez-widget-conversation-part-server:first-child .text').text
+		switch_back(br)
+		if actual != text:
+			print('Actual message: '+actual)
+		assert actual == text
+
 @then('my question "{question}" will be sent to chatbox')
 def step(context,question):
 	for k in context.browsers:
 		br = context.browsers[k]
 		switch_frame(br)
-		actual = br.find_element_by_css_selector('#pez-widget-messages .pez-widget-conversation-part:first-child .text').text
+		actual = br.find_element_by_css_selector('#pez-widget-messages .pez-widget-conversation-part-user:first-child .text').text
 		switch_back(br)
 		if actual != question:
 			print('Actual message: '+actual)
@@ -81,8 +89,8 @@ def step(context,seconds):
 		br.get(context.server_url)
 	time.sleep(float(seconds))
 
-@then('the browser cookie should contain "{name}", "{email}", "{phone}" and "{question}"')
-def step(context,name,email,phone,question):
+@then('the browser cookie should contain "{first_name}", "{last_name}", "{email}", "{phone}" and "{question}"')
+def step(context,first_name,last_name,email,phone,question):
 	for k in context.browsers:
 		br = context.browsers[k]
 		domain = br.current_url.split('://')[1].split('/')[0].split(':')[0]
@@ -93,7 +101,8 @@ def step(context,name,email,phone,question):
 			if cookie['name'] == 'pez-widget-data' and cookie['domain'] == domain:
 				found = True
 				data = json.loads(cookie['value'])
-				assert data['user-name'] == name
+				assert data['user-firstname'] == first_name
+				assert data['user-lastname'] == last_name
 				assert data['user-email'] == email
 				assert data['user-phone'] == phone
 				assert data['user-question'] == question
