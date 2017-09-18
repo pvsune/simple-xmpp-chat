@@ -171,6 +171,7 @@ listen:
     request_handlers:
       "/oauth": ejabberd_oauth
       "/api": mod_http_api
+      "/xmpp": ejabberd_http_ws
 
 # We can use API from local machine to pass ejabberd commands
 api_permissions:
