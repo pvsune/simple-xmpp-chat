@@ -6925,17 +6925,17 @@
 	  margin: 0 20px !important;
 	  padding: 10px 0 0 !important;
 	}
-	#pez-widget-form .field-name {
+	#pez-widget-form .field-first-name {
 	  width: calc(50% - 20px) !important;
 		margin: 0 0 0 20px !important;
 	  float: left !important;
 	}
-	#pez-widget-form .field-email {
+	#pez-widget-form .field-last-name {
 	  width: calc(50% - 40px) !important;
 		margin: 0 20px !important;
 	  float:right !important;
 	}
-	#pez-widget-form .field-phone {
+	#pez-widget-form .field-email {
 	  clear: both;
 	}
 	#pez-widget-form .field.button {

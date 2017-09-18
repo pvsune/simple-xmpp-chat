@@ -79,7 +79,8 @@
     var i_form;
     var i_form_button;
     var i_form_error;
-    var i_user_name;
+    var i_user_firstname;
+    var i_user_lastname;
     var i_user_email;
     var i_user_phone;
     var i_user_question;
@@ -97,7 +98,8 @@
         i_form = framediv('form');
         i_form_button = framediv('form-button');
         i_form_error = framediv('form-error');
-        i_user_name = framediv('form-name');
+        i_user_firstname = framediv('form-first-name');
+        i_user_lastname = framediv('form-last-name');
         i_user_email = framediv('form-email');
         i_user_phone = framediv('form-phone');
         i_user_question = framediv('form-question');
@@ -110,7 +112,8 @@
         button_events();
     }
 
-    var user_name = '';
+    var user_firstname = '';
+    var user_lastname = '';
     var user_email = '';
     var user_phone = '';
     var user_question = '';
@@ -182,7 +185,7 @@
         var name = '', imgsrc = '';
         if (sender == 'user') {
             imgsrc = '';
-            name = user_name;
+            name = user_firstname;
         } else {
             imgsrc = pez_widget_url+'clients/'+client.avatar+'?'+seed
             name = client.name
@@ -233,14 +236,18 @@
 
     function process_form(){
         trace(' -> process_form');
-        user_name = i_user_name.value.trim();
+        user_firstname = i_user_firstname.value.trim();
+        user_lastname = i_user_lastname.value.trim();
         user_email = i_user_email.value.trim();
         user_phone = i_user_phone.value.trim();
         user_question = i_user_question.value.trim();
 
-        if (user_name == '') {
-            i_form_error.innerText = 'Name is required';
-            i_user_name.focus();
+        if (user_firstname == '') {
+            i_form_error.innerText = 'First Name is required';
+            i_user_firstname.focus();
+        } else if (user_lastname == '') {
+            i_form_error.innerText = 'Last Name is required';
+            i_user_lastname.focus();
         } else if (user_email == '') {
             i_form_error.innerText = 'Email is required';
             i_user_email.focus();
@@ -252,7 +259,8 @@
             i_form_error.innerText = 'Question is required';
             i_user_question.focus();
         } else{
-            i_user_name.disabled = true;
+            i_user_firstname.disabled = true;
+            i_user_lastname.disabled = true;
             i_user_email.disabled = true;
             i_user_phone.disabled = true;
             i_user_question.disabled = true;
@@ -268,7 +276,8 @@
     function save_form() {
         trace(' -> save_form');
         var question = user_question.replace('\n',' ').replace(';','');
-        set_cookie('user-name',user_name);
+        set_cookie('user-firstname',user_firstname);
+        set_cookie('user-lastname',user_lastname);
         set_cookie('user-email',user_email);
         set_cookie('user-phone',user_phone);
         set_cookie('user-question',question);
@@ -287,34 +296,43 @@
                 .c('x', {xmlns:'jabber:x:data', type:'result'})//, from: connection.jid, to: xmpp_admin_user})
                 .c('title','userdata')
                 .up().c('instructions','Pre-chat form data')
-                .up().c('field', {'var':'user_name', type:'text-single', label:'User Name'})
-                    .c('descp','User Name')
+                .up().c('field', {'var':'user_firstname', type:'text-single', label:'First Name'})
+                    .c('descp','First Name')
                     .up().c('required')
-                    .up().c('value',user_name)
-                .up().up().c('field', {'var':'user_email', type:'text-single', label:'User Email'})
+                    .up().c('value',user_firstname)
+                .up().c('field', {'var':'user_lastname', type:'text-single', label:'Last Name'})
+                    .c('descp','Last Name')
+                    .up().c('required')
+                    .up().c('value',user_lastname)
+                .up().up().c('field', {'var':'user_email', type:'text-single', label:'Email'})
                     .c('descp','User Email')
                     .up().c('required')
                     .up().c('value',user_email)
-                .up().up().c('field', {'var':'user_phone', type:'text-single', label:'User Phone'})
+                .up().up().c('field', {'var':'user_phone', type:'text-single', label:'Phone'})
                     .c('descp','User Phone')
                     .up().c('required')
                     .up().c('value',user_phone)
-                .up().up().c('field', {'var':'user_question', type:'text-single', label:'User Question'})
+                .up().up().c('field', {'var':'user_question', type:'text-single', label:'Question'})
                     .c('descp','User Question')
                     .up().c('required')
                     .up().c('value',user_question)
+                .up().up().c('field', {'var':'api_key', type:'text-single', label:'API Key'})
+                    .c('descp','API Key')
+                    .up().c('required')
+                    .up().c('value',pez_widget_api_key)
             connection.send(form);
         }
     }
 
     function restore_data() {
         trace(' -> restore_data');
-        var data = get_cookie('user-name');
+        var data = get_cookie('user-firstname');
         if (data != null && data != '') {
             activate_chat();
             
             // get user data
-            user_name = data;
+            user_firstame = data;
+            user_lastname = get_cookie('user-lastname');
             user_email = get_cookie('user-email');
             user_phone = get_cookie('user-phone');
             user_question = get_cookie('user-question');
@@ -578,7 +596,7 @@
         i_frame.style.height = '530px';
         i_frame.id = pez_widget_prefix+'iframe';
         document.getElementsByClassName(pez_widget_prefix+'frame')[0].appendChild(i_frame);
-        var iframe_content = '<!DOCTYPE html>\n<html>\n<head>\n<link href="'+pez_widget_url+'common/css/pez_widget_main_'+pez_widget_device+pez_widget_dotmin+'.css?'+seed+'" rel="stylesheet" type="text/css" />\n<link href="'+pez_widget_url+'clients/'+pez_widget_client+'.css?'+seed+'" rel="stylesheet" type="text/css" />\n</head>\n<body id="'+pez_widget_prefix+'container-body">\n<div id="'+pez_widget_prefix+'container">\n<div data-reactroot="" class="'+pez_widget_prefix+'messenger">\n<div class="'+pez_widget_prefix+'messenger-background"></div>\n<span>\n<div class="'+pez_widget_prefix+'conversation">\n<div class="'+pez_widget_prefix+'conversation-body-container">\n<div class="'+pez_widget_prefix+'conversation-body" style="transform: translateY(-228.2px); bottom: -228.2px;">\n<div class="'+pez_widget_prefix+'conversation-body-profile">\n<div class="'+pez_widget_prefix+'conversation-profile">\n<div class="'+pez_widget_prefix+'team-profile">\n<div class="'+pez_widget_prefix+'team-profile-compact">\n<div class="'+pez_widget_prefix+'team-profile-compact-contents">\n<div class="'+pez_widget_prefix+'team-profile-compact-body">\n<div class="'+pez_widget_prefix+'team-profile-compact-team-name">'+client.name+'</div>\n<div class="'+pez_widget_prefix+'team-profile-compact-response-delay">\n<span class="'+pez_widget_prefix+'team-profile-response-delay-text">'+client.slogan+'</span>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div id="'+pez_widget_prefix+'messages-area" class="'+pez_widget_prefix+'conversation-body-parts" style="top: 303.2px; bottom: 56px;">\n<div class="'+pez_widget_prefix+'conversation-body-parts-wrapper">\n<div class="'+pez_widget_prefix+'conversation-parts '+pez_widget_prefix+'conversation-parts-scrolled" style="transform: translateY(0px);">\n<div id="'+pez_widget_prefix+'messages"></div>\n</div>\n</div>\n</div>\n<div id="'+pez_widget_prefix+'form" style="display:block;">\n<div class="field field-name">\n<div class="label">Name*</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-name" />\n</div>\n</div>\n<div class="field field-email">\n<div class="label">E-mail*</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-email" />\n</div>\n</div>\n<div class="field field-phone">\n<div class="label">Phone</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-phone" />\n</div>\n</div>\n<div class="field field-question">\n<div class="label">Your Question*</div>\n<div class="input-holder">\n<textarea size="3" id="'+pez_widget_prefix+'form-question"></textarea>\n</div>\n</div>\n<div class="field button">\n<button type="button" id="'+pez_widget_prefix+'form-button" class="gradient">Start Chat!</button>\n</div>\n<div class="field error">\n<div id="'+pez_widget_prefix+'form-error"></div>\n</div>\n</div>\n</div>\n<span></span>\n</div>\n<div class="'+pez_widget_prefix+'conversation-footer" id="'+pez_widget_prefix+'input-area" style="display:none;">\n<div class="'+pez_widget_prefix+'composer">\n<pre><br></pre>\n<textarea placeholder="Write a reply…" id="'+pez_widget_prefix+'message"></textarea>\n<span></span>\n<span></span>\n<div class="'+pez_widget_prefix+'composer-buttons">\n<button type="button" id="'+pez_widget_prefix+'send-button">Send</button>\n</div>\n</div>\n</div>\n</div>\n</span>\n</div>\n</div>\n</body>\n</html>';
+        var iframe_content = '<!DOCTYPE html>\n<html>\n<head>\n<link href="'+pez_widget_url+'common/css/pez_widget_main_'+pez_widget_device+pez_widget_dotmin+'.css?'+seed+'" rel="stylesheet" type="text/css" />\n<link href="'+pez_widget_url+'clients/'+pez_widget_client+'.css?'+seed+'" rel="stylesheet" type="text/css" />\n</head>\n<body id="'+pez_widget_prefix+'container-body">\n<div id="'+pez_widget_prefix+'container">\n<div data-reactroot="" class="'+pez_widget_prefix+'messenger">\n<div class="'+pez_widget_prefix+'messenger-background"></div>\n<span>\n<div class="'+pez_widget_prefix+'conversation">\n<div class="'+pez_widget_prefix+'conversation-body-container">\n<div class="'+pez_widget_prefix+'conversation-body" style="transform: translateY(-228.2px); bottom: -228.2px;">\n<div class="'+pez_widget_prefix+'conversation-body-profile">\n<div class="'+pez_widget_prefix+'conversation-profile">\n<div class="'+pez_widget_prefix+'team-profile">\n<div class="'+pez_widget_prefix+'team-profile-compact">\n<div class="'+pez_widget_prefix+'team-profile-compact-contents">\n<div class="'+pez_widget_prefix+'team-profile-compact-body">\n<div class="'+pez_widget_prefix+'team-profile-compact-team-name">'+client.name+'</div>\n<div class="'+pez_widget_prefix+'team-profile-compact-response-delay">\n<span class="'+pez_widget_prefix+'team-profile-response-delay-text">'+client.slogan+'</span>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div id="'+pez_widget_prefix+'messages-area" class="'+pez_widget_prefix+'conversation-body-parts" style="top: 303.2px; bottom: 56px;">\n<div class="'+pez_widget_prefix+'conversation-body-parts-wrapper">\n<div class="'+pez_widget_prefix+'conversation-parts '+pez_widget_prefix+'conversation-parts-scrolled" style="transform: translateY(0px);">\n<div id="'+pez_widget_prefix+'messages"></div>\n</div>\n</div>\n</div>\n<div id="'+pez_widget_prefix+'form" style="display:block;">\n<div class="field field-first-name">\n<div class="label">First Name*</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-first-name" />\n</div>\n</div>\n<div class="field field-last-name">\n<div class="label">Last Name*</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-last-name" />\n</div>\n</div>\n<div class="field field-email">\n<div class="label">E-mail</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-email" />\n</div>\n</div>\n<div class="field field-phone">\n<div class="label">Phone</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-phone" />\n</div>\n</div>\n<div class="field field-question">\n<div class="label">Your Question</div>\n<div class="input-holder">\n<textarea size="3" id="'+pez_widget_prefix+'form-question"></textarea>\n</div>\n</div>\n<div class="field button">\n<button type="button" id="'+pez_widget_prefix+'form-button" class="gradient">Start Chat!</button>\n</div>\n<div class="field error">\n<div id="'+pez_widget_prefix+'form-error"></div>\n</div>\n</div>\n</div>\n<span></span>\n</div>\n<div class="'+pez_widget_prefix+'conversation-footer" id="'+pez_widget_prefix+'input-area" style="display:none;">\n<div class="'+pez_widget_prefix+'composer">\n<pre><br></pre>\n<textarea placeholder="Write a reply…" id="'+pez_widget_prefix+'message"></textarea>\n<span></span>\n<span></span>\n<div class="'+pez_widget_prefix+'composer-buttons">\n<button type="button" id="'+pez_widget_prefix+'send-button">Send</button>\n</div>\n</div>\n</div>\n</div>\n</span>\n</div>\n</div>\n</body>\n</html>';
         i_framedoc = i_frame.contentDocument || i_frame.contentWindow.document;
         i_framedoc.open();
         i_framedoc.write(iframe_content);
