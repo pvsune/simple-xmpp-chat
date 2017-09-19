@@ -635,8 +635,8 @@
         restore_data();
         restore_launcher_status();
         var client = get_client_data();
-        if (client.pre_chat == false) {
-            if (has_previous_messages == false) {
+        if (!client.pre_chat) {
+            if (!has_previous_messages) {
                 var time = append_message('server',client.welcome_message,null);
                 add_message_cookie('server',client.welcome_message,time);
                 increment_unread_count();
