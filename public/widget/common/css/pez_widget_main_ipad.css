@@ -6925,17 +6925,17 @@
 	  margin: 0 20px !important;
 	  padding: 10px 0 0 !important;
 	}
-	#pez-widget-form .field-name {
+	#pez-widget-form .field-first-name {
 	  width: calc(50% - 20px) !important;
 		margin: 0 0 0 20px !important;
 	  float: left !important;
 	}
-	#pez-widget-form .field-email {
+	#pez-widget-form .field-last-name {
 	  width: calc(50% - 40px) !important;
 		margin: 0 20px !important;
 	  float:right !important;
 	}
-	#pez-widget-form .field-phone {
+	#pez-widget-form .field-email {
 	  clear: both;
 	}
 	#pez-widget-form .field.button {
@@ -7012,7 +7012,7 @@
   font-size: 13px !important;
   color: white !important;
   text-decoration: none !important;
-      background: #444 !important;
+      background: gray !important;
     padding: 7px 15px !important;
     border-radius: 20px !important;
     margin-top: 5px !important;
@@ -7020,7 +7020,7 @@
     border: 1px solid white !important;
 }
 .preview .url a:hover {
-    background: #aaa !important;
+    background: darkgray !important;
 }
 .preview .title a,
 .preview .title a:hover,
@@ -7039,12 +7039,4 @@
 .preview .spinner img {
   width: 24px !important;
   height: 24px !important;
-}
-
-
-.pez-widget-team-profile-compact-team-avatar {
-  width: 40px !important;
-  height: 40px !important;
-  float: left !important;
-  margin-right: 10px !important;
 }
