@@ -1,6 +1,14 @@
 import time, json
 
 from behave import given, when, then
+from selenium.webdriver.common.keys import Keys
+
+
+def switch_frame(br):
+	br.switch_to.frame(br.find_element_by_id('pez-widget-iframe'))
+
+def switch_back(br):
+	br.switch_to.default_content()
 
 @given('that the client website is "{url}"')
 def step(context,url):
@@ -33,6 +41,7 @@ def step(context,button_text):
 			br.find_element_by_id(btnid).click()
 			if in_frame:
 				switch_back(br)
+	time.sleep(5)
 
 @when('I write "{value}" for "{field}" field')
 def step(context,value,field):
@@ -49,6 +58,23 @@ def step(context,value,field):
 		br.find_element_by_id(fields[field]).send_keys(value)
 		switch_back(br)
 
+@when('I type "{text}" in the message box')
+def step(context,text):
+	for k in context.browsers:
+		br = context.browsers[k]
+		switch_frame(br)
+		br.find_element_by_id('pez-widget-message').send_keys(text)
+		br.find_element_by_id('pez-widget-send-button').click()
+		switch_back(br)
+	time.sleep(5)
+
+@when('I go to the website and let it load for "{seconds}" seconds')
+def step(context,seconds):
+	for k in context.browsers:
+		br = context.browsers[k]
+		br.get(context.server_url)
+	time.sleep(float(seconds))
+
 @then('the error message "{error_message}" will be displayed')
 def step(context,error_message):
 	for k in context.browsers:
@@ -62,32 +88,37 @@ def step(context,error_message):
 
 @then('the chatbot will say "{text}"')
 def step(context,text):
+	check_last_message(context,text,'server')
+
+@then('my question "{text}" will be sent to the chatbox')
+@then('my message "{text}" will be sent to the chatbox')
+def step(context,text):
+	check_last_message(context,text,'user')
+
+def check_last_message(context,text,sender):
 	for k in context.browsers:
 		br = context.browsers[k]
 		switch_frame(br)
-		actual = br.find_element_by_css_selector('#pez-widget-messages .pez-widget-conversation-part-server:first-child .text').text
+		message = get_message_container(br,sender)
+		actual = message.text
 		switch_back(br)
 		if actual != text:
 			print('Actual message: '+actual)
 		assert actual == text
 
-@then('my question "{question}" will be sent to chatbox')
-def step(context,question):
-	for k in context.browsers:
-		br = context.browsers[k]
-		switch_frame(br)
-		actual = br.find_element_by_css_selector('#pez-widget-messages .pez-widget-conversation-part-user:first-child .text').text
-		switch_back(br)
-		if actual != question:
-			print('Actual message: '+actual)
-		assert actual == question
-
-@when('I go to the website and let it load for "{seconds}" seconds')
-def step(context,seconds):
-	for k in context.browsers:
-		br = context.browsers[k]
-		br.get(context.server_url)
-	time.sleep(float(seconds))
+def get_message_container(br,sender):
+	class_name = 'pez-widget-comment-container'
+	messages = [msg for msg in br.find_elements_by_class_name(class_name)]
+	assert len(messages) > 0
+	idx = -1
+	if sender == 'user':
+		idx = -2
+	container_class = messages[idx].get_attribute('class')
+	right_message = class_name+'-'+sender in container_class
+	if not right_message:
+		print('Class for msg #'+str(idx)+': '+container_class)
+	assert right_message
+	return messages[idx]
 
 @then('the browser cookie should contain "{first_name}", "{last_name}", "{email}", "{phone}" and "{question}"')
 def step(context,first_name,last_name,email,phone,question):
@@ -123,6 +154,9 @@ def step(context,element,visibility):
 		elif element == 'pre-chat form':
 			elid = 'pez-widget-form'
 			in_frame = True
+		elif element == 'message box':
+			elid = 'pez-widget-input-area'
+			in_frame = True
 		if in_frame:
 			switch_frame(br)
 		displayed = br.find_element_by_id(elid).get_attribute('style') == 'display: block;'
@@ -136,8 +170,47 @@ def step(context,element,visibility):
 			print('browser: '+k)
 		assert success
 
-def switch_frame(br):
-	br.switch_to.frame(br.find_element_by_id('pez-widget-iframe'))
+@then('after "{seconds}" seconds, I should see the "{display}" of "{url}" in "{sender}" message')
+def step(context,seconds,display,url,sender):
+	senders = {
+		'my': 'user',
+		"chatbot's": 'server'
+	} 
+	class_names = {
+		'open-graph display': ['image','title','descp','url'],
+		'image preview': ['image','url'],
+		'embedded video': ['video','url']
+	}
+	assert sender in senders
+	sender = senders[sender]
+	time.sleep(float(seconds))
+	for k in context.browsers:
+		br = context.browsers[k]
+		switch_frame(br)
+		message = get_message_container(br,sender)
+		for class_name in class_names[display]:
+			assert message.find_element_by_class_name(class_name)
+		switch_back(br)
 
-def switch_back(br):
-	br.switch_to.default_content()
+@then('all the links in the "{display}" in "{sender}" message should point to "{url}" in new tab')
+def step(context,display,url,sender):
+	senders = {
+		'my': 'user',
+		"chatbot's": 'server'
+	} 
+	class_names = {
+		'open-graph display': ['image','title','url'],
+		'image preview': ['image','url'],
+		'embedded video': ['url']
+	}
+	assert sender in senders
+	sender = senders[sender]
+	for k in context.browsers:
+		br = context.browsers[k]
+		switch_frame(br)
+		message = get_message_container(br,sender)
+		for class_name in class_names[display]:
+			link = message.find_element_by_css_selector('.'+class_name+' a')
+			assert link.get_attribute('href') == url
+			assert link.get_attribute('target') == '_blank'
+		switch_back(br)

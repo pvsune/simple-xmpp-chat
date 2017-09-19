@@ -18,7 +18,6 @@ import json
 import sleekxmpp
 import msgpack
 
-#xmpp_url = '35.188.27.220'
 xmpp_url = 'localhost'
 
 authsuccess_response = '[authsuccess]';
@@ -80,7 +79,15 @@ class EchoBot(sleekxmpp.ClientXMPP):
             hex_data = bytearray.fromhex(msg['body'])
             msg_data = json.loads(msgpack.unpackb(hex_data, encoding='utf-8'))
             print msg_data
-            msg.reply("Thanks for sending\n%s" % msg_data['message']).send()
+            if (msg_data['message']=='[sendmelink]'):
+                reply = 'http://pez.ai/'
+            elif (msg_data['message']=='[sendmeimage]'):
+                reply = 'http://pez.ai/wp-content/uploads/2015/12/pez-full.png'
+            elif (msg_data['message']=='[sendmevideo]'):
+                reply = 'https://www.youtube.com/watch?v=IYJjrvXSbnM'
+            else:
+                reply = "Thanks for sending\n%s" % msg_data['message']
+            msg.reply(reply).send()
 
     def message_form(self, data):
         print "message_form"

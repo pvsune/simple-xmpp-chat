@@ -140,6 +140,7 @@
                     log(from + ": " + body);
                     var time = append_message('server',body,null);
                     add_message_cookie('server',body,time);
+                    process_non_text(body,time);
                     increment_unread_count();
                     activate_chat();
                 }
