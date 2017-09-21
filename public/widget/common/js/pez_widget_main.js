@@ -300,23 +300,23 @@
                 .c('x', {xmlns:'jabber:x:data', type:'result'})//, from: connection.jid, to: xmpp_admin_user})
                 .c('title','userdata')
                 .up().c('instructions','Pre-chat form data')
-                .up().c('field', {'var':'user_firstname', type:'text-single', label:'First Name'})
+                .up().c('field', {'var':'first_name', type:'text-single', label:'First Name'})
                     .c('descp','First Name')
                     .up().c('required')
                     .up().c('value',user_firstname)
-                .up().up().c('field', {'var':'user_lastname', type:'text-single', label:'Last Name'})
+                .up().up().c('field', {'var':'last_name', type:'text-single', label:'Last Name'})
                     .c('descp','Last Name')
                     .up().c('required')
                     .up().c('value',user_lastname)
-                .up().up().c('field', {'var':'user_email', type:'text-single', label:'Email'})
+                .up().up().c('field', {'var':'email', type:'text-single', label:'Email'})
                     .c('descp','User Email')
                     .up().c('required')
                     .up().c('value',user_email)
-                .up().up().c('field', {'var':'user_phone', type:'text-single', label:'Phone'})
+                .up().up().c('field', {'var':'phone', type:'text-single', label:'Phone'})
                     .c('descp','User Phone')
                     .up().c('required')
                     .up().c('value',user_phone)
-                .up().up().c('field', {'var':'user_question', type:'text-single', label:'Question'})
+                .up().up().c('field', {'var':'question', type:'text-single', label:'Question'})
                     .c('descp','User Question')
                     .up().c('required')
                     .up().c('value',user_question)
@@ -634,8 +634,8 @@
         restore_data();
         restore_launcher_status();
         var client = get_client_data();
-        if (client.pre_chat == false) {
-            if (has_previous_messages == false) {
+        if (!client.pre_chat) {
+            if (!has_previous_messages) {
                 var time = append_message('server',client.welcome_message,null);
                 add_message_cookie('server',client.welcome_message,time);
                 increment_unread_count();

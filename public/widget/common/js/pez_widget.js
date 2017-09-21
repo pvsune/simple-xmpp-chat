@@ -5,6 +5,17 @@ var pez_widget_prefix = 'pez-widget-';
 var pez_widget_url = 'http://localhost:8080/widget/';
 var pez_widget_dotmin = '';
 
+var pez_widget_title = '',
+    pez_widget_slogan = '',
+    pez_widget_message = '',
+    pez_widget_bubbletext = '',
+    pez_widget_prechat = true,
+    pez_widget_prechat_email = true,
+    pez_widget_prechat_phone = true,
+    pez_widget_prechat_question = true
+    pez_widget_color = ''
+    pez_widget_avatar = '';
+
 
 function device_os() {
     var useragent = navigator.userAgent;
@@ -33,23 +44,50 @@ function device_os() {
 var pez_widget_device = device_os();
 
 function get_client_data() {
-    if (pez_widget_client == 'fundko') {
-        return {
-            name: 'FundKo',
-            avatar: 'fundko.png',
-            slogan: 'Invest and transform lives',
-            welcome_message: 'Hi, how may I help you?',
-            pre_chat: true
+    data = {}
+    if (pez_widget_title != '') {
+        data = {
+            name: pez_widget_title,
+            avatar: pez_widget_avatar,
+            slogan: pez_widget_slogan,
+            welcome_message: pez_widget_message,
+            pre_chat: pez_widget_prechat,
+            pre_chat_email: pez_widget_prechat_email,
+            pre_chat_phone: pez_widget_prechat_phone,
+            pre_chat_question: pez_widget_prechat_question,
+            bubble_text: pez_widget_bubbletext,
+            color: pez_widget_color
         }
-    } else if (pez_widget_client == 'mercer') {
-        return {
-            name: 'Mercer',
-            avatar: 'mercer.png',
-            slogan: 'Make Tomorrow, Today',
-            welcome_message: 'Hi, how may I help you?',
-            pre_chat: false
+    } else {
+        if (pez_widget_client == 'fundko') {
+            data = {
+                name: 'FundKo',
+                avatar: 'https://panoptez.firebaseapp.com/widget/clients/fundko.png',
+                slogan: 'Invest and transform lives',
+                welcome_message: 'Hi, how may I help you?',
+                pre_chat: true,
+                pre_chat_email: true,
+                pre_chat_phone: true,
+                pre_chat_question: true,
+                bubble_text: 'Talk to FundKo!',
+                color: '#1a60a3'
+            }
+        } else if (pez_widget_client == 'mercer') {
+            data = {
+                name: 'Mercer',
+                avatar: 'https://panoptez.firebaseapp.com/widget/clients/mercer.png',
+                slogan: 'Make Tomorrow, Today',
+                welcome_message: 'Hi, how may I help you?',
+                pre_chat: false,
+                pre_chat_email: true,
+                pre_chat_phone: true,
+                pre_chat_question: true,
+                bubble_text: 'Talk to Mercer!',
+                color: '#00a8c8'
+            }
         }
     }
+    return data;
 }
 
 
