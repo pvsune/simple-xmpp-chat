@@ -32,4 +32,4 @@ def clientfiles(filepath):
 	return static_file(filepath, root="public/widget/clients")
 
 
-run(host='0.0.0.0', port=8080, debug=True, reload=True)
+run(host='0.0.0.0', port=80, server='gunicorn')
