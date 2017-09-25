@@ -1,12 +1,6 @@
 
 // ---------------- CONFIGS ---------------
 
-    var pez_widget_online = true;
-    var pez_widget_required_auth = false;
-    var pez_widget_send_userdata = true;
-    var pez_widget_debug = true;
-    var pez_widget_prefix = 'pez-widget-';
-
     function log(message) {
         console.log(message);
     }
@@ -23,17 +17,20 @@
             host: 'localhost',
             admin_user: 'admin@localhost'
         }
-        if (pez_widget_url.indexOf('localhost') > -1)
-            config.url = 'http://localhost:5280/http-bind';
-        else
-            config.url = '//xmpp.dev.pez.ai/http-bind';
+        if (pez_widget_connection == 'websocket') {
+            config.url = 'ws://xmpp.dev.pez.ai/xmpp';
+        } else {
+            if (pez_widget_url.indexOf('localhost') > -1)
+                config.url = 'http://localhost:5280/http-bind';
+            else
+                config.url = '//xmpp.dev.pez.ai/http-bind';
+        }
         return config
     }
 
     function get_dataform_response(name) {
         var responses = {
-            clientauth: '[authsuccess]',
-            userdata: '[userdatareceived]',
+            prechatreceived: '[prechatreceived]',
             authfail: '[fail]'
         }
         if (responses[name] != undefined) {
@@ -76,6 +73,7 @@
     var is_iframe_not_loaded = true;
 
     var i_container;
+    var i_bubble;
     var i_form;
     var i_form_button;
     var i_form_error;
@@ -92,6 +90,7 @@
 
     function load_divs() {
         i_container = docdiv('container');
+        i_bubble = docdiv('launcher-open');
     }
 
     function load_framedivs() {
@@ -133,9 +132,9 @@
         if (type == "chat" && elems.length > 0) {
             var body = Strophe.getText(elems[0]);
             if (body) {
-                if (body == get_dataform_response('clientauth')) {
-                    log('Auth Success')
-                    post_auth();
+                if (body == get_dataform_response('prechatreceived')) {
+                    log('Prechat Data Received')
+                    post_prechat();
                 } else if (body != get_dataform_response('authfail')) {
                     log(from + ": " + body);
                     var time = append_message('server',body,null);
@@ -145,15 +144,28 @@
                 }
             }    
         } else {
-            log('Received '+type+' with body:')
-            log(elems)
+            log('Received '+type+' with body:');
+            log(elems);
         }
 
         unit_test('messageHandler',msg);
         return true;
     }
 
+    var pending_message = '';
+
+    function post_prechat() {
+        send_message(pending_message);
+    }
+
     function send_message(msg) {
+        if (!has_previous_messages) {
+            send_user_info();
+            pending_message = msg;
+            has_previous_messages = true;
+            return
+        }
+
         trace(' -> send_message');
         msg = msg.trim()
         if (msg == '') return;
@@ -164,17 +176,17 @@
             "page_id": pez_widget_client_domain
         }));
         msg = '';
-        for (var i = 0, x = buf.length; i < x; i += 1) {
+        for (var i = 0, x = buf.length; i < x; i += 1)
             msg += (buf[i] <= 0xf ? '0' : '') + buf[i].toString(16);
-        }
         var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"}).c("body").t(msg)
         connection.send(message.tree());
+        //connection.send(Strophe.xmlHtmlNode('<message to="admin@localhost" type="chat"><body>'+msg+'</body></message>').firstElementChild);
         var time = append_message('user',orig_msg,null);
         add_message_cookie('user',orig_msg,time);
         process_non_text(orig_msg,time);
         offline_options(orig_msg);
         i_message.value = '';
-        i_message.focus();
+        if (pez_widget_online) i_message.focus();
         unit_test('send_message',orig_msg);
     }
     
@@ -190,7 +202,7 @@
             imgsrc = '';
             name = user_firstname;
         } else {
-            imgsrc = pez_widget_url+'clients/'+client.avatar+'?'+seed
+            imgsrc = client.avatar+'?'+seed
             name = client.name
         }
         message = convert_links(message);
@@ -264,7 +276,6 @@
             i_form_button.disabled = true;
             i_form_error.innerText = 'Saving your info...';
             save_form();
-            if (pez_widget_send_userdata) send_user_info();
             if (user_question != '') {
                 send_message(user_question);
             } else {
@@ -361,7 +372,7 @@
                     append_message(msg.sender,unescape(msg.message),key);
                 }
                 update_timestamps();
-                i_message.focus();
+                if (pez_widget_online) i_message.focus();
             } else {
                 log('No previous messages');
             }
@@ -483,7 +494,7 @@
         trace(' -> activate_chat');
         i_form.style.display = 'none';
         i_input_area.style.display = 'block';
-        i_message.focus();
+        if (pez_widget_online) i_message.focus();
     }
 
     function scroll_down() {
@@ -505,11 +516,11 @@
         if (pez_widget_device != 'desktop') {
             show_widget();
         } else {
-            if (get_cookie('launcher-status') == 'closed') {
-                hide_widget();
-            } else {
-                show_widget();
-            }
+            var state = get_cookie('launcher-status')
+            if (state != 'open' && state != 'closed')
+                state = client.window_state;
+            if (state == 'open') show_widget();
+            else hide_widget();
         }
     }
 
@@ -585,11 +596,12 @@
 
     function update_speech_bubble() {
         trace(' -> update_speech_bubble');
+        var client = get_client_data();
         var cnt = parseInt(get_cookie('unread-messages'));
         if (cnt > 0)
             i_bubble.innerHTML = '<span id="'+pez_widget_prefix+'unread-counter" class="unread">'+cnt+' Unread Messages</span>';
         else 
-            i_bubble.innerHTML = '<span>Talk with '+client.name+'!</span>';
+            i_bubble.innerHTML = '<span>'+client.bubble_text+'!</span>';
     }
 
     function load_widget() {
@@ -601,7 +613,8 @@
         i_frame.style.height = '530px';
         i_frame.id = pez_widget_prefix+'iframe';
         document.getElementsByClassName(pez_widget_prefix+'frame')[0].appendChild(i_frame);
-        var iframe_content = '<!DOCTYPE html>\n<html>\n<head>\n<link href="'+pez_widget_url+'common/css/pez_widget_main_'+pez_widget_device+pez_widget_dotmin+'.css?'+seed+'" rel="stylesheet" type="text/css" />\n<link href="'+pez_widget_url+'clients/'+pez_widget_client+'.css?'+seed+'" rel="stylesheet" type="text/css" />\n</head>\n<body id="'+pez_widget_prefix+'container-body">\n<div id="'+pez_widget_prefix+'container">\n<div data-reactroot="" class="'+pez_widget_prefix+'messenger">\n<div class="'+pez_widget_prefix+'messenger-background"></div>\n<span>\n<div class="'+pez_widget_prefix+'conversation">\n<div class="'+pez_widget_prefix+'conversation-body-container">\n<div class="'+pez_widget_prefix+'conversation-body" style="transform: translateY(-228.2px); bottom: -228.2px;">\n<div class="'+pez_widget_prefix+'conversation-body-profile">\n<div class="'+pez_widget_prefix+'conversation-profile">\n<div class="'+pez_widget_prefix+'team-profile">\n<div class="'+pez_widget_prefix+'team-profile-compact">\n<div class="'+pez_widget_prefix+'team-profile-compact-contents">\n<div class="'+pez_widget_prefix+'team-profile-compact-body">\n<div class="'+pez_widget_prefix+'team-profile-compact-team-name">'+client.name+'</div>\n<div class="'+pez_widget_prefix+'team-profile-compact-response-delay">\n<span class="'+pez_widget_prefix+'team-profile-response-delay-text">'+client.slogan+'</span>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div id="'+pez_widget_prefix+'messages-area" class="'+pez_widget_prefix+'conversation-body-parts" style="top: 303.2px; bottom: 56px;">\n<div class="'+pez_widget_prefix+'conversation-body-parts-wrapper">\n<div class="'+pez_widget_prefix+'conversation-parts '+pez_widget_prefix+'conversation-parts-scrolled" style="transform: translateY(0px);">\n<div id="'+pez_widget_prefix+'messages"></div>\n</div>\n</div>\n</div>\n<div id="'+pez_widget_prefix+'form" style="display:block;">\n<div class="field field-first-name">\n<div class="label">First Name*</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-first-name" />\n</div>\n</div>\n<div class="field field-last-name">\n<div class="label">Last Name*</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-last-name" />\n</div>\n</div>\n<div class="field field-email">\n<div class="label">E-mail</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-email" />\n</div>\n</div>\n<div class="field field-phone">\n<div class="label">Phone</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-phone" />\n</div>\n</div>\n<div class="field field-question">\n<div class="label">Your Question</div>\n<div class="input-holder">\n<textarea size="3" id="'+pez_widget_prefix+'form-question"></textarea>\n</div>\n</div>\n<div class="field button">\n<button type="button" id="'+pez_widget_prefix+'form-button" class="gradient">Start Chat!</button>\n</div>\n<div class="field error">\n<div id="'+pez_widget_prefix+'form-error"></div>\n</div>\n</div>\n</div>\n<span></span>\n</div>\n<div class="'+pez_widget_prefix+'conversation-footer" id="'+pez_widget_prefix+'input-area" style="display:none;">\n<div class="'+pez_widget_prefix+'composer">\n<pre><br></pre>\n<textarea placeholder="Write a reply…" id="'+pez_widget_prefix+'message"></textarea>\n<span></span>\n<span></span>\n<div class="'+pez_widget_prefix+'composer-buttons">\n<button type="button" id="'+pez_widget_prefix+'send-button">Send</button>\n</div>\n</div>\n</div>\n</div>\n</span>\n</div>\n</div>\n</body>\n</html>';
+        var style_override = '<style>\n.pez-widget-team-profile-compact-team-name,.pez-widget-team-profile-response-delay-text,#pez-widget-launcher-open,#pez-widget-container .pez-widget-conversation-body-profile,#pez-widget-container .pez-widget-comment-container-user .pez-widget-comment{\nbackground-color: '+pez_widget_bgcolor+' !important;color: '+pez_widget_fgcolor+' !important;}\n#pez-widget-launcher-open {\nbackground: '+pez_widget_bgcolor+' !important;}\n#pez-widget-launcher-open:after {\nborder-color: '+pez_widget_bgcolor+' transparent !important;}\n#pez-widget-send-button,#pez-widget-form-button,#pez-widget-send-button:hover,#pez-widget-form-button:hover{\nbackground-color: '+pez_widget_bgcolor+' !important;color: '+pez_widget_fgcolor+' !important;\n}\n</style>';
+        var iframe_content = '<!DOCTYPE html>\n<html>\n<head>\n<link href="'+pez_widget_url+'common/css/pez_widget_main_'+pez_widget_device+pez_widget_dotmin+'.css?'+seed+'" rel="stylesheet" type="text/css" />\n'+style_override+'</head>\n<body id="'+pez_widget_prefix+'container-body">\n<div id="'+pez_widget_prefix+'container">\n<div data-reactroot="" class="'+pez_widget_prefix+'messenger">\n<div class="'+pez_widget_prefix+'messenger-background"></div>\n<span>\n<div class="'+pez_widget_prefix+'conversation">\n<div class="'+pez_widget_prefix+'conversation-body-container">\n<div class="'+pez_widget_prefix+'conversation-body" style="transform: translateY(-228.2px); bottom: -228.2px;">\n<div class="'+pez_widget_prefix+'conversation-body-profile">\n<div class="'+pez_widget_prefix+'conversation-profile">\n<div class="'+pez_widget_prefix+'team-profile">\n<div class="'+pez_widget_prefix+'team-profile-compact">\n<div class="'+pez_widget_prefix+'team-profile-compact-contents">\n<div class="'+pez_widget_prefix+'team-profile-compact-body">\n<div class="'+pez_widget_prefix+'team-profile-compact-team-name">'+client.name+'</div>\n<div class="'+pez_widget_prefix+'team-profile-compact-response-delay">\n<span class="'+pez_widget_prefix+'team-profile-response-delay-text">'+client.slogan+'</span>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div id="'+pez_widget_prefix+'messages-area" class="'+pez_widget_prefix+'conversation-body-parts" style="top: 303.2px; bottom: 56px;">\n<div class="'+pez_widget_prefix+'conversation-body-parts-wrapper">\n<div class="'+pez_widget_prefix+'conversation-parts '+pez_widget_prefix+'conversation-parts-scrolled" style="transform: translateY(0px);">\n<div id="'+pez_widget_prefix+'messages"></div>\n</div>\n</div>\n</div>\n<div id="'+pez_widget_prefix+'form" style="display:block;">\n<div class="field field-first-name">\n<div class="label">First Name*</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-first-name" />\n</div>\n</div>\n<div class="field field-last-name">\n<div class="label">Last Name*</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-last-name" />\n</div>\n</div>\n<div id="pez-widget-field-email" class="field field-email" style="display: block;">\n<div class="label">E-mail</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-email" />\n</div>\n</div>\n<div id="pez-widget-field-phone" class="field field-phone" style="display: block;">\n<div class="label">Phone</div>\n<div class="input-holder">\n<input type="text" id="'+pez_widget_prefix+'form-phone" />\n</div>\n</div>\n<div id="pez-widget-field-question" class="field field-question" style="display: block;">\n<div class="label">Your Question</div>\n<div class="input-holder">\n<textarea size="3" id="'+pez_widget_prefix+'form-question"></textarea>\n</div>\n</div>\n<div class="field button">\n<button type="button" id="'+pez_widget_prefix+'form-button" class="gradient">Start Chat!</button>\n</div>\n<div class="field error">\n<div id="'+pez_widget_prefix+'form-error"></div>\n</div>\n</div>\n</div>\n<span></span>\n</div>\n<div class="'+pez_widget_prefix+'conversation-footer" id="'+pez_widget_prefix+'input-area" style="display:none;">\n<div class="'+pez_widget_prefix+'composer">\n<pre><br></pre>\n<textarea placeholder="Write a reply…" id="'+pez_widget_prefix+'message"></textarea>\n<span></span>\n<span></span>\n<div class="'+pez_widget_prefix+'composer-buttons">\n<button type="button style="display: block;"" id="'+pez_widget_prefix+'send-button">Send</button>\n</div>\n</div>\n</div>\n</div>\n</span>\n</div>\n</div>\n</body>\n</html>';
         i_framedoc = i_frame.contentDocument || i_frame.contentWindow.document;
         i_framedoc.open();
         i_framedoc.write(iframe_content);
@@ -634,7 +647,14 @@
         restore_data();
         restore_launcher_status();
         var client = get_client_data();
-        if (!client.pre_chat) {
+        if (client.pre_chat) {
+            if (!pez_widget_prechat_email)
+                framediv('field-email').style.display = 'none';
+            if (!pez_widget_prechat_phone)
+                framediv('field-phone').style.display = 'none';
+            if (!pez_widget_prechat_question)
+                framediv('field-question').style.display = 'none';
+        } else {
             if (!has_previous_messages) {
                 var time = append_message('server',client.welcome_message,null);
                 add_message_cookie('server',client.welcome_message,time);
@@ -766,7 +786,7 @@
             connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get");//, connection.jid);
             connection.addHandler(messageHandler, null, "message", null, null, null);//, connection.jid);
             connection.send($pres().tree());
-            post_connection(); 
+            post_auth(); 
         } 
         else if (cond == Strophe.Status.AUTHFAIL)       { log("Authentication Fail"); } 
         else if (cond == Strophe.Status.CONNECTING)     { log("Connecting"); } 
@@ -776,20 +796,6 @@
         else if (cond == Strophe.Status.ERROR)          { log("Error"); }
         else if (cond == Strophe.Status.ATTACHED)       { log("Attached"); }
         else if (cond == Strophe.Status.AUTHENTICATING) { log("Authenticating"); }
-    }
-
-    function post_connection() {
-        trace(' -> post_connection');
-        if (pez_widget_online) {
-            if (pez_widget_required_auth)
-                send_auth();
-            else {
-                log('Skipped authentication')
-                post_auth();
-            }
-        } else {
-            post_auth();
-        }
     }
 
 // ------------ OTHER EVENTS HANDLERS ----------------------
@@ -843,8 +849,8 @@
 
     function set_raw_handlers() {
         trace(' -> set_raw_handlers');
-        connection.rawInput = function(str) { if (pez_widget_debug) log('Raw Received: '+str); }
-        connection.rawOutput = function(str) { if (pez_widget_debug) log('Raw Sent: '+str); }
+        connection.rawInput = function(str) { if (pez_widget_debug) log('Raw Received: '); log(str); }
+        connection.rawOutput = function(str) { if (pez_widget_debug) log('Raw Sent: '); log(str); }
     }
 
     function update_status(show,status) {
@@ -855,10 +861,13 @@
 
 // ------------ MAIN ----------------------
 
-    var connection = new Strophe.Connection(xmpp.url);
+    if (pez_widget_connection == 'websocket')
+        var connection = new Strophe.WebSocket(xmpp.url);
+    else
+        var connection = new Strophe.Connection(xmpp.url);
     set_raw_handlers();
 
     if (pez_widget_online) 
         connect();
     else
-        post_connection();
+        post_auth();

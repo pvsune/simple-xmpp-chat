@@ -1,9 +1,13 @@
+var pez_widget_connection = 'bosch';
+
 var pez_widget_api_key = null;
 var pez_widget_client = null;
 var pez_widget_client_domain = null;
 var pez_widget_prefix = 'pez-widget-';
-var pez_widget_url = 'http://localhost:8080/widget/';
-var pez_widget_dotmin = '';
+var pez_widget_url = 'https://panoptez.firebaseapp.com/widget/';
+var pez_widget_dotmin = '.min';
+var pez_widget_online = true;
+var pez_widget_debug = false;
 
 var pez_widget_title = '',
     pez_widget_slogan = '',
@@ -12,9 +16,11 @@ var pez_widget_title = '',
     pez_widget_prechat = true,
     pez_widget_prechat_email = true,
     pez_widget_prechat_phone = true,
-    pez_widget_prechat_question = true
-    pez_widget_color = ''
-    pez_widget_avatar = '';
+    pez_widget_prechat_question = true,
+    pez_widget_bgcolor = '',
+    pez_widget_fgcolor = '',
+    pez_widget_avatar = '',
+    pez_widget_window_state = 'closed';
 
 
 function device_os() {
@@ -56,35 +62,24 @@ function get_client_data() {
             pre_chat_phone: pez_widget_prechat_phone,
             pre_chat_question: pez_widget_prechat_question,
             bubble_text: pez_widget_bubbletext,
-            color: pez_widget_color
+            bgcolor: pez_widget_bgcolor,
+            fgcolor: pez_widget_fgcolor,
+            window_state: pez_widget_window_state
         }
     } else {
-        if (pez_widget_client == 'fundko') {
-            data = {
-                name: 'FundKo',
-                avatar: 'https://panoptez.firebaseapp.com/widget/clients/fundko.png',
-                slogan: 'Invest and transform lives',
-                welcome_message: 'Hi, how may I help you?',
-                pre_chat: true,
-                pre_chat_email: true,
-                pre_chat_phone: true,
-                pre_chat_question: true,
-                bubble_text: 'Talk to FundKo!',
-                color: '#1a60a3'
-            }
-        } else if (pez_widget_client == 'mercer') {
-            data = {
-                name: 'Mercer',
-                avatar: 'https://panoptez.firebaseapp.com/widget/clients/mercer.png',
-                slogan: 'Make Tomorrow, Today',
-                welcome_message: 'Hi, how may I help you?',
-                pre_chat: false,
-                pre_chat_email: true,
-                pre_chat_phone: true,
-                pre_chat_question: true,
-                bubble_text: 'Talk to Mercer!',
-                color: '#00a8c8'
-            }
+        data = {
+            name: 'Untitled',
+            avatar: pez_widget_url+'clients/user.png',
+            slogan: 'This is a test',
+            welcome_message: 'Hi, this is a sample?',
+            pre_chat: true,
+            pre_chat_email: true,
+            pre_chat_phone: true,
+            pre_chat_question: true,
+            bubble_text: 'Untitled Bot',
+            bgcolor: '#1a60a3',
+            fgcolor: '#fff',
+            window_state: 'closed'
         }
     }
     return data;
@@ -100,6 +95,22 @@ function get_client_data() {
     pez_widget_client = embedjs.getAttribute("data-client");
     pez_widget_client_domain = document.domain;
 
+    pez_widget_title = embedjs.getAttribute("data-title");
+    pez_widget_avatar = embedjs.getAttribute("data-avatar");
+    pez_widget_slogan = embedjs.getAttribute("data-slogan");
+    pez_widget_message = embedjs.getAttribute("data-message");
+    pez_widget_bubbletext = embedjs.getAttribute("data-bubbletext");
+    pez_widget_bgcolor = embedjs.getAttribute("data-bgcolor");
+    pez_widget_fgcolor = embedjs.getAttribute("data-fgcolor");
+    pez_widget_prechat = (embedjs.getAttribute("data-prechat") == 'true')
+    pez_widget_prechat_email = (embedjs.getAttribute("data-prechat-email") == 'true')
+    pez_widget_prechat_phone = (embedjs.getAttribute("data-prechat-phone") == 'true')
+    pez_widget_prechat_question = (embedjs.getAttribute("data-prechat-question") == 'true')
+    pez_widget_window_state = embedjs.getAttribute("data-window-state");
+
+    if (embedjs.getAttribute("data-online") == 'false')
+        pez_widget_online = false;
+
     var client = get_client_data();
 
     var seed = Math.floor(Date.now() / 1000);
@@ -114,20 +125,20 @@ function get_client_data() {
         style.media = 'all';
         document.getElementsByTagName('head')[0].appendChild(style)
 
-        var style = document.createElement('link');
-        style.href = pez_widget_url+'clients/'+pez_widget_client+'.css?'+seed;
-        style.rel = 'stylesheet';
-        style.type = 'text/css';
-        style.media = 'all';
-        document.getElementsByTagName('head')[0].appendChild(style)
-
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = pez_widget_url+'common/js/strophe.min.js?'+seed;
-        script.onload = pez_widget_load_msgpk;
+        script.src = pez_widget_url+'common/js/strophe.js?'+seed;
+        script.onload = pez_widget_load_websocket;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
 
+    function pez_widget_load_websocket() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = pez_widget_url+'common/js/strophe.websocket.js?'+seed;
+        script.onload = pez_widget_load_msgpk;
+        document.getElementsByTagName('body')[0].appendChild(script)
+    }
 
     function pez_widget_load_msgpk() {
         var script = document.createElement('script');
@@ -146,7 +157,8 @@ function get_client_data() {
 
     function pez_build_container() {
         var iframe_url = pez_widget_url+'iframe';
-        var htmlstr = '<div id="pez-widget-container" style="display:none;">\n<div id="pez-widget-launcher-close" style="display:none;">CLOSE</div>\n<div id="pez-widget-launcher-open" class="speech-bubble shadow gradient" style="display:none;">Talk to '+client.name+'!</div>\n<span id="pez-widget-container-span" style="display:none;"></span>\n</div>'
+        var style_override = '<style>\n#pez-widget-launcher-open{\nbackground: '+client.bgcolor+' !important;color: '+client.fgcolor+' !important;}\n#pez-widget-launcher-open:after {\nborder-color: '+client.bgcolor+' transparent !important;}\n</style>';
+        var htmlstr = '<div id="pez-widget-container" style="display:none;">\n<div id="pez-widget-launcher-close" style="display:none;">CLOSE</div>\n<div id="pez-widget-launcher-open" class="speech-bubble shadow gradient" style="display:none;">'+client.bubble_text+'</div>\n<span id="pez-widget-container-span" style="display:none;"></span>\n</div>'+style_override
         var div = document.createElement('div');
         div.innerHTML = htmlstr;
         document.body.appendChild(div);
