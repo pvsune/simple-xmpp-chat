@@ -170,17 +170,19 @@
         msg = msg.trim()
         if (msg == '') return;
         var orig_msg = msg
-        var buf = msgpack.encode(JSON.stringify({
-            "message": msg,
-            "api_key": pez_widget_api_key,
-            "page_id": pez_widget_client_domain
-        }));
-        msg = '';
-        for (var i = 0, x = buf.length; i < x; i += 1)
-            msg += (buf[i] <= 0xf ? '0' : '') + buf[i].toString(16);
-        var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"}).c("body").t(msg)
-        connection.send(message.tree());
-        //connection.send(Strophe.xmlHtmlNode('<message to="admin@localhost" type="chat"><body>'+msg+'</body></message>').firstElementChild);
+        if (pez_widget_online) {
+            var buf = msgpack.encode(JSON.stringify({
+                "message": msg,
+                "api_key": pez_widget_api_key,
+                "page_id": pez_widget_client_domain
+            }));
+            msg = '';
+            for (var i = 0, x = buf.length; i < x; i += 1)
+                msg += (buf[i] <= 0xf ? '0' : '') + buf[i].toString(16);
+            var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"}).c("body").t(msg)
+            connection.send(message.tree());
+            //connection.send(Strophe.xmlHtmlNode('<message to="admin@localhost" type="chat"><body>'+msg+'</body></message>').firstElementChild);
+        }
         var time = append_message('user',orig_msg,null);
         add_message_cookie('user',orig_msg,time);
         process_non_text(orig_msg,time);
