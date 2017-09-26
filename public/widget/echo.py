@@ -21,7 +21,7 @@ import msgpack
 xmpp_url = 'localhost'
 
 authsuccess_response = '[authsuccess]';
-userdatareceived_response = '[userdatareceived]';
+userdatareceived_response = '[prechatreceived]';
 fail_response = '[fail]'
 
 if sys.version_info < (3, 0):
@@ -110,15 +110,14 @@ class EchoBot(sleekxmpp.ClientXMPP):
             if api_key in api_keys and domain in api_keys[api_key]:
                 reply = authsuccess_response
         elif form['title'] == 'userdata':
-            user_firstname = form['fields']['user_firstname']['value']
-            user_lastname = form['fields']['user_lastname']['value']
-            user_email = form['fields']['user_email']['value']
-            user_phone = form['fields']['user_phone']['value']
-            user_question = form['fields']['user_question']['value']
-            api_key = form['fields']['api_key']['value']
-            print "user data: "+user_firstname+' '+user_lastname+' | '+user_email+' | '+user_phone+' | '+user_question+' | '+api_key
-            # under construction
-            #reply = userdatareceived_response
+            user_data = {field:form['fields'][field]['value'] for field in form['fields']}
+            print "user data: "+str(user_data)
+            reply = userdatareceived_response
+        elif form['title'] == 'usermessage':
+            hexstr = form['fields']['message']['value']
+            hex_data = bytearray.fromhex(hexstr)
+            unpacked_data = msgpack.unpackb(hex_data, encoding='utf-8')
+            print unpacked_data
         
         print "reply: "+reply
         data.reply(reply).send()
