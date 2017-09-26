@@ -2,11 +2,11 @@
 // ---------------- CONFIGS ---------------
 
     function log(message) {
-        console.log(message);
+        //console.log(message);
     }
 
     function trace(message) {
-        console.log(message);
+        //console.log(message);
     }
 
     var seed = Math.floor(Date.now() / 1000);
