@@ -861,13 +861,13 @@
 
 // ------------ MAIN ----------------------
 
-    if (pez_widget_connection == 'websocket')
-        var connection = new Strophe.WebSocket(xmpp.url);
-    else
-        var connection = new Strophe.Connection(xmpp.url);
-    set_raw_handlers();
-
-    if (pez_widget_online) 
+    if (pez_widget_online) {
+        if (pez_widget_connection == 'websocket')
+            var connection = new Strophe.WebSocket(xmpp.url);
+        else
+            var connection = new Strophe.Connection(xmpp.url);
+        set_raw_handlers();
         connect();
-    else
+    } else {
         post_auth();
+    }
