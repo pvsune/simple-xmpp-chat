@@ -179,9 +179,12 @@
             msg = '';
             for (var i = 0, x = buf.length; i < x; i += 1)
                 msg += (buf[i] <= 0xf ? '0' : '') + buf[i].toString(16);
-            var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"}).c("body").t(msg)
-            connection.send(message.tree());
-            //connection.send(Strophe.xmlHtmlNode('<message to="admin@localhost" type="chat"><body>'+msg+'</body></message>').firstElementChild);
+            if (pez_widget_connection=='websocket') {
+                connection.send(Strophe.xmlHtmlNode('<message to="admin@localhost" type="chat"><body>'+msg+'</body></message>').firstElementChild);
+            } else {
+                var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"}).c("body").t(msg)
+                connection.send(message.tree());
+            }
         }
         var time = append_message('user',orig_msg,null);
         add_message_cookie('user',orig_msg,time);
