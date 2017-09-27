@@ -18,9 +18,9 @@
             admin_user: 'admin@localhost'
         }
         if (pez_widget_connection == 'websocket') {
-            config.url = 'ws://xmpp.dev.pez.ai/xmpp';
+            config.url = 'wss://xmpp.dev.pez.ai/xmpp';
         } else {
-            config.url = '//xmpp.dev.pez.ai/http-bind';
+            config.url = 'https://xmpp.dev.pez.ai/http-bind';
         }
         return config
     }
@@ -131,7 +131,6 @@
             if (body) {
                 if (body == get_dataform_response('prechatreceived')) {
                     log('Prechat Data Received')
-                    post_prechat();
                 } else if (body != get_dataform_response('authfail')) {
                     log(from + ": " + body);
                     var time = append_message('server',body,null);
@@ -151,16 +150,10 @@
 
     var pending_message = '';
 
-    function post_prechat() {
-        send_message(pending_message);
-    }
-
     function send_message(msg) {
         if (!has_previous_messages) {
             send_user_info();
-            pending_message = msg;
             has_previous_messages = true;
-            return
         }
 
         trace(' -> send_message');
