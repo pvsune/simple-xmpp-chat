@@ -197,7 +197,7 @@
             imgsrc = '';
             name = user_firstname;
         } else {
-            imgsrc = client.avatar+'?'+seed
+            imgsrc = client.avatar
             name = client.name
         }
         message = convert_links(message);
