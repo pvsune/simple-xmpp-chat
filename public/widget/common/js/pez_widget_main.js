@@ -2,11 +2,11 @@
 // ---------------- CONFIGS ---------------
 
     function log(message) {
-        console.log(message);
+        //console.log(message);
     }
 
     function trace(message) {
-        console.log(message);
+        //console.log(message);
     }
 
     var seed = Math.floor(Date.now() / 1000);
@@ -18,12 +18,9 @@
             admin_user: 'admin@localhost'
         }
         if (pez_widget_connection == 'websocket') {
-            config.url = 'ws://xmpp.dev.pez.ai/xmpp';
+            config.url = 'wss://xmpp.dev.pez.ai/xmpp';
         } else {
-            if (pez_widget_url.indexOf('localhost') > -1)
-                config.url = 'http://localhost:5280/http-bind';
-            else
-                config.url = '//xmpp.dev.pez.ai/http-bind';
+            config.url = 'https://xmpp.dev.pez.ai/http-bind';
         }
         return config
     }
@@ -134,7 +131,6 @@
             if (body) {
                 if (body == get_dataform_response('prechatreceived')) {
                     log('Prechat Data Received')
-                    post_prechat();
                 } else if (body != get_dataform_response('authfail')) {
                     log(from + ": " + body);
                     var time = append_message('server',body,null);
@@ -155,16 +151,10 @@
 
     var pending_message = '';
 
-    function post_prechat() {
-        send_message(pending_message);
-    }
-
     function send_message(msg) {
         if (!has_previous_messages) {
             send_user_info();
-            pending_message = msg;
             has_previous_messages = true;
-            return
         }
 
         trace(' -> send_message');
@@ -180,9 +170,12 @@
             msg = '';
             for (var i = 0, x = buf.length; i < x; i += 1)
                 msg += (buf[i] <= 0xf ? '0' : '') + buf[i].toString(16);
-            var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"}).c("body").t(msg)
-            connection.send(message.tree());
-            //connection.send(Strophe.xmlHtmlNode('<message to="admin@localhost" type="chat"><body>'+msg+'</body></message>').firstElementChild);
+            if (pez_widget_connection=='websocket') {
+                connection.send(Strophe.xmlHtmlNode('<message to="admin@localhost" type="chat"><body>'+msg+'</body></message>').firstElementChild);
+            } else {
+                var message = $msg({to: xmpp.admin_user,from: connection.jid,type:"chat"}).c("body").t(msg)
+                connection.send(message.tree());
+            }
         }
         var time = append_message('user',orig_msg,null);
         add_message_cookie('user',orig_msg,time);
@@ -205,7 +198,7 @@
             imgsrc = '';
             name = user_firstname;
         } else {
-            imgsrc = client.avatar+'?'+seed
+            imgsrc = client.avatar
             name = client.name
         }
         message = convert_links(message);
