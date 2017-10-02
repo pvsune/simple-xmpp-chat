@@ -1,18 +1,34 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
+    <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WEB Widget POC</title>
     <style>
     body {
-        background: transparent url(/widget/clients/mercer-bg.png) no-repeat;
+        background: transparent url(/clients/mercer-bg.png) no-repeat;
         background-size: cover;
     }
     </style>
 </head>
 <body>
 
-    <script src="http://localhost:8080/widget/common/js/pez_widget.js" id="pez-widget-embed" data-apikey="s0A1m2P3l4e5K6e7Y" data-client="mercer"></script>
+    <script src="http://localhost:8080/dev/js/pez_widget.min.js" id="pez-widget-embed" 
+    	data-apikey="s0A1m2P3l4e5K6e7Y" 
+    	data-client="mercer" 
+        data-window-state="open"
+        data-title="Mercer" 
+        data-slogan="This is a test" 
+        data-message="Hi!" 
+        data-bubbletext="Talk to Mercer!" 
+        data-prechat="false" 
+        data-prechat-email="false" 
+        data-prechat-phone="false" 
+        data-prechat-question="false" 
+        data-bgcolor="#000"  
+        data-fgcolor="#fff"
+        data-avatar=""
+    ></script>
 
 </body>
 </html>

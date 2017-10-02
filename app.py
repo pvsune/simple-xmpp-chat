@@ -12,24 +12,30 @@ def mercer():
 	return template('mercer.html')
 
 
-@get("/widget/common/js/<filepath:re:.*\.js>")
-def commonjs(filepath):
-	return static_file(filepath, root="public/widget/common/js")
+@get("/dev/<filepath:re:.*\.js>")
+@get("/dev/<filepath:re:.*\.css>")
+def dev(filepath):
+	return static_file(filepath, root="public/dev")
 
 
-@get("/widget/common/css/<filepath:re:.*\.css>")
-def commoncss(filepath):
-	return static_file(filepath, root="public/widget/common/css")
+@get("/prod/<filepath:re:.*\.js>")
+@get("/prod/<filepath:re:.*\.css>")
+def prod(filepath):
+	return static_file(filepath, root="public/prod")
 
 
-@get("/widget/common/images/<filepath:re:.*>")
-def commonimages(filepath):
-	return static_file(filepath, root="public/widget/common/images")
+@get("/library/<filepath:re:.*\.js>")
+def library(filepath):
+	return static_file(filepath, root="public/library")
 
 
-@get("/widget/clients/<filepath:re:.*>")
-def clientfiles(filepath):
-	return static_file(filepath, root="public/widget/clients")
+@get("/images/<filepath:re:.*\.*>")
+def images(filepath):
+	return static_file(filepath, root="public/images")
+
+@get("/clients/<filepath:re:.*\.*>")
+def clients(filepath):
+	return static_file(filepath, root="public/clients")
 
 
 run(host='0.0.0.0', port=8080, debug=True)
