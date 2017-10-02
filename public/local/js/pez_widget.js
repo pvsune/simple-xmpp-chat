@@ -4,12 +4,12 @@ var pez_widget_api_key = null;
 var pez_widget_client = null;
 var pez_widget_client_domain = null;
 var pez_widget_prefix = 'pez-widget-';
-var pez_widget_url = 'https://panoptez.firebaseapp.com/';
+var pez_widget_url = 'http://localhost:8080/';
 var pez_widget_env = 'dev';
-var pez_widget_xmpp_url = 'https://xmpp.dev.pez.ai/http-bind'
-var pez_widget_dotmin = '.min';
+var pez_widget_xmpp_url = 'http://localhost:5280/http-bind'
+var pez_widget_dotmin = '';
 var pez_widget_online = true;
-var pez_widget_debug = false;
+var pez_widget_debug = true;
 
 var pez_widget_title = '',
     pez_widget_slogan = '',

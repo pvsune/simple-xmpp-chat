@@ -2,25 +2,20 @@
 // ---------------- CONFIGS ---------------
 
     function log(message) {
-        //console.log(message);
+        if (pez_widget_debug) console.log(message);
     }
 
     function trace(message) {
-        //console.log(message);
+        log(message);
     }
 
     var seed = Math.floor(Date.now() / 1000);
 
     function get_xmpp_config() {
         var config =  {
-            url: null,
+            url: pez_widget_xmpp_url,
             host: 'localhost',
             admin_user: 'admin@localhost'
-        }
-        if (pez_widget_connection == 'websocket') {
-            config.url = 'wss://xmpp.pez.ai/xmpp';
-        } else {
-            config.url = 'https://xmpp.pez.ai/http-bind';
         }
         return config
     }

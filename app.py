@@ -2,14 +2,24 @@ from bottle import get, post, route, run, static_file, template, request, respon
 import requests, json, re
 
 
-@route('/')
-def fundko():
-	return template('fundko.html')
+@route("/fundko/<env>")
+def fundko(env):
+	url = 'http://localhost:8080/'+env+'/'
+	dotmin = '.min' if env != 'local' else ''
+	return template('templates/fundko.html', url=url, dotmin=dotmin)
 
 
-@route('/mercer')
-def mercer():
-	return template('mercer.html')
+@route("/mercer/<env>")
+def fundko(env):
+	url = 'http://localhost:8080/'+env+'/'
+	dotmin = '.min' if env != 'local' else ''
+	return template('templates/mercer.html', url=url, dotmin=dotmin)
+	
+
+@get("/local/<filepath:re:.*\.js>")
+@get("/local/<filepath:re:.*\.css>")
+def local(filepath):
+	return static_file(filepath, root="public/local")
 
 
 @get("/dev/<filepath:re:.*\.js>")
@@ -32,6 +42,7 @@ def library(filepath):
 @get("/images/<filepath:re:.*\.*>")
 def images(filepath):
 	return static_file(filepath, root="public/images")
+
 
 @get("/clients/<filepath:re:.*\.*>")
 def clients(filepath):
