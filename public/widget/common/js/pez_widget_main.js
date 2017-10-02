@@ -27,7 +27,7 @@
 
     function get_dataform_response(name) {
         var responses = {
-            prechatreceived: '[prechatreceived]',
+            prechatreceived: '[usercreated]',
             authfail: '[fail]'
         }
         if (responses[name] != undefined) {
@@ -130,7 +130,8 @@
             var body = Strophe.getText(elems[0]);
             if (body) {
                 if (body == get_dataform_response('prechatreceived')) {
-                    log('Prechat Data Received')
+                    log('User created');
+                    send_message(pending_message);
                 } else if (body != get_dataform_response('authfail')) {
                     log(from + ": " + body);
                     var time = append_message('server',body,null);
@@ -155,6 +156,8 @@
         if (!has_previous_messages) {
             send_user_info();
             has_previous_messages = true;
+            pending_message = msg;
+            return;
         }
 
         trace(' -> send_message');
@@ -770,7 +773,6 @@
 
     function connect() {
         trace(' -> connect');
-        update_jid();
         connection.connect(pez_widget_jid, '', connectHandler)
     }
 
@@ -786,8 +788,8 @@
         } 
         else if (cond == Strophe.Status.AUTHFAIL)       { log("Authentication Fail"); } 
         else if (cond == Strophe.Status.CONNECTING)     { log("Connecting"); } 
-        else if (cond == Strophe.Status.CONNFAIL)       { log("Connection Fail"); } //setTimeout(connect,5000) }
-        else if (cond == Strophe.Status.DISCONNECTED)   { log("Disconnected"); }//setTimeout(connect,5000) }
+        else if (cond == Strophe.Status.CONNFAIL)       { log("Connection Fail"); setTimeout(connect(),5000); }
+        else if (cond == Strophe.Status.DISCONNECTED)   { log("Disconnected"); setTimeout(connect(),5000); }
         else if (cond == Strophe.Status.DISCONNECTING)  { log("Disconnectin"); }
         else if (cond == Strophe.Status.ERROR)          { log("Error"); }
         else if (cond == Strophe.Status.ATTACHED)       { log("Attached"); }
@@ -863,6 +865,8 @@
         else
             var connection = new Strophe.Connection(xmpp.url);
         set_raw_handlers();
+        
+        update_jid();
         connect();
     } else {
         post_auth();

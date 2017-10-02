@@ -1,4 +1,4 @@
-var pez_widget_connection = 'websocket';
+var pez_widget_connection = 'bosch';
 
 var pez_widget_api_key = null;
 var pez_widget_client = null;
