@@ -4,7 +4,8 @@ var pez_widget_api_key = null;
 var pez_widget_client = null;
 var pez_widget_client_domain = null;
 var pez_widget_prefix = 'pez-widget-';
-var pez_widget_url = 'https://panoptez.firebaseapp.com/widget/';
+var pez_widget_url = 'https://panoptez.firebaseapp.com/';
+var pez_widget_env = 'prod';
 var pez_widget_dotmin = '.min';
 var pez_widget_online = true;
 var pez_widget_debug = false;
@@ -69,7 +70,7 @@ function get_client_data() {
     } else {
         data = {
             name: 'Untitled',
-            avatar: pez_widget_url+'clients/user.png',
+            avatar: pez_widget_url+'images/user.png',
             slogan: 'This is a test',
             welcome_message: 'Hi, this is a sample?',
             pre_chat: true,
@@ -119,7 +120,7 @@ function get_client_data() {
         pez_build_container();
 
         var style = document.createElement('link');
-        style.href = pez_widget_url+'common/css/pez_widget_'+pez_widget_device+pez_widget_dotmin+'.css?'+seed;
+        style.href = pez_widget_url+pez_widget_env+'/css/pez_widget_'+pez_widget_device+pez_widget_dotmin+'.css?'+seed;
         style.rel = 'stylesheet';
         style.type = 'text/css';
         style.media = 'all';
@@ -127,7 +128,7 @@ function get_client_data() {
 
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = pez_widget_url+'common/js/strophe.js?'+seed;
+        script.src = pez_widget_url+'library/strophe/strophe.js?'+seed;
         script.onload = pez_widget_load_websocket;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
@@ -135,7 +136,7 @@ function get_client_data() {
     function pez_widget_load_websocket() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = pez_widget_url+'common/js/strophe.websocket.js?'+seed;
+        script.src = pez_widget_url+'library/strophe/strophe.websocket.js?'+seed;
         script.onload = pez_widget_load_msgpk;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
@@ -143,7 +144,7 @@ function get_client_data() {
     function pez_widget_load_msgpk() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = pez_widget_url+'common/js/msgpack/msgpack.min.js?'+seed;
+        script.src = pez_widget_url+'library/msgpack/msgpack.min.js?'+seed;
         script.onload = pez_widget_load_main;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
@@ -151,12 +152,11 @@ function get_client_data() {
     function pez_widget_load_main() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = pez_widget_url+'common/js/pez_widget_main'+pez_widget_dotmin+'.js?'+seed;
+        script.src = pez_widget_url+pez_widget_env+'/js/pez_widget_main'+pez_widget_dotmin+'.js?'+seed;
         document.getElementsByTagName('body')[0].appendChild(script)
     }
 
     function pez_build_container() {
-        var iframe_url = pez_widget_url+'iframe';
         var style_override = '<style>\n#pez-widget-launcher-open{\nbackground: '+client.bgcolor+' !important;color: '+client.fgcolor+' !important;}\n#pez-widget-launcher-open:after {\nborder-color: '+client.bgcolor+' transparent !important;}\n</style>';
         var htmlstr = '<div id="pez-widget-container" style="display:none;">\n<div id="pez-widget-launcher-close" style="display:none;">CLOSE</div>\n<div id="pez-widget-launcher-open" class="speech-bubble shadow gradient" style="display:none;">'+client.bubble_text+'</div>\n<span id="pez-widget-container-span" style="display:none;"></span>\n</div>'+style_override
         var div = document.createElement('div');
