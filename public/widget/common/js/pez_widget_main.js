@@ -18,9 +18,9 @@
             admin_user: 'admin@localhost'
         }
         if (pez_widget_connection == 'websocket') {
-            config.url = 'wss://xmpp.dev.pez.ai/xmpp';
+            config.url = 'wss://xmpp.pez.ai/xmpp';
         } else {
-            config.url = 'https://xmpp.dev.pez.ai/http-bind';
+            config.url = 'https://xmpp.pez.ai/http-bind';
         }
         return config
     }
