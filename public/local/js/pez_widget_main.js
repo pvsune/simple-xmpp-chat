@@ -126,7 +126,7 @@
             if (body) {
                 if (body == get_dataform_response('prechatreceived')) {
                     log('User created');
-                    send_message(pending_message);
+                    //send_message(pending_message);
                 } else if (body != get_dataform_response('authfail')) {
                     log(from + ": " + body);
                     var time = append_message('server',body,null);
@@ -152,7 +152,7 @@
             send_user_info();
             has_previous_messages = true;
             pending_message = msg;
-            return;
+            //return;
         }
 
         trace(' -> send_message');
@@ -766,8 +766,24 @@
         }
     }
 
+    var connection = null;
+    var is_reconnect = false;
+
+    function create_connection() {
+        if (pez_widget_connection == 'websocket')
+            connection = new Strophe.WebSocket(xmpp.url, {'keepalive': true});
+        else
+            connection = new Strophe.Connection(xmpp.url);
+        set_raw_handlers();
+    }
+
     function connect() {
         trace(' -> connect');
+        connection.connect(pez_widget_jid, '', connectHandler)
+    }
+
+    function restore() {
+        trace(' -> restore');
         connection.connect(pez_widget_jid, '', connectHandler)
     }
 
@@ -775,16 +791,28 @@
         trace(' -> connectHandler');
         if (cond == Strophe.Status.CONNECTED){ 
             log("Connected");
-            connection.addHandler(presenceHandler, null, "presence");//, connection.jid);
-            connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get");//, connection.jid);
-            connection.addHandler(messageHandler, null, "message", null, null, null);//, connection.jid);
+            pez_widget_jid = connection.jid
+            connection.addHandler(presenceHandler, null, "presence", pez_widget_jid);
+            connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get", pez_widget_jid);
+            connection.addHandler(messageHandler, null, "message", null, null, null, pez_widget_jid);
             connection.send($pres().tree());
-            post_auth(); 
+            if (!is_reconnect) post_auth(); 
         } 
         else if (cond == Strophe.Status.AUTHFAIL)       { log("Authentication Fail"); } 
         else if (cond == Strophe.Status.CONNECTING)     { log("Connecting"); } 
-        else if (cond == Strophe.Status.CONNFAIL)       { log("Connection Fail"); setTimeout(connect(),5000); }
-        else if (cond == Strophe.Status.DISCONNECTED)   { log("Disconnected"); setTimeout(connect(),5000); }
+        else if (cond == Strophe.Status.CONNFAIL)       { 
+            log("Connection Fail");
+            is_reconnect = true;
+            pez_widget_jid = new Date().getTime()+'@localhost';
+            create_connection();
+            connect();
+        }
+        else if (cond == Strophe.Status.DISCONNECTED)   { 
+            log("Disconnected");
+            is_reconnect = true;
+            create_connection();
+            connect();
+        }
         else if (cond == Strophe.Status.DISCONNECTING)  { log("Disconnectin"); }
         else if (cond == Strophe.Status.ERROR)          { log("Error"); }
         else if (cond == Strophe.Status.ATTACHED)       { log("Attached"); }
@@ -855,12 +883,7 @@
 // ------------ MAIN ----------------------
 
     if (pez_widget_online) {
-        if (pez_widget_connection == 'websocket')
-            var connection = new Strophe.WebSocket(xmpp.url);
-        else
-            var connection = new Strophe.Connection(xmpp.url);
-        set_raw_handlers();
-        
+        create_connection();
         update_jid();
         connect();
     } else {
