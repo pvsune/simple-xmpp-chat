@@ -676,14 +676,11 @@
 
     function set_cookie(name,value) {
         trace(' -> set_cookie');
+        var data = get_all_cookies();
+        data[name] = value
         if (supports_html5_storage()) {
-            trace(' -> html storage');
-            if (!(pez_widget_prefix+'data' in localStorage))
-                localStorage[pez_widget_prefix+'data'] = {}
-            localStorage[pez_widget_prefix+'data'][name] = value;
+            localStorage.setItem(pez_widget_prefix+'data',JSON.stringify(data));
         } else {
-            var data = get_all_cookies();
-            data[name] = value
             var expiry = new Date(new Date().getTime() + 365 * 86400000 * 5);
             delete_all_cookies();
             document.cookie = pez_widget_prefix+'data='+JSON.stringify(data)+'; expires='+expiry.toUTCString()+'; path=/';
@@ -694,43 +691,39 @@
     function get_cookie(name) {
         //trace(' -> get_cookie');
         var data = get_all_cookies();
-        if (name in data) return data[name]
+        if (typeof data[name] != 'undefined') 
+            return data[name]
         return null
     }
 
     function get_all_cookies() {
         //trace(' -> get_all_cookies');
+        var jsonstr = '';
         if (supports_html5_storage()) {
-            trace(' -> html storage');
-            if (!(pez_widget_prefix+'data' in localStorage)) {
-                localStorage[pez_widget_prefix+'data'] = {}
-            return localStorage[pez_widget_prefix+'data'];
+            jsonstr = localStorage.getItem(pez_widget_prefix+'data');
         } else {
             var result = document.cookie.match(new RegExp(pez_widget_prefix+'data=([^;]+)'))
-            if (result) {
-                try {
-                    var obj = JSON.parse(result[1]);
-                } catch (e) {
-                    delete_all_cookies();
-                    return {};
-                }
-                return obj;
-            }
+            if (result) jsonstr = result[1]
+        }
+        try {
+            var obj = JSON.parse(jsonstr);
+        } catch (e) {
+            delete_all_cookies();
             return {};
         }
+        if (obj == null) obj = {};
+        return obj;
     }
 
     function delete_all_cookies() {
         //trace(' -> delete_all_cookies');
         if (supports_html5_storage()) {
-            trace(' -> html storage');
-            if (!(pez_widget_prefix+'data' in localStorage)) {
-                localStorage[pez_widget_prefix+'data'] = {}
+            localStorage.removeItem(pez_widget_prefix+'data');
         } else {
             var expiry = new Date(new Date().getTime() - 365 * 86400000);
             document.cookie = pez_widget_prefix+'data=; expires='+expiry.toUTCString()+'; path=/';
+            log('Deleted Corrupt Cookies');
         }
-        log('Deleted Corrupt Cookies');
     }
 
     function add_message_cookie(sender,message,time) {
