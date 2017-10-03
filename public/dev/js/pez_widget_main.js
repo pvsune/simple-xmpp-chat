@@ -126,7 +126,7 @@
             if (body) {
                 if (body == get_dataform_response('prechatreceived')) {
                     log('User created');
-                    send_message(pending_message);
+                    //send_message(pending_message);
                 } else if (body != get_dataform_response('authfail')) {
                     log(from + ": " + body);
                     var time = append_message('server',body,null);
@@ -152,7 +152,7 @@
             send_user_info();
             has_previous_messages = true;
             pending_message = msg;
-            return;
+            //return;
         }
 
         trace(' -> send_message');
