@@ -666,44 +666,70 @@
 
 // ---------------- COOKIES HANDLING ----------------------
 
+    function supports_html5_storage() {
+      try {
+        return 'localStorage' in window && window['localStorage'] !== null;
+      } catch (e) {
+        return false;
+      }
+    }
+
     function set_cookie(name,value) {
         trace(' -> set_cookie');
-        var data = get_all_cookies();
-        data[name] = value
-        var expiry = new Date(new Date().getTime() + 365 * 86400000 * 5);
-        delete_all_cookies();
-        document.cookie = pez_widget_prefix+'data='+JSON.stringify(data)+'; expires='+expiry.toUTCString()+'; path=/';
+        if (supports_html5_storage()) {
+            trace(' -> html storage');
+            if (!(pez_widget_prefix+'data' in localStorage))
+                localStorage[pez_widget_prefix+'data'] = {}
+            localStorage[pez_widget_prefix+'data'][name] = value;
+        } else {
+            var data = get_all_cookies();
+            data[name] = value
+            var expiry = new Date(new Date().getTime() + 365 * 86400000 * 5);
+            delete_all_cookies();
+            document.cookie = pez_widget_prefix+'data='+JSON.stringify(data)+'; expires='+expiry.toUTCString()+'; path=/';
+        }
         log('Cookie: '+name+'='+value);
     }
 
     function get_cookie(name) {
         //trace(' -> get_cookie');
         var data = get_all_cookies();
-        if (data != {} && data[name] != undefined) 
-            return data[name]
-        else
-            return null
+        if (name in data) return data[name]
+        return null
     }
 
     function get_all_cookies() {
         //trace(' -> get_all_cookies');
-        var result = document.cookie.match(new RegExp(pez_widget_prefix+'data=([^;]+)'))
-        if (result) {
-            try {
-                var obj = JSON.parse(result[1]);
-            } catch (e) {
-                delete_all_cookies();
-                return {};
+        if (supports_html5_storage()) {
+            trace(' -> html storage');
+            if (!(pez_widget_prefix+'data' in localStorage)) {
+                localStorage[pez_widget_prefix+'data'] = {}
+            return localStorage[pez_widget_prefix+'data'];
+        } else {
+            var result = document.cookie.match(new RegExp(pez_widget_prefix+'data=([^;]+)'))
+            if (result) {
+                try {
+                    var obj = JSON.parse(result[1]);
+                } catch (e) {
+                    delete_all_cookies();
+                    return {};
+                }
+                return obj;
             }
-            return obj;
+            return {};
         }
-        return {};
     }
 
     function delete_all_cookies() {
         //trace(' -> delete_all_cookies');
-        var expiry = new Date(new Date().getTime() - 365 * 86400000);
-        document.cookie = pez_widget_prefix+'data=; expires='+expiry.toUTCString()+'; path=/';
+        if (supports_html5_storage()) {
+            trace(' -> html storage');
+            if (!(pez_widget_prefix+'data' in localStorage)) {
+                localStorage[pez_widget_prefix+'data'] = {}
+        } else {
+            var expiry = new Date(new Date().getTime() - 365 * 86400000);
+            document.cookie = pez_widget_prefix+'data=; expires='+expiry.toUTCString()+'; path=/';
+        }
         log('Deleted Corrupt Cookies');
     }
 
