@@ -9,7 +9,7 @@ var pez_widget_env = 'dev';
 var pez_widget_xmpp_url = 'ws://104.197.90.122:5280/xmpp'
 var pez_widget_dotmin = '.min';
 var pez_widget_online = true;
-var pez_widget_debug = true;
+var pez_widget_debug = false;
 
 var pez_widget_title = '',
     pez_widget_slogan = '',

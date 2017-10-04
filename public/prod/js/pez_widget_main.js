@@ -126,7 +126,7 @@
             if (body) {
                 if (body == get_dataform_response('prechatreceived')) {
                     log('User created');
-                    send_message(pending_message);
+                    //send_message(pending_message);
                 } else if (body != get_dataform_response('authfail')) {
                     log(from + ": " + body);
                     var time = append_message('server',body,null);
@@ -152,7 +152,7 @@
             send_user_info();
             has_previous_messages = true;
             pending_message = msg;
-            return;
+            //return;
         }
 
         trace(' -> send_message');
@@ -666,45 +666,64 @@
 
 // ---------------- COOKIES HANDLING ----------------------
 
+    function supports_html5_storage() {
+      try {
+        return 'localStorage' in window && window['localStorage'] !== null;
+      } catch (e) {
+        return false;
+      }
+    }
+
     function set_cookie(name,value) {
         trace(' -> set_cookie');
         var data = get_all_cookies();
         data[name] = value
-        var expiry = new Date(new Date().getTime() + 365 * 86400000 * 5);
-        delete_all_cookies();
-        document.cookie = pez_widget_prefix+'data='+JSON.stringify(data)+'; expires='+expiry.toUTCString()+'; path=/';
+        if (supports_html5_storage()) {
+            localStorage.setItem(pez_widget_prefix+'data',JSON.stringify(data));
+        } else {
+            var expiry = new Date(new Date().getTime() + 365 * 86400000 * 5);
+            delete_all_cookies();
+            document.cookie = pez_widget_prefix+'data='+JSON.stringify(data)+'; expires='+expiry.toUTCString()+'; path=/';
+        }
         log('Cookie: '+name+'='+value);
     }
 
     function get_cookie(name) {
         //trace(' -> get_cookie');
         var data = get_all_cookies();
-        if (data != {} && data[name] != undefined) 
+        if (typeof data[name] != 'undefined') 
             return data[name]
-        else
-            return null
+        return null
     }
 
     function get_all_cookies() {
         //trace(' -> get_all_cookies');
-        var result = document.cookie.match(new RegExp(pez_widget_prefix+'data=([^;]+)'))
-        if (result) {
-            try {
-                var obj = JSON.parse(result[1]);
-            } catch (e) {
-                delete_all_cookies();
-                return {};
-            }
-            return obj;
+        var jsonstr = '';
+        if (supports_html5_storage()) {
+            jsonstr = localStorage.getItem(pez_widget_prefix+'data');
+        } else {
+            var result = document.cookie.match(new RegExp(pez_widget_prefix+'data=([^;]+)'))
+            if (result) jsonstr = result[1]
         }
-        return {};
+        try {
+            var obj = JSON.parse(jsonstr);
+        } catch (e) {
+            delete_all_cookies();
+            return {};
+        }
+        if (obj == null) obj = {};
+        return obj;
     }
 
     function delete_all_cookies() {
         //trace(' -> delete_all_cookies');
-        var expiry = new Date(new Date().getTime() - 365 * 86400000);
-        document.cookie = pez_widget_prefix+'data=; expires='+expiry.toUTCString()+'; path=/';
-        log('Deleted Corrupt Cookies');
+        if (supports_html5_storage()) {
+            localStorage.removeItem(pez_widget_prefix+'data');
+        } else {
+            var expiry = new Date(new Date().getTime() - 365 * 86400000);
+            document.cookie = pez_widget_prefix+'data=; expires='+expiry.toUTCString()+'; path=/';
+            log('Deleted Corrupt Cookies');
+        }
     }
 
     function add_message_cookie(sender,message,time) {
@@ -766,8 +785,24 @@
         }
     }
 
+    var connection = null;
+    var is_reconnect = false;
+
+    function create_connection() {
+        if (pez_widget_connection == 'websocket')
+            connection = new Strophe.WebSocket(xmpp.url, {'keepalive': true});
+        else
+            connection = new Strophe.Connection(xmpp.url);
+        set_raw_handlers();
+    }
+
     function connect() {
         trace(' -> connect');
+        connection.connect(pez_widget_jid, '', connectHandler)
+    }
+
+    function restore() {
+        trace(' -> restore');
         connection.connect(pez_widget_jid, '', connectHandler)
     }
 
@@ -775,16 +810,28 @@
         trace(' -> connectHandler');
         if (cond == Strophe.Status.CONNECTED){ 
             log("Connected");
-            connection.addHandler(presenceHandler, null, "presence");//, connection.jid);
-            connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get");//, connection.jid);
-            connection.addHandler(messageHandler, null, "message", null, null, null);//, connection.jid);
+            pez_widget_jid = connection.jid
+            connection.addHandler(presenceHandler, null, "presence", pez_widget_jid);
+            connection.addHandler(pingHandler, "urn:xmpp:ping", "iq", "get", pez_widget_jid);
+            connection.addHandler(messageHandler, null, "message", null, null, null, pez_widget_jid);
             connection.send($pres().tree());
-            post_auth(); 
+            if (!is_reconnect) post_auth(); 
         } 
         else if (cond == Strophe.Status.AUTHFAIL)       { log("Authentication Fail"); } 
         else if (cond == Strophe.Status.CONNECTING)     { log("Connecting"); } 
-        else if (cond == Strophe.Status.CONNFAIL)       { log("Connection Fail"); setTimeout(connect(),5000); }
-        else if (cond == Strophe.Status.DISCONNECTED)   { log("Disconnected"); setTimeout(connect(),5000); }
+        else if (cond == Strophe.Status.CONNFAIL)       { 
+            log("Connection Fail");
+            is_reconnect = true;
+            pez_widget_jid = new Date().getTime()+'@localhost';
+            create_connection();
+            connect();
+        }
+        else if (cond == Strophe.Status.DISCONNECTED)   { 
+            log("Disconnected");
+            is_reconnect = true;
+            create_connection();
+            connect();
+        }
         else if (cond == Strophe.Status.DISCONNECTING)  { log("Disconnectin"); }
         else if (cond == Strophe.Status.ERROR)          { log("Error"); }
         else if (cond == Strophe.Status.ATTACHED)       { log("Attached"); }
@@ -855,12 +902,7 @@
 // ------------ MAIN ----------------------
 
     if (pez_widget_online) {
-        if (pez_widget_connection == 'websocket')
-            var connection = new Strophe.WebSocket(xmpp.url);
-        else
-            var connection = new Strophe.Connection(xmpp.url);
-        set_raw_handlers();
-        
+        create_connection();
         update_jid();
         connect();
     } else {
