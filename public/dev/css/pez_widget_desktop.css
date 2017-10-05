@@ -66,6 +66,8 @@
   -moz-box-shadow: 0 5px 40px rgba(0,0,0,.16) !important;
   box-shadow: 0 5px 40px rgba(0,0,0,.16) !important;
   background: #075698 !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 14px !important;
 
 }
 #pez-widget-launcher-open::after {

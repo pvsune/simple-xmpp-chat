@@ -158,8 +158,8 @@ function get_client_data() {
     }
 
     function pez_build_container() {
-        var style_override = '<style>\n#pez-widget-launcher-open{\nbackground: '+client.bgcolor+' !important;color: '+client.fgcolor+' !important;}\n#pez-widget-launcher-open:after {\nborder-color: '+client.bgcolor+' transparent !important;}\n</style>';
-        var htmlstr = '<div id="pez-widget-container" style="display:none;">\n<div id="pez-widget-launcher-close" style="display:none;">CLOSE</div>\n<div id="pez-widget-launcher-open" class="speech-bubble shadow gradient" style="display:none;">'+client.bubble_text+'</div>\n<span id="pez-widget-container-span" style="display:none;"></span>\n</div>'+style_override
+        var style_override = '<style>\n#'+pez_widget_prefix+'launcher-open{\nbackground: '+client.bgcolor+' !important;color: '+client.fgcolor+' !important;}\n#'+pez_widget_prefix+'launcher-open:after {\nborder-color: '+client.bgcolor+' transparent !important;}\n</style>';
+        var htmlstr = '<div id="'+pez_widget_prefix+'container" style="display:none;height:80px;">\n<div id="'+pez_widget_prefix+'launcher-close" style="display:none;">CLOSE</div>\n<span id="'+pez_widget_prefix+'container-span" style="display:none;"></span>\n</div>\n<div id="'+pez_widget_prefix+'launcher-open" class="speech-bubble shadow gradient" style="display:none;">'+client.bubble_text+'</div>'+style_override
         var div = document.createElement('div');
         div.innerHTML = htmlstr;
         document.body.appendChild(div);

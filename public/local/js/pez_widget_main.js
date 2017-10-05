@@ -619,6 +619,7 @@
 
     function show_widget() {
         trace(' -> show_widget');
+        i_container.style.display = "block";
         docdiv('container-span').style.display = "block";
         docdiv('launcher-close').style.display = "block";
         docdiv('launcher-open').style.display = "none";
@@ -628,6 +629,7 @@
 
     function hide_widget() {
         trace(' -> hide_widget');
+        i_container.style.display = "none";
         docdiv('container-span').style.display = "none";
         docdiv('launcher-close').style.display = "none";
         docdiv('launcher-open').style.display = "block";
