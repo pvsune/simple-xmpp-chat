@@ -127,11 +127,15 @@ function get_client_data() {
         style.media = 'all';
         document.getElementsByTagName('head')[0].appendChild(style)
 
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = pez_widget_url+'library/strophe/strophe.js?'+seed;
-        script.onload = pez_widget_load_websocket;
-        document.getElementsByTagName('body')[0].appendChild(script)
+        if (pez_widget_online) {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = pez_widget_url+'library/strophe/strophe.js?'+seed;
+            script.onload = pez_widget_load_websocket;
+            document.getElementsByTagName('body')[0].appendChild(script)
+        } else {
+            pez_widget_load_main();
+        }
     }
 
     function pez_widget_load_websocket() {
