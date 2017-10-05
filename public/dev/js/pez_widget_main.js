@@ -383,7 +383,7 @@
     function fake_reply(message) {
         trace(' -> fake_reply');
         setTimeout(function(){
-            var reply = "Chat server is offline";
+            var reply = "This is a sample message.";
             if (message == 'show link')
                 reply = 'http://pez.ai/about';
             else if (message == 'show image')
