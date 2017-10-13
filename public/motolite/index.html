@@ -1,0 +1,3231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+<!-- ===BEGIN-FILE=== header-meta -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head id="ctl00_ctl00_Head1"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="shortcut icon" type="image/ico" href="assets/favicon.ico"><title>
+	
+Pannenhilfe für Nutzfahrzeugflotte und Berufskraftfahrer
+
+
+</title>
+    <!-- meta: copyright,keywords, description, author, robots, Keywords, Description -->
+    <meta name="copyright" content="© 2015 ADAC e.V."><meta http-equiv="language" content="DE"><meta name="author" content="ADAC"><meta http-equiv="Content-Style-Type" content="text/css"><meta http-equiv="Content-Script-Type" content="text/javascript">
+     
+<meta name="publication-date" content="2017-05-24 12:20:02Z">
+<meta name="Description" content="Termine einhalten und dem Kostendruck davonfahren – dabei helfen die Gelben Engel für Brummies Transportunternehmern in ganz Europa.">
+<meta name="Keywords" content="TruckService; Pannenhilfe; Lkw; Lastwagen; Bus; Brummies; gelbe Engel; Busfahrer; Service; Nutzfahrzeuge; Schutzbrief; Pannenfall; Notdienst; Pannenhelfer; Truck; Assistance;">
+
+
+<meta id="ctl00_ctl00_viewport" content="width=device-width, maximum-scale=1" name="viewport"><script async="" type="text/javascript" src="assets/312287255193038.asc"></script><script type="text/javascript" src="assets/jquery-1.js"></script>
+	<script type="text/javascript"><!-- // <![CDATA[
+        var $j = jQuery.noConflict();
+		if (window!=top && !window.location.host.match(/(sadac356|stzent1940|szentt4\d\d)/i)) {
+			top.location=window.location; 
+	}
+	//]]> --></script>
+
+    <script type="text/javascript" src="assets/common.js"></script>
+    <script type="text/javascript" src="assets/protoaculous.js"></script>
+    <script type="text/javascript" src="assets/adac.js"></script>
+    <script type="text/javascript" src="assets/pageoverlay.js"></script>
+    <script type="text/javascript" src="assets/adac_006.js"></script>
+    <script type="text/javascript" src="assets/adac_002.js"></script>
+    <script type="text/javascript" src="assets/tariffinder.js"></script>
+    <script type="text/javascript" src="assets/swfobject.js"></script>
+    <script type="text/javascript" src="assets/gallery.js"></script>
+    <script type="text/javascript" src="assets/adac_007.js"></script>
+    <script type="text/javascript" src="assets/adac_008.js"></script>
+    <script type="text/javascript" src="assets/adac_004.js"></script>
+    <script type="text/javascript" src="assets/adac_005.js"></script>
+    <script type="text/javascript" src="assets/jquery.js"></script>
+
+    <!-- TODO: notwendigkeit von pathToRoot ermitteln, dann parametrisieren -->
+
+    <script type="text/javascript"><!-- // <![CDATA[
+	ADAC.pathToRoot = ""; //ORG: ADAC.pathToRoot = "../../..";
+	//]]> --></script>
+
+    <script type="text/javascript" src="assets/scrollPane.js"></script>
+    <!-- Maxymiser script start -->
+    <script type="text/javascript" src="assets/disable_maxymiser_cookies.js"></script>
+    <!-- Maxymiser script end -->
+
+    
+  
+  <link href="assets/import_produkte.css" rel="stylesheet" type="text/css">
+
+
+  
+   <link rel="stylesheet" type="text/css" href="assets/adac-calendar.css">
+   
+	
+
+<link rel="stylesheet" type="text/css" href="assets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="assets/toolbox.css"><link rel="stylesheet" type="text/css" href="assets/adac_banner.css"><link rel="stylesheet" type="text/css" href="assets/common.css"><link rel="stylesheet" type="text/css" href="assets/kontaktleiste.css"><link rel="stylesheet" type="text/css" href="assets/neu.css" media="screen"><link rel="stylesheet" type="text/css" href="assets/responsive.css" media="screen"><link rel="stylesheet" type="text/css" href="assets/responsive_header_footer.css" media="screen">
+    <!-- ===endof-file=== header-meta.html -->
+    <!-- ========================================================= -->
+    <!-- ========================================================= -->
+    <!-- ===BEGIN-FILE=== header-html.html -->
+    
+
+<script src="assets/PageFunctions.js" type="text/javascript"></script>
+<script src="assets/popcalendar.js" type="text/javascript"></script></head><body id="adacbody" class="page-desktop"><div onclick="popCalendar.bShow=true" class="sh-pc-box-outer" id="pcIDcalendar" style="display: none; visibility: hidden;">    <div class="sh-pc-box">        <div class="sh-pc-box-header pb3">            <a class="icon-calendar left"></a>            <div class="right"><a class="icon-close" title="Popup-Kalender schließen" href="javascript:popCalendar.hide();"></a></div><br class="v-clear">        </div>        <div id="pcIDcaption" unselectable="on"><div id="pcIDleft"><a href="javascript:void(0)" onclick="popCalendar.decMonth()" title="Zum vorigen Monat zu gelangen." onmouseover="window.status='Zum vorigen Monat zu gelangen.'" onmouseout="clearInterval(popCalendar.intervalID1);window.status=''" onmousedown="clearTimeout(popCalendar.timeoutID1);popCalendar.timeoutID1=setTimeout('popCalendar.StartDecMonth()',500)" onmouseup="clearTimeout(popCalendar.timeoutID1);clearInterval(popCalendar.intervalID1)">&nbsp;&nbsp;&nbsp;</a></div><div id="pcIDMonthYear"></div><div id="pcIDright"><a href="javascript:void(0)" onclick="popCalendar.incMonth()" title="Zum nächsten Monat zu gelangen." onmouseover="window.status='Zum nächsten Monat zu gelangen.'" onmouseout="clearInterval(popCalendar.intervalID1);window.status=''" onmousedown="clearTimeout(popCalendar.timeoutID1);popCalendar.timeoutID1=setTimeout('popCalendar.StartIncMonth()',500)" onmouseup="clearTimeout(popCalendar.timeoutID1);clearInterval(popCalendar.intervalID1)">&nbsp;&nbsp;&nbsp;</a></div><div class="v-clear"></div></div><div class="v-clear"></div>        <div id="pcIDcontent">.</div>        </div></div><div id="pcIDselectMonth"></div><div id="pcIDselectYear"></div><link rel="stylesheet" href="assets/style.css" type="text/css" media="screen">
+
+
+
+
+
+
+    <script type="text/javascript" src="assets/respond.js"></script>
+<link rel="canonical" href="#">
+
+	<!--googleon: all-->
+	<!--googleoff: all-->
+	
+	<div id="AdacPageFunctions"></div>
+    <form name="aspnetForm" method="post" action="./default.aspx" id="aspnetForm">
+<div>
+<input name="__EVENTTARGET" id="__EVENTTARGET" value="" type="hidden">
+<input name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" type="hidden">
+<input name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJNzEwNzI0MjM0DxYCHhNWYWxpZGF0ZVJlcXVlc3RNb2RlAgEWAmYPZBYCZg9kFgICBQ9kFgQCBw9kFgZmDw8WAh4HVmlzaWJsZWhkZAIED2QWAgIDDxYCHgRocmVmBVMvcHJvZHVrdGUvbGt3cGFubmVuaGlsZmUtbW9iaWxpdGFldHNtYW5hZ2VtZW50L3Bhbm5lbmhpbGZlL2RlZmF1bHQuYXNweD9sb2dvdXQ9dHJ1ZWQCBg9kFgICAw8WAh8CBVcvcHJvZHVrdGUvbGt3cGFubmVuaGlsZmUtbW9iaWxpdGFldHNtYW5hZ2VtZW50L3Bhbm5lbmhpbGZlL2RlZmF1bHQuYXNweD9lcnJvcmNsb3NlPXRydWVkAhMPZBYEAgUPZBYCZg9kFgICAQ8PFgIeBFRleHQFFEFEQUMgTWl0Z2xpZWQgd2VyZGVuZGQCDQ9kFgICBQ9kFgICAg8PFgIfAWhkFgRmDw8WCh4IQ3NzQ2xhc3MFEGljb24tYXJyb3ctcmlnaHQeC1Bvc3RCYWNrVXJsZR8DBQdadXLDvGNrHgdUb29sVGlwBQdadXLDvGNrHgRfIVNCAgJkZAICDw8WCh8DBQdadXLDvGNrHwYFB1p1csO8Y2seC05hdmlnYXRlVXJsBQEjHwQFEGljb24tYXJyb3ctcmlnaHQfBwICZGQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgEFHmN0bDAwJGN0bDAwJGN0bDE3JHNlYXJjaGJ1dHRvbhyZLg4eCNXSB6gawRvPA5FyRbNH" type="hidden">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="assets/WebResource.axd" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+function SetDivVisible() {
+$j('#header-loginbox').toggle();
+};//]]>
+</script>
+
+<script src="assets/RuFPois.js" type="text/javascript"></script>
+<script src="assets/ruf.js" type="text/javascript"></script>
+<script src="assets/ScriptResource_002.axd" type="text/javascript"></script>
+<script src="assets/ScriptResource.axd" type="text/javascript"></script>
+<script src="assets/AjaxMap_Services_RUF.js" type="text/javascript"></script>
+<div>
+
+	<input name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="E9B6FD7A" type="hidden">
+</div>
+    <div id="adac">
+        
+
+
+        <div class="div-wt-refpoint"><span id="wt_refpoint"></span></div>
+
+        <a name="top"></a>
+        <!-- ===BEGIN-FILE=== page-header.html -->
+        <!-- start Header //-->
+        <div id="header">
+          <div class="box1">
+            <a class="module-portale-button" href="javascript:void(0);" onclick="$j('#module_portale').toggle(); return false;">
+              <img src="assets/portale.gif" width="119" height="25">
+            </a>
+            <a class="module-search-button" href="javascript:void(0);" onclick="$j('#module_search').toggle(); return false;">
+              <img src="assets/search.gif" width="89" height="25">
+            </a>
+          </div>
+          <div class="box2">
+            <div id="module_portale" class="header-navigation">
+              <ul>
+                  
+    
+    <li>      
+      <a href="#" title="ADAC-Angebote für mobile Endgeräte" target="_self" class="">Apps</a>      <span>|</span>
+    </li>
+    
+  
+    
+    <li>      
+      <a href="#" title="Weltweite Reise- und Routenplanung des ADAC" target="_blank" class="">
+        Maps
+        
+      </a>
+      <span>|</span>
+    </li>
+    
+  
+    
+    <li>      
+      <a href="#" title="ADAC Motorsport" target="_blank" class="">
+        Motorsport
+        
+      </a>
+      <span>|</span>
+    </li>
+    
+  
+    
+    <li>      
+      <a href="#" title="ADAC-Angebote in Ihrer Nähe" target="_self" class="">Vor Ort</a>      
+    </li>
+    
+  
+              </ul>
+              <br class="v-clear">
+            </div>
+            <nav class="adac-de-reiternavi">
+              <div class="module-logo"><a href="#" id="logo" title="Zur Startseite von ADAC"></a></div>
+              <div id="module_search" class="module-search">
+                <!-- START uiSearchBox -->
+                <div id="ctl00_ctl00_SearchBox1" urlimagebutton="assets/arrow-right.gif">
+	
+                       <div id="ctl00_ctl00_ctl17_SearchPanel" onkeypress="javascript:return WebForm_FireDefaultButton(event, 'ctl00_ctl00_ctl17_searchbutton')">
+		
+                        <div class="box-wrap clearfix">
+                          <a class="box-close" href="javascript:void(0);" onclick="$j('#module_search').hide(); return false;"></a>
+                          <div class="box-left keywordsearchbox">
+                            <input name="ctl00$ctl00$ctl17$keywordsearch" id="ctl00_ctl00_ctl17_keywordsearch" class="text keywordsearchinput" autocomplete="off" style="font-style: italic;" value="Suche" type="text">
+                            <div id="keywordsearchAutocomplete" class="field-autocomplete" style="display:none;"></div>
+                            <input name="ctl00$ctl00$ctl17$searchbutton" id="ctl00_ctl00_ctl17_searchbutton" title="Suche ausführen" class="arrow-right mb5 keywordsearchbutton" src="assets/trans_gif.gif" alt="Suche ausführen" style="border-width:0px;display:none;" type="image">
+                          </div>
+                          <div class="box-right"></div>
+                        </div>
+                       
+	</div>
+                      
+</div>
+
+                <script type="text/javascript">
+                   <!-- // <![CDATA[
+                      document.observe("dom:loaded", function(){
+                   new ADAC.Autocompleter('ctl00_ctl00_ctl17_keywordsearch', 'keywordsearchAutocomplete', '/search/GSAAutocompleteHandler.ashx?collections=adacweb', {minChars:2, frequency:0.2, select:'suggest'});
+                         new ADAC.FormElement.DefaultValueHandler("ctl00_ctl00_ctl17_keywordsearch", "Suche");
+                      });
+                   //]]> --> 
+                </script>
+                <!-- END uiSearchBox -->
+              </div>
+              <div class="module-logedin">
+	        <div class="box-inner">
+		  <!-- START uiLoginBox2 -->
+            
+
+
+    <div>
+        <a id="ctl00_ctl00_LoginOAuthId_LoginButtonOAuth" href="javascript:__doPostBack('ctl00$ctl00$LoginOAuthId$LoginButtonOAuth','')"><img src="assets/login.gif" alt="" width="69" height="25"></a>
+    </div>
+
+
+
+
+
+		  <!-- END uiLoginBox2 -->
+		</div>
+	      </div>
+              <div class="module-social clearfix"></div>
+              <div class="tab-adac-de">
+                    <ul class="produkte" id="tab_adac_de">
+                    <li class="nav1">
+  <a href="#" title="Home">Home</a>
+</li>
+<li class="nav2 nav">
+  <a href="#" title="Info, Test &amp; Rat">Info, Test<br> &amp; Rat</a>
+  <div id="subnav1" class="subnav" style="display:none">
+    <ul id="subnavul1">
+      <li>
+        <a class="overview" href="#" title="Übersicht">
+						Übersicht
+					</a>
+      </li>
+      <li>
+        <a href="#">Tests</a>
+        <div id="subsubnav10" class="subsubnav" style="display:none">
+          <ul id="subnavul10">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Autotest</a>
+            </li>
+            <li>
+              <a href="#">Crashtest</a>
+            </li>
+            <li>
+              <a href="#">EcoTest</a>
+            </li>
+            <li>
+              <a href="#">Reifentest</a>
+            </li>
+            <li>
+              <a href="#">Motorrad &amp; Roller</a>
+            </li>
+            <li>
+              <a href="#">Camping</a>
+            </li>
+            <li>
+              <a href="#">Urlaub &amp; Reise</a>
+            </li>
+            <li>
+              <a href="#">Verkehrsmittel</a>
+            </li>
+            <li>
+              <a href="#">Straßen</a>
+            </li>
+            <li>
+              <a href="#">Autohaus &amp; Werkstatt</a>
+            </li>
+            <li>
+              <a href="#">Autozubehör &amp; Technik</a>
+            </li>
+            <li>
+              <a href="#">Kindersicherung</a>
+            </li>
+            <li>
+              <a href="#">Fahrrad, E-Bike &amp; Zubehör</a>
+            </li>
+            <li>
+              <a href="#">Assistenzsysteme</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Ratgeber Verkehr</a>
+        <div id="subsubnav11" class="subsubnav" style="display:none">
+          <ul id="subnavul11">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Recht &amp; Verkehr</a>
+            </li>
+            <li>
+              <a href="#">Verkehrszeichen</a>
+            </li>
+            <li>
+              <a href="#">Führerschein</a>
+            </li>
+            <li>
+              <a href="#">Bußgeld &amp; Punkte</a>
+            </li>
+            <li>
+              <a href="#">Verkehrserziehung</a>
+            </li>
+            <li>
+              <a href="#">Sicher unterwegs</a>
+            </li>
+            <li>
+              <a href="#">Kindersicherheit</a>
+            </li>
+            <li>
+              <a href="#">Verkehrsmedizin</a>
+            </li>
+            <li>
+              <a href="#">Statistiken</a>
+            </li>
+            <li>
+              <a href="#">Richtiges Verhalten</a>
+            </li>
+            <li>
+              <a href="#">Fachinformationen</a>
+            </li>
+            <li>
+              <a href="#">Broschüren &amp; Studien</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Autodaten &amp; Autokosten</a>
+      </li>
+      <li>
+        <a href="#">Fahrzeugkauf &amp; Verkauf</a>
+        <div id="subsubnav13" class="subsubnav" style="display:none">
+          <ul id="subnavul13">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Neuwagen</a>
+            </li>
+            <li>
+              <a href="#">Gebrauchtwagen</a>
+            </li>
+            <li>
+              <a href="#">Kfz-Steuer</a>
+            </li>
+            <li>
+              <a href="#">Import &amp; Export</a>
+            </li>
+            <li>
+              <a href="#">Finanzierung &amp; Leasing</a>
+            </li>
+            <li>
+              <a href="#">Motorrad &amp; Roller</a>
+            </li>
+            <li>
+              <a href="#">Versicherungsrecht</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Reparatur, Pflege &amp; Wartung</a>
+        <div id="subsubnav14" class="subsubnav" style="display:none">
+          <ul id="subnavul14">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Werkstatt</a>
+            </li>
+            <li>
+              <a href="#">Motor &amp; Öl</a>
+            </li>
+            <li>
+              <a href="#">Pflege</a>
+            </li>
+            <li>
+              <a href="#">Batterie</a>
+            </li>
+            <li>
+              <a href="#">Lampen</a>
+            </li>
+            <li>
+              <a href="#">Lack</a>
+            </li>
+            <li>
+              <a href="#">HU und AU</a>
+            </li>
+            <li>
+              <a href="#">Rückrufe</a>
+            </li>
+            <li>
+              <a href="#">Mängelforum</a>
+            </li>
+            <li>
+              <a href="#">ADAC Prüfdienste</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Unfall, Schäden &amp; Panne</a>
+        <div id="subsubnav15" class="subsubnav" style="display:none">
+          <ul id="subnavul15">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Pannenstatistik</a>
+            </li>
+            <li>
+              <a href="#">Reifenpanne</a>
+            </li>
+            <li>
+              <a href="#">Starthilfe</a>
+            </li>
+            <li>
+              <a href="#">Unfallabwicklung</a>
+            </li>
+            <li>
+              <a href="#">eCall - GPS Notruf</a>
+            </li>
+            <li>
+              <a href="#">Schäden durch Tiere</a>
+            </li>
+            <li>
+              <a href="#">Unfallforschung</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Rechtsberatung</a>
+        <div id="subsubnav16" class="subsubnav" style="display:none">
+          <ul id="subnavul16">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Interessante Urteile</a>
+            </li>
+            <li>
+              <a href="#">Aktuelles</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Tanken, Kraftstoffe &amp; Antrieb</a>
+        <div id="subsubnav17" class="subsubnav" style="display:none">
+          <ul id="subnavul17">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Kraftstoffpreise</a>
+            </li>
+            <li>
+              <a href="#">Spritsparen</a>
+            </li>
+            <li>
+              <a href="#">Benzin &amp; Diesel</a>
+            </li>
+            <li>
+              <a href="#">Alternative Kraftstoffe</a>
+            </li>
+            <li>
+              <a href="#">An der Tankstelle</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Umwelt &amp; Innovation</a>
+        <div id="subsubnav18" class="subsubnav" style="display:none">
+          <ul id="subnavul18">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Umweltzonen</a>
+            </li>
+            <li>
+              <a href="#">Elektromobilität</a>
+            </li>
+            <li>
+              <a href="#">Zukunftstechnologien</a>
+            </li>
+            <li>
+              <a href="#">Abgas</a>
+            </li>
+            <li>
+              <a href="#">Verkehrslärm</a>
+            </li>
+            <li>
+              <a href="#">Eco-Taxi</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Reifen</a>
+        <div id="subsubnav19" class="subsubnav" style="display:none">
+          <ul id="subnavul19">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Luftdruck</a>
+            </li>
+            <li>
+              <a href="#">Winterreifen</a>
+            </li>
+            <li>
+              <a href="#">Pflege &amp; Lagerung</a>
+            </li>
+            <li>
+              <a href="#">Profil, Kauf &amp; Montage</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Technik &amp; Zubehör</a>
+        <div id="subsubnav20" class="subsubnav" style="display:none">
+          <ul id="subnavul20">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Navigationsgeräte</a>
+            </li>
+            <li>
+              <a href="#">Assistenzsysteme &amp; Daten</a>
+            </li>
+            <li>
+              <a href="#">Autoradio</a>
+            </li>
+            <li>
+              <a href="#">Verbandkasten</a>
+            </li>
+            <li>
+              <a href="#">Licht</a>
+            </li>
+            <li>
+              <a href="#">Anhänger</a>
+            </li>
+            <li>
+              <a href="#">Rollstuhlsicherung &amp; Umrüstung</a>
+            </li>
+            <li>
+              <a href="#">Tuning</a>
+            </li>
+            <li>
+              <a href="#">Heizung &amp; Klima</a>
+            </li>
+            <li>
+              <a href="#">Getriebe</a>
+            </li>
+            <li>
+              <a href="#">Techniklexikon</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Mobil mit Behinderung</a>
+        <div id="subsubnav21" class="subsubnav" style="display:none">
+          <ul id="subnavul21">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Rollstuhlsicherung</a>
+            </li>
+            <li>
+              <a href="#">Fahrzeugumrüstungen</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Motorrad &amp; Roller</a>
+        <div id="subsubnav22" class="subsubnav" style="display:none">
+          <ul id="subnavul22">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Aktuelles &amp; Veranstaltungen</a>
+            </li>
+            <li>
+              <a href="#">Fahrberichte</a>
+            </li>
+            <li>
+              <a href="#">Recht &amp; Motorrad</a>
+            </li>
+            <li>
+              <a href="#">Helm &amp; Bekleidung</a>
+            </li>
+            <li>
+              <a href="#">Technik &amp; Zubehör und Rückrufe</a>
+            </li>
+            <li>
+              <a href="#">Reifen</a>
+            </li>
+            <li>
+              <a href="#">Kauf &amp; Verkauf</a>
+            </li>
+            <li>
+              <a href="#">Sicherheit &amp; Praxistipps</a>
+            </li>
+            <li>
+              <a href="#">Motorradkatalog</a>
+            </li>
+            <li>
+              <a href="#">Motorradclubs im ADAC</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">ADAC im Einsatz</a>
+        <div id="subsubnav23" class="subsubnav" style="display:none">
+          <ul id="subnavul23">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Pannenhilfe &amp; Notruf</a>
+            </li>
+            <li>
+              <a href="#">Ambulance Service</a>
+            </li>
+            <li>
+              <a href="#">ADAC Anwälte</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Oldtimer &amp; Youngtimer</a>
+        <div id="subsubnav24" class="subsubnav" style="display:none">
+          <ul id="subnavul24">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Oldtimer-Ratgeber</a>
+            </li>
+            <li>
+              <a href="#">Veranstaltungen</a>
+            </li>
+            <li>
+              <a href="#">Interessenvertretung</a>
+            </li>
+            <li>
+              <a href="#">FIVA - Oldtimer Weltverband</a>
+            </li>
+            <li>
+              <a href="#">Oldtimerclubs im ADAC</a>
+            </li>
+            <li>
+              <a href="#">Pflege, Wartung, Technik &amp; Zubehör</a>
+            </li>
+            <li>
+              <a href="#">Geschichte und Geschichten</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Mobilität 2040</a>
+      </li>
+      <li>
+        <a href="#">Motorsport</a>
+      </li>
+    </ul>
+  </div>
+</li>
+<li class="nav3 nav">
+  <a href="#" title="Reise &amp; Freizeit">Reise<br> &amp; Freizeit</a>
+  <div id="subnav1" class="subnav" style="display:none">
+    <ul id="subnavul1">
+      <li>
+        <a class="overview" href="#" title="Übersicht">
+						Übersicht
+					</a>
+      </li>
+      <li>
+        <a href="#">Reiseangebote</a>
+      </li>
+      <li>
+        <a href="#">Routenplanung</a>
+      </li>
+      <li>
+        <a href="#">Verkehr</a>
+        <div id="subsubnav9" class="subsubnav" style="display:none">
+          <ul id="subnavul9">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Aktuelle Verkehrslage</a>
+            </li>
+            <li>
+              <a href="#">Wochenendprognose</a>
+            </li>
+            <li>
+              <a href="#">Baustellen</a>
+            </li>
+            <li>
+              <a href="#">Servicenummern</a>
+            </li>
+            <li>
+              <a href="#">StauScanner</a>
+            </li>
+            <li>
+              <a href="#">Staumelder</a>
+            </li>
+            <li>
+              <a href="#">Alpenstraßen</a>
+            </li>
+            <li>
+              <a href="#">Parken</a>
+            </li>
+            <li>
+              <a href="#">Autobahneröffnungen</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Maut</a>
+      </li>
+      <li>
+        <a href="#">TourSet®, Karten &amp; Reiseführer</a>
+        <div id="subsubnav11" class="subsubnav" style="display:none">
+          <ul id="subnavul11">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Zum Bestellen: TourSet®</a>
+            </li>
+            <li>
+              <a href="#">Zum Bestellen: TourSet® family</a>
+            </li>
+            <li>
+              <a href="#">Mobil in ...</a>
+            </li>
+            <li>
+              <a href="#">Zum Download: TourSet® audio</a>
+            </li>
+            <li>
+              <a href="#">Aktuell zur Abreise: TourMail</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Stadt, Region, Land</a>
+      </li>
+      <li>
+        <a href="#">Attraktionen</a>
+        <div id="subsubnav13" class="subsubnav" style="display:none">
+          <ul id="subnavul13">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Sehenswertes</a>
+            </li>
+            <li>
+              <a href="#">Restaurants</a>
+            </li>
+            <li>
+              <a href="#">Touren &amp; Traumstraßen</a>
+            </li>
+            <li>
+              <a href="#">Tourensportkalender</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Ratgeber Reisen</a>
+        <div id="subsubnav14" class="subsubnav" style="display:none">
+          <ul id="subnavul14">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Reise-Checkliste</a>
+            </li>
+            <li>
+              <a href="#">Reisemedizin</a>
+            </li>
+            <li>
+              <a href="#">Sicherheit und Notfälle auf Reisen</a>
+            </li>
+            <li>
+              <a href="#">Reiserecht</a>
+            </li>
+            <li>
+              <a href="#">Tipps für Badeurlauber</a>
+            </li>
+            <li>
+              <a href="#">Mit dem Fahrzeug auf Reisen</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Aktuelle Reise- und Sicherheitshinweise</a>
+      </li>
+      <li>
+        <a href="#">Wetter &amp; Klima</a>
+      </li>
+      <li>
+        <a href="#">Camping</a>
+      </li>
+      <li>
+        <a href="#">Motorrad</a>
+      </li>
+      <li>
+        <a href="#">Wassersport</a>
+        <div id="subsubnav19" class="subsubnav" style="display:none">
+          <ul id="subnavul19">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Bootskauf</a>
+            </li>
+            <li>
+              <a href="#">Marinaführer</a>
+            </li>
+            <li>
+              <a href="#">Nachrichten &amp; Events</a>
+            </li>
+            <li>
+              <a href="#">Bootsregistrierung</a>
+            </li>
+            <li>
+              <a href="#">Ratgeber Wassersport</a>
+            </li>
+            <li>
+              <a href="#">Yachtcharter-Suche</a>
+            </li>
+            <li>
+              <a href="#">Hausboot-Urlaub</a>
+            </li>
+            <li>
+              <a href="#">Vorteile &amp; Rabatte</a>
+            </li>
+            <li>
+              <a href="#">Revierführer</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Wintersport</a>
+      </li>
+      <li>
+        <a href="#">Mitfahrclub</a>
+      </li>
+    </ul>
+  </div>
+</li>
+<li class="nav4 nav">
+  <a href="#" title="ADAC Produkte">ADAC<br> Produkte</a>
+  <div id="subnav1" class="subnav" style="display:none">
+    <ul id="subnavul1">
+      <li>
+        <a class="overview" href="#" title="Übersicht">
+						Übersicht
+					</a>
+      </li>
+      <li>
+        <a href="#">Versicherungen</a>
+        <div id="subsubnav15" class="subsubnav" style="display:none">
+          <ul id="subnavul15">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Autoversicherung</a>
+            </li>
+            <li>
+              <a href="#">Auslandskranken-versicherung</a>
+            </li>
+            <li>
+              <a href="#">Reiserücktrittsversicherung</a>
+            </li>
+            <li>
+              <a href="#">Rechtsschutzversicherung</a>
+            </li>
+            <li>
+              <a href="#">Privathaftpflichtversicherung</a>
+            </li>
+            <li>
+              <a href="#">Unfallversicherung</a>
+            </li>
+            <li>
+              <a href="#">Kranken- &amp; Pflegeversicherung</a>
+            </li>
+            <li>
+              <a href="#">Incoming-Versicherung</a>
+            </li>
+            <li>
+              <a href="#">Mopedversicherung</a>
+            </li>
+            <li>
+              <a href="#">Oldtimerversicherung</a>
+            </li>
+            <li>
+              <a href="#">Campingversicherung</a>
+            </li>
+            <li>
+              <a href="#">Wassersportversicherung</a>
+            </li>
+            <li>
+              <a href="#">Schadenservice</a>
+            </li>
+            <li>
+              <a href="#">Lexikon</a>
+            </li>
+            <li>
+              <a href="#">Auszeichnungen</a>
+            </li>
+            <li>
+              <a href="#">Ratgeber &amp; Service</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Autovermietung</a>
+        <div id="subsubnav16" class="subsubnav" style="display:none">
+          <ul id="subnavul16">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Mietwagen</a>
+            </li>
+            <li>
+              <a href="#">Lkw Deutschland</a>
+            </li>
+            <li>
+              <a href="#">Wohnmobile</a>
+            </li>
+            <li>
+              <a href="#">Motorräder</a>
+            </li>
+            <li>
+              <a href="#">ADAC ClubMobil</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Finanzdienste</a>
+        <div id="subsubnav17" class="subsubnav" style="display:none">
+          <ul id="subnavul17">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Kreditkarten</a>
+            </li>
+            <li>
+              <a href="#">AutoKredit</a>
+            </li>
+            <li>
+              <a href="#">KaufpreisVersicherung</a>
+            </li>
+            <li>
+              <a href="#">Finanzdienste Lexikon</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Fahrsicherheitstraining</a>
+        <div id="subsubnav18" class="subsubnav" style="display:none">
+          <ul id="subnavul18">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Pkw</a>
+            </li>
+            <li>
+              <a href="#">Motorrad</a>
+            </li>
+            <li>
+              <a href="#">Nutzfahrzeuge</a>
+            </li>
+            <li>
+              <a href="#">Trainingsort suchen &amp; buchen</a>
+            </li>
+            <li>
+              <a href="#">Firmenkunden &amp; Events</a>
+            </li>
+            <li>
+              <a href="#">Berufskraftfahrer</a>
+            </li>
+            <li>
+              <a href="#">Bilder &amp; Videos</a>
+            </li>
+            <li>
+              <a href="#">FAQ &amp; Kontakt </a>
+            </li>
+            <li>
+              <a href="#">Gutscheine</a>
+            </li>
+            <li>
+              <a href="#">Aktuelles &amp; Wissenwertes</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Bücher, Magazine &amp; Apps</a>
+        <div id="subsubnav19" class="subsubnav" style="display:none">
+          <ul id="subnavul19">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Reisemagazin</a>
+            </li>
+            <li>
+              <a href="#">Reiseführer</a>
+            </li>
+            <li>
+              <a href="#">Camping &amp; Caravaning</a>
+            </li>
+            <li>
+              <a href="#">Camping &amp; Stellplatz App</a>
+            </li>
+            <li>
+              <a href="#">Ski &amp; Wintersport</a>
+            </li>
+            <li>
+              <a href="#">Wanderführer</a>
+            </li>
+            <li>
+              <a href="#">Wanderführer App</a>
+            </li>
+            <li>
+              <a href="#">Fahrradtouren App</a>
+            </li>
+            <li>
+              <a href="#">Fahrrad Reparatur App</a>
+            </li>
+            <li>
+              <a href="#">Motorradführer</a>
+            </li>
+            <li>
+              <a href="#">Ratgeber &amp; Nachschlagewerke</a>
+            </li>
+            <li>
+              <a href="#">Der ADAC Verlag</a>
+            </li>
+            <li>
+              <a href="#">Verlosung ADAC Verlag</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Shop</a>
+      </li>
+      <li>
+        <a href="#">TruckService</a>
+        <div id="subsubnav22" class="subsubnav" style="display:none">
+          <ul id="subnavul22">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Pannenhilfe</a>
+            </li>
+            <li>
+              <a href="#">Pannenprävention</a>
+            </li>
+            <li>
+              <a href="#">Aktuelles</a>
+            </li>
+            <li>
+              <a href="#">Über uns</a>
+            </li>
+            <li>
+              <a href="#">Karriere</a>
+            </li>
+            <li>
+              <a href="#">Kontakt &amp; Anfahrt</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Fachmedien &amp; Veranstaltungen</a>
+        <div id="subsubnav24" class="subsubnav" style="display:none">
+          <ul id="subnavul24">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Veranstaltungen</a>
+            </li>
+            <li>
+              <a href="#">Medien</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</li>
+<li class="nav5 nav">
+  <a href="#" title="Mitgliedschaft &amp; Vorteile">Mitglied<span class="bindestrich">-</span><br>schaft</a>
+  <div id="subnav1" class="subnav" style="display:none">
+    <ul id="subnavul1">
+      <li>
+        <a class="overview" href="#" title="Übersicht">
+						Übersicht
+					</a>
+      </li>
+      <li>
+        <a href="#">Mitgliedschaftsberater</a>
+      </li>
+      <li>
+        <a href="#">Tarif-Übersicht</a>
+      </li>
+      <li>
+        <a href="#">Leistungen</a>
+      </li>
+      <li>
+        <a href="#">Leistungslexikon</a>
+      </li>
+      <li>
+        <a href="#">Mitglieder-Rabatte</a>
+        <div id="subsubnav14" class="subsubnav" style="display:none">
+          <ul id="subnavul14">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Deutschland</a>
+            </li>
+            <li>
+              <a href="#">International</a>
+            </li>
+            <li>
+              <a href="#">Regional</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Freunde werben</a>
+      </li>
+      <li>
+        <a href="#">ADAC membership</a>
+      </li>
+      <li>
+        <a href="#">Telefonnummern &amp; Notruf</a>
+      </li>
+      <li>
+        <a href="#">ADAC young generation</a>
+      </li>
+    </ul>
+  </div>
+</li>
+<li class="nav6 nav">
+  <a href="#" title="Mein ADAC">Mein<br> ADAC</a>
+  <div id="subnav1" class="subnav" style="display:none">
+    <ul id="subnavul1">
+      <li>
+        <a class="overview" href="#" title="Übersicht">
+						Übersicht
+					</a>
+      </li>
+      <li>
+        <a href="#">Der ADAC</a>
+      </li>
+      <li>
+        <a href="#">Meine Mitgliedschaft</a>
+        <div id="subsubnav19" class="subsubnav" style="display:none">
+          <ul id="subnavul19">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Unterlagen nachbestellen</a>
+            </li>
+            <li>
+              <a href="#">Mitgliederversammlung</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Meine persönlichen Daten</a>
+        <div id="subsubnav20" class="subsubnav" style="display:none">
+          <ul id="subnavul20">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Meine SEPA-Informationen</a>
+            </li>
+            <li>
+              <a href="#">Einwilligungserklärung</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Motorwelt &amp; Newsletter</a>
+        <div id="subsubnav21" class="subsubnav" style="display:none">
+          <ul id="subnavul21">
+            <li>
+              <a class="overview" href="#" title="Übersicht">
+							Übersicht
+						</a>
+            </li>
+            <li>
+              <a href="#">Motorwelt</a>
+            </li>
+            <li>
+              <a href="#">Newsletter</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">Mein ADAC vor Ort</a>
+      </li>
+      <li>
+        <a href="#">Meine Bewertungen</a>
+      </li>
+      <li>
+        <a href="#">Meine Tankstellen Hotlist</a>
+      </li>
+      <li>
+        <a href="#">Hinweisgeber-System</a>
+      </li>
+      <li>
+        <a href="#">ADAC Community</a>
+      </li>
+    </ul>
+  </div>
+</li>
+                  </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+        <!-- end Header //-->
+        <!-- ===endof-file=== page-header.html -->
+        <!-- ========================================================= -->
+        <!-- ========================================================= -->
+        <!-- Main container -->
+        <div id="main">
+            <div id="maintop">
+                <span><div id="breadcrumb">
+  <a class="home" href="#" title="Home"> Home </a>
+  <img src="assets/breadcrumb-arrow.gif" alt="&nbsp;&gt;&nbsp;">
+  <a href="#" title="ADAC Produkte">ADAC Produkte</a>
+  <img src="assets/breadcrumb-arrow.gif" alt="&nbsp;&gt;&nbsp;">
+  <a href="#" title="TruckService">TruckService</a>
+  <img src="assets/breadcrumb-arrow.gif" alt="&nbsp;&gt;&nbsp;">
+  <a href="#" title="Pannenhilfe">Pannenhilfe</a>
+</div></span>
+
+            </div>
+            <div id="transfer_popuplayer_backup_no_more_needed" class="transfer_popuplayer">
+            </div>
+            
+
+
+
+            <!-- ===endof-file=== header-html.html -->
+            <!-- ========================================================= -->
+            <!-- ========================================================= -->
+            <!-- START SUB.MASTER -->
+            
+            
+    <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$ctl00$cphContentRow$ScriptManager1', 'aspnetForm', [], [], [], 90, 'ctl00$ctl00');
+//]]>
+</script>
+
+    <!-- START LinkeSpalte -->
+    <nav id="navigation" class="noprint">
+
+      <!-- START uiLeftNavBox -->
+      <div class="delemiter"></div>
+      <div class="sh-box-outer mb1 clearfix" id="mglweiter">
+      
+
+
+  <ul class="sh-box" id="NavLeftBoxId"><li class="first"><a href="#" class="nav" title="Versicherungen">Versicherungen</a></li><li><a href="#" class="nav" title="Autovermietung">Autovermietung</a></li><li><a href="#" class="nav" title="Finanzdienste">Finanzdienste</a></li><li><a href="#" class="nav" title="Fahrsicherheitstraining">Fahrsicherheitstraining</a></li><li><a href="#" class="nav" title="Bücher, Magazine &amp; Apps">Bücher, Magazine &amp; Apps</a></li><li><a href="#" class="nav" title="Shop">Shop</a></li><li><a href="#" class="nav active" title="TruckService">TruckService</a><ul><li class="first"><a href="#" class="nav active" title="Pannenhilfe">Pannenhilfe</a></li><li><a href="#" class="nav" title="Pannenprävention">Pannenprävention</a></li><li><a href="#" class="nav" title="Aktuelles">Aktuelles</a></li><li><a href="#" class="nav" title="Über uns">Über uns</a></li><li><a href="#" class="nav" title="Karriere">Karriere</a></li><li><a href="#" class="nav" title="Kontakt &amp; Anfahrt">Kontakt &amp; Anfahrt</a></li> </ul></li><li><a href="#" class="nav" title="Fachmedien &amp; Veranstaltungen">Fachmedien &amp; Veranstaltungen</a></li></ul>
+
+
+
+
+        <span id="ctl00_ctl00_cphContentRow_wucNavBecomeMember1_BoxBecomeMember">
+  <div class="sh-box becomemember clearfix" id="wucNavBecomeMember-0" style="border-top: medium none;">
+    <a class="button" href="#" title="ADAC Mitglied werden"><span id="ctl00_ctl00_cphContentRow_wucNavBecomeMember1_labelButtonText">ADAC Mitglied werden</span></a>
+  </div>
+</span>
+
+<script type="text/javascript">
+    mlgwerden()
+    function mlgwerden() {
+        if (document.getElementById("ctl00_ctl00_cphContentRow_wucNavBecomeMember1_BoxBecomeMember") == null) {
+            if (document.getElementById("NavLeftBoxId") == null) {
+                if ($("mglweiter") != null) {
+                    $("mglweiter").style.height = "0%";
+                    $("mglweiter").style.fontSize = "0px";
+                    $("mglweiter").style.lineHeight = "0px";
+                }
+            }
+        }
+        if (document.getElementById("NavLeftBoxId") != null) {
+            if ($("wucNavBecomeMember-0") != null) {
+                $("wucNavBecomeMember-0").style.borderTop = "none";
+            }
+        }
+    }       
+</script>
+        <div id="zone2" class="small-rectangle"></div>
+      </div>
+      <!-- END uiLeftNavBox -->
+    </nav>
+    <!-- END LinkeSpalte -->
+
+    <!-- ##################################################################################################### -->
+    <!-- ##################################################################################################### -->
+    <!-- START ASPX-Content -->
+    <div id="content">
+    
+    
+      
+      
+      
+
+      
+
+      
+
+	<!--googleon: all-->
+      
+	<!--googleoff: all-->
+    
+
+
+    
+    
+
+    
+    <div class="clearfix map-content">
+      <!-- ################ start box-left-outer ################ -->
+      <div class="box-left-outer relative">
+
+      
+  <!-- Toolbar-Leiste -->
+  <div class="sh-box-outer mb1 colw1" id="sh-box-top-bar-small-outer">
+    <div class="sh-box">
+      <div class="clearfix sh-content-top-bar">
+        
+        
+        
+        
+           <!-- start content from CT A30 -->
+
+
+<div class="menu-top-bar clearfix">
+   <div class="left">
+      
+   </div>
+</div>
+
+<!-- end content from CT A30 -->        
+        <div class="right clearfix">
+         <div class="toolbar ">
+	   <div class="clearfix right">
+	     <input name="hiddenPdfField" id="hiddenPdfField" type="hidden"><a title="Seite drucken" href="javascript:void(0);" onclick="showPrintPreview(false); return false;" id="ToolbarItemPrint" class="toolbar-sprite-buttons print" rel="weiterempfehlen"><span class="accessible">Drucken</span></a><a runat="server" onclick="showPrintPreview(true);" href="javascript:__doPostBack('ctl00$ctl00$cphContentRow$cphROW2spaltigerContent$cphGraueLeisteMitte$ctl00','ToolbarItemPdf')" title="PDF-Version der Seite ansehen/downloaden" id="ToolbarItemPdf" class="toolbar-sprite-buttons pdf" rel="weiterempfehlen"><span class="accessible">PDF</span></a><script type="text/javascript">
+<!-- // <![CDATA[
+function showPrintPreview(bPDF) {
+    if(document.getElementById('flashContainer'))
+        document.getElementById('flashContainer').StopPlay();
+    if(document.getElementById('content')){
+    var content = document.getElementById('content').cloneNode(true);}
+    else {
+           var content = document.getElementById('ModalContent');
+        }
+    if (content) {
+        for(var i = 0; i < content.getElementsByTagName('div').length; i++) {
+            if(content.getElementsByTagName('div')[i].className.search(/main-content/) != -1) {
+                content = content.getElementsByTagName('div')[i]; break;
+            }
+            if(content.getElementsByTagName('div')[i].className.search(/sh-box-content/) != -1 ||
+               content.getElementsByTagName('div')[i].className.search(/map-content/) != -1) {
+                if(content.getElementsByTagName('div')[i+1] != null) {
+                    if(content.getElementsByTagName('div')[i+1].className.search(/box-left-outer/) != -1) {
+                        if(i == 0) {
+                            content = content.getElementsByTagName('div')[i+1]; break;
+                        }
+                    }
+                }
+            }
+        }
+        for (var i = 0; i < document.getElementsByTagName('link').length; i++) {
+            if (document.getElementsByTagName('link')[i].href.search(/import/) != -1) {
+                var css = document.getElementsByTagName('link')[i].href.substring(document.getElementsByTagName('link')[i].href.search(/import/)+7, document.getElementsByTagName('link')[i].href.length-4); break;
+            }
+        }
+        while (content.getElementsByTagName('script').length > 0) {
+            content.getElementsByTagName('script')[0].parentNode.removeChild(content.getElementsByTagName('script')[0])
+        }
+        while (content.getElementsByTagName('noscript').length > 0) {
+            content.getElementsByTagName('noscript')[0].parentNode.removeChild(content.getElementsByTagName('noscript')[0])
+        }
+        while (content.getElementsByTagName('canvas').length > 0) {
+            content.getElementsByTagName('canvas')[0].parentNode.removeChild(content.getElementsByTagName('canvas')[0])
+        }
+        var strHTML = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'; 
+        strHTML += '<html><head>';
+        strHTML += '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+        strHTML += '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />';
+        strHTML += '<title></title>';
+        strHTML += '<link rel="stylesheet" type="text/css" href="https://www.adac.de/_common/css/yaml/central_draft.css" />';
+        strHTML += '<link rel="stylesheet" type="text/css" href="https://www.adac.de/_common/css/common.css" />';
+        strHTML += '<link rel="stylesheet" type="text/css" href="https://www.adac.de/_common/css/content.css" />';
+        strHTML += '<link rel="stylesheet" type="text/css" href="https://www.adac.de/_common/css/abstaende.css" />';
+        strHTML += '<link rel="stylesheet" type="text/css" href="https://www.adac.de/_common/css/content_'+css+'.css" />';
+        strHTML += '<link rel="stylesheet" type="text/css" href="https://www.adac.de/_common/css/toolbar_print.css" />';
+        strHTML += '<link rel="stylesheet" type="text/css" href="https://www.adac.de/_common/css/ves_responsive.css" />';
+        strHTML += '</head>';
+        strHTML += '<body>';
+        if (!bPDF) strHTML += '<div id="main">';
+        else strHTML += '<div id="main" style="margin-left:110px">';
+        strHTML += '<div id="content"><img src="https://www.adac.de/_common/img/printheader.jpg">' + content.innerHTML + '</div></div>';
+        strHTML += '</body></html>';
+        if (!bPDF) {
+            var printWindow = window.open("about:blank", "", "width=750,height=600,left=10,top=20,location=no,menubar=no,resizable=yes,scrollbars=yes");
+            printWindow.document.write(strHTML);
+            printWindow.document.close();
+            printWindow.document.onreadystatechange = function(){
+            if (this.readyState === 'complete')
+            {
+            this.onreadystatechange = function(){ };
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+            }
+            }
+        }
+        else {
+            document.getElementById('hiddenPdfField').value = document.createElement( 'a' ).appendChild(document.createTextNode( strHTML ) ).parentNode.innerHTML;
+        }
+    }
+}
+function loadPFLayerAsync(elemId, layerUrl, subLayer, errMsg) {
+    var hasLoaded = loadPFScript();
+    console.log(hasLoaded);
+    if (!elemId.length > 0) { return; }
+	   var arr = elemId.split('_');
+	   if (arr.length < 2) { return; }	
+    console.log(layerUrl);
+    if (!$('AdacPageFunctions')) {
+        console.log('Element AdacPageFunctions not found.');
+        return;
+    }
+    if (!$(elemId)) {
+        new Ajax.Updater(
+            $('AdacPageFunctions'),
+            layerUrl,
+            {
+                method: 'post',
+                insertion: 'bottom',
+                evalScripts: true,
+                onSuccess: function(transport) {
+                    console.log('Ajax request - Success');
+                },
+                onComplete: function(){ 
+                    console.log('Ajax request - onComplete');
+                    showPageFunctionLayer.defer(elemId, arr[arr.length-1], subLayer, errMsg);
+                },
+                onFailure: function(){ 
+                    console.log('Ajax request - Failure');
+                }
+            }
+        )
+    } else {
+        console.log('Layer was already transfered, no Ajax request neccesarry');
+        showPageFunctionLayer.defer(elemId, arr[arr.length-1], subLayer, errMsg);
+    }
+}
+function showPageFunctionLayer(elemId, typeOfLayer, subLayer, errMsg){
+    switch (typeOfLayer) {
+        case 'Contact':
+            PageFunctions.Contact.init(location.href, '', 'ADAC Produkte - Lkw Pannenhilfe & Mobilitätsmanagement - TruckService / Pannenhilfe', 'toolbar-popuplayer-gray');
+            break;
+    }
+    ADAC.ToolbarLayer.show(elemId);
+}
+function loadPFScript(){
+  console.log(typeof PageFunctionsLoaded);
+  var loadingSuccessfull = false;
+  if ( typeof PageFunctionsLoaded == 'undefined' ) {
+    var head;
+    var script;
+    head = $$('head')[0];
+    if (head) {
+      script = new Element('script', { type: 'text/javascript', src: 'assets/PageFunctions.js' });
+      head.appendChild(script);
+      watchForSymbol({
+        symbol:     'PageFunctionsLoaded',
+        timeout:    10,
+        onSuccess:  function(symbol) {
+          loadingSuccessfull = true;
+          console.log(symbol + ' loaded!');
+        },
+        onTimeout:  function(symbol) {
+          console.log(symbol + ' did not load before timeout!');
+        }
+      });
+    }
+  } else {
+    loadingSuccessfull = true;
+  }
+  return loadingSuccessfull;
+}
+function watchForSymbol(options){
+  var stopAt;
+  if (!options || !options.symbol || !Object.isFunction(options.onSuccess)) {throw 'Missing required options';}
+  options.onTimeout = options.onTimeout || Prototype.K;
+  options.timeout = options.timeout || 10;
+  stopAt = (new Date()).getTime() + (options.timeout * 1000);
+  new PeriodicalExecuter(function(pe) {
+    if (typeof window[options.symbol] != 'undefined') {
+      options.onSuccess(options.symbol);
+      pe.stop();
+    } else if ((new Date()).getTime() > stopAt) {
+      options.onTimeout(options.symbol);
+      pe.stop();
+    }
+  }, 0.25);
+}
+//]]> -->
+</script>
+
+
+
+	   </div>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    
+            <br class="v-clear">
+         
+
+	<!--googleon: all-->
+      
+  
+    
+        <!-- start content from CT -->
+
+<style type="text/css">
+a.GrauerButton_links {
+  background: url("assets/arrow-left_new.gif") no-repeat scroll 0 0 #666666;
+}
+li sup{ position:relative !important;}
+
+  </style>
+
+   
+
+  
+  
+  
+  <a name="1"></a>
+  
+    
+    <div class="sh-box-outer colw1 mb1 ">
+      <div class="sh-box">
+   
+        
+                <div class="content-box-left  ">
+         
+        
+
+
+
+
+      
+    
+    
+  
+  
+  
+        <h2 class="pb10">
+	
+        
+          Pannenhilfe: 24-Stunden-Service für Nutzfahrzeuge
+        	
+	</h2>
+        
+  
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+   
+  
+  
+    
+    <!-- ########## Standard ######################-->
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        
+        
+           
+           
+           
+             
+		      <img src="assets/Pannenhilfe_378x150_241029.jpg" style="width:100%;">
+	     
+           
+            <p>&nbsp;</p><strong>Breakdown-Service für Trucks und Trailer</strong><p>Der
+ Lkw-Notdienst des ADAC TruckService umfasst ein Netzwerk aus 800 
+Werkstätten in Deutschland und 5.500 in Europa. Mehr als 2.000 
+Pannenhelfer allein in Deutschland reparieren über 95 Prozent aller 
+Pannenfälle direkt vor Ort. Im Durchschnitt ist ein Lkw nach 2,5 Stunden
+ wieder auf der Strecke und kann seine Tour fortsetzen.</p><p><br></p><p>Die Produkte des ADAC TruckService schaffen Kalkulationssicherheit und minimieren die Ausfallzeiten deutlich:</p>
+	    
+	    
+           
+        
+      
+
+      
+        
+      
+      
+    <!-- ########## Standard END ######################-->
+    
+<!-- TC: Hotline-Box -->
+
+
+<!-- TC: MGL Werbepartner -->
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+    
+
+            
+
+            
+
+  
+  
+          <br class="v-clear">
+  
+        </div>
+        
+      </div>
+       
+          </div>
+       
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end Content from CT -->    
+  
+    
+        <!-- start content from CT -->
+
+<style type="text/css">
+a.GrauerButton_links {
+  background: url("assets/arrow-left_new.gif") no-repeat scroll 0 0 #666666;
+}
+li sup{ position:relative !important;}
+
+  </style>
+
+   
+
+  
+  
+  
+  <a name="2"></a>
+  
+    
+    <div class="sh-box-outer colw1 mb1 ">
+      <div class="sh-box">
+   
+        
+                <div class="content-box-left  ">
+         
+        
+
+
+
+
+      
+    
+    
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+   
+  
+  
+    
+    <!-- ########## Standard ######################-->
+      
+      
+      
+      
+      
+      
+      
+      
+      
+         
+         <div class="left mr10"><img src="assets/ADAC_TS_Reifenpanne_Reparatur_95x95_240633.jpg"></div>
+         
+         <div class="box-sparcard">
+            <div>
+      
+      
+      
+        
+        
+           
+           
+           
+            <p><strong>ADAC TruckService Fahrzeugschutz
+<br></strong></p><p>Der ADAC TruckService Fahrzeugschutz bietet eine Rundum- Absicherung für Fahrzeuge
+<br>
+ab 3,5t inklusive Abschleppen. <span><a href="#" title="005 Schutzbrief - Einleitung" target="_top">Mehr</a></span></p>
+	    
+	    
+           
+        
+      
+
+      
+        
+      
+      
+            </div>
+         </div>
+      
+    <!-- ########## Standard END ######################-->
+    
+<!-- TC: Hotline-Box -->
+
+
+<!-- TC: MGL Werbepartner -->
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+    
+
+            
+
+            
+
+  
+  
+          <br class="v-clear">
+  
+        </div>
+        
+      </div>
+       
+          </div>
+       
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end Content from CT -->    
+  
+    
+        <!-- start content from CT -->
+
+<style type="text/css">
+a.GrauerButton_links {
+  background: url("assets/arrow-left_new.gif") no-repeat scroll 0 0 #666666;
+}
+li sup{ position:relative !important;}
+
+  </style>
+
+   
+
+  
+  
+  
+  <a name="3"></a>
+  
+    
+    <div class="sh-box-outer colw1 mb1 ">
+      <div class="sh-box">
+   
+        
+                <div class="content-box-left  ">
+         
+        
+
+
+
+
+      
+    
+    
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+   
+  
+  
+    
+    <!-- ########## Standard ######################-->
+      
+      
+      
+      
+      
+      <div class="clearfix">
+         <div class="left mr10 mb3">
+            <img src="assets/Servicepaket-Comfort_Titel-Teaserbild_95x95_241031.jpg" alt="Servicepaket COMFORT" title="Servicepaket COMFORT">
+         </div>
+         <div class="left clearfix w270">
+            
+            <p><strong>Servicepaket Comfort für kleine und mittlere Flotten</strong></p><p>Wesentlich
+ geringere Organisationskosten pro Pannenfall und schnellere Hilfe durch
+ Zahlungsgarantien – das Comfort-Paket deckt den kompletten Fuhrpark ab.
+ <a href="#" title="005 COMFORT - Einleitung" target="_top">Mehr</a></p>
+         </div>
+      </div>
+      
+      
+      
+      
+      
+      
+
+      
+        
+      
+      
+    <!-- ########## Standard END ######################-->
+    
+<!-- TC: Hotline-Box -->
+
+
+<!-- TC: MGL Werbepartner -->
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+    
+
+            
+
+            
+
+  
+  
+          <br class="v-clear">
+  
+        </div>
+        
+      </div>
+       
+          </div>
+       
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end Content from CT -->    
+  
+    
+        <!-- start content from CT -->
+
+<style type="text/css">
+a.GrauerButton_links {
+  background: url("assets/arrow-left_new.gif") no-repeat scroll 0 0 #666666;
+}
+li sup{ position:relative !important;}
+
+  </style>
+
+   
+
+  
+  
+  
+  <a name="4"></a>
+  
+    
+    <div class="sh-box-outer colw1 mb1 ">
+      <div class="sh-box">
+   
+        
+                <div class="content-box-left  ">
+         
+        
+
+
+
+
+      
+    
+    
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+   
+  
+  
+    
+    <!-- ########## Standard ######################-->
+      
+      
+      
+      
+      
+      <div class="clearfix">
+         <div class="left mr10 mb3">
+            <img src="assets/Lkw-Zahlen_95x95_64675.jpg" alt="Lkw-Schutzbrief" title="Lkw-Schutzbrief">
+         </div>
+         <div class="left clearfix w270">
+            
+            <p><strong>Servicepaket Professional für große Flotten</strong></p><p>Keine
+ Organisations- und Personalkosten bei Pannenfällen in Deutschland, 
+individueller Pannenablauf und tägliches Reporting machen das 
+Profi-Paket für große Flotten ab 300 Fahrzeugen aus. <a href="#" title="005 PROFESSIONAL - Einleitung" target="_top">Mehr</a></p>
+         </div>
+      </div>
+      
+      
+      
+      
+      
+      
+
+      
+        
+      
+      
+    <!-- ########## Standard END ######################-->
+    
+<!-- TC: Hotline-Box -->
+
+
+<!-- TC: MGL Werbepartner -->
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+    
+
+            
+
+            
+
+  
+  
+          <br class="v-clear">
+  
+        </div>
+        
+      </div>
+       
+          </div>
+       
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end Content from CT -->    
+  
+    
+        <!-- start content from CT -->
+
+<style type="text/css">
+a.GrauerButton_links {
+  background: url("assets/arrow-left_new.gif") no-repeat scroll 0 0 #666666;
+}
+li sup{ position:relative !important;}
+
+  </style>
+
+   
+
+  
+  
+  
+  <a name="5"></a>
+  
+    
+    <div class="sh-box-outer colw1 mb1 ">
+      <div class="sh-box">
+   
+        
+                <div class="content-box-left  ">
+         
+        
+
+
+
+
+      
+    
+    
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+   
+  
+  
+    
+    <!-- ########## Standard ######################-->
+      
+      
+      
+      
+      
+      <div class="clearfix">
+         <div class="left mr10 mb3">
+            <img src="assets/pannenratgeber_95x95_273421.jpg" alt="Pannenratgeber des ADAC TruckService" title="Pannenratgeber des ADAC TruckService">
+         </div>
+         <div class="left clearfix w270">
+            
+            <p><strong>Pannenratgeber des ADAC TruckService
+<br></strong></p><p>Der Pannenratgeber des ADAC TruckService ist Ihr Notfallratgeber im Ernstfall.</p><p><a onclick="wt.sendinfo({linkId:'pr.truckservice.pannenratgeber.pdf', customParameter:{cp3:'Content', cp4:'TruckService', cp7:'nein', cp9:'0000'},sendUnload:1});" href="#" title="Pannenratgeber des ADAC TruckService" class="icon-arrow-right" target="_blank">Pannenratgeber</a>&nbsp; <a onclick="wt.sendinfo({linkId:'pr.truckservice.pannenratgeber.pdf', customParameter:{cp3:'Content', cp4:'TruckService', cp7:'nein', cp9:'0000'},sendUnload:1});" href="#" title="Pannenratgeber des ADAC TruckService" class="icon-save" target="_blank">PDF, 1,3 MB</a><br></p>
+         </div>
+      </div>
+      
+      
+      
+      
+      
+      
+
+      
+        
+      
+      
+    <!-- ########## Standard END ######################-->
+    
+<!-- TC: Hotline-Box -->
+
+
+<!-- TC: MGL Werbepartner -->
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+    
+
+            
+
+            
+
+  
+  
+          <br class="v-clear">
+  
+        </div>
+        
+      </div>
+       
+          </div>
+       
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end Content from CT -->    
+  
+    
+        <!-- start content from CT -->
+
+<style type="text/css">
+a.GrauerButton_links {
+  background: url("assets/arrow-left_new.gif") no-repeat scroll 0 0 #666666;
+}
+li sup{ position:relative !important;}
+
+  </style>
+
+   
+
+  
+  
+  
+  <a name="6"></a>
+  
+    
+    <div class="sh-box-outer colw1 mb20 ">
+      <div class="sh-box">
+   
+        
+                <div class="content-box-left  ">
+         
+        
+
+
+
+
+      
+    
+    
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+   
+  
+  
+    
+    <!-- ########## Standard ######################-->
+      
+      
+      
+      
+      
+      
+      
+      
+      
+         
+						<h3>Das sagen unsere Kunden:
+<br>
+							<br></h3>
+					
+      
+         
+         <div class="left mr10"><img src="assets/Robert-Prantner_95x95_233734.jpg"></div>
+         
+         <div class="box-sparcard">
+            <div>
+      
+      
+        
+        
+
+      
+      
+        
+        
+           
+           
+           
+            <p>„Wir sparen jährlich 30 bis 40 Prozent an Pannenkosten 
+ein – das ist enorm. Früher haben wir versucht Pannen so gut wie möglich
+ eigenständig zu beheben. Doch das war sehr kostspielig und man kann 
+heute bei neuen Fahrzeugen nicht einmal mehr einen Reifen selbst 
+wechseln. Der Pannenschutz bietet uns Transparenz und Planbarkeit der 
+Kosten, die Standzeiten meiner Fahrzeuge sind minimal genauso wie unser 
+Aufwand. Ich kann mich auf meine eigentliche Arbeit konzentrieren. Es 
+gibt also keinen Grund, nicht die gesamte Flotte so verlässlich 
+abzusichern.“&nbsp;</p><p><br></p><p><em>Robert Prantner, Geschäftsführer und Eigentümer der Spedition Prantner aus Derching bei Augsburg</em></p>
+	    
+	    
+           
+        
+      
+
+      
+        
+      
+      
+            </div>
+         </div>
+      
+    <!-- ########## Standard END ######################-->
+    
+<!-- TC: Hotline-Box -->
+
+
+<!-- TC: MGL Werbepartner -->
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+    
+
+            
+
+            
+
+  
+  
+          <br class="v-clear">
+  
+        </div>
+        
+      </div>
+       
+          </div>
+       
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end Content from CT -->    
+  
+    
+        <!-- start content from CT "A07a"-->
+
+
+
+<div class="content-box-single">
+
+
+
+  <div class="sh-box-outer mb1">
+    <div class="sh-content-blank-box bg-color">
+      <div class="sh-box-content-head">
+        <h2 class="stand">Weitere interessante Themen für Sie</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+   
+      
+      
+   <div class="content-box-double mb1">
+
+
+
+  <div class="sh-box-outer">
+    
+    <div class="sh-box">
+    
+    
+      
+      <div class="content-row clearfix">
+      
+        
+	  
+        
+        <div class="content-left clearfix">
+        
+        
+        
+          
+             
+             
+                
+                
+		                                  
+                   <img src="assets/docstop_174x70_239369.jpg" title="DocStop" alt="DocStop">
+                
+		
+             
+             
+             
+                <h4>
+						<p>Ärztliche Hilfe rund um die Uhr</p>
+					</h4>
+             
+             
+             
+<p>Der TruckService betreibt die Hotline zur medizinischen Unterwegsversorgung von Berufskraftfahrern. <a href="#" class="icon-document" target="_blank" title="weiter zu DocStop" onclick="JS_Tracking('click','true','extern.produkte.truckservice.docstoponline,service-24');">Mehr</a></p><br>
+                
+                   
+                
+          
+          
+      </div>
+      
+      
+	  
+        
+        
+        <div class="content-right clearfix">
+        
+        
+          
+             
+             
+                
+                
+		                                  
+                   <img src="assets/europenet_174x70_239370.jpg" title="EuropNet" alt="EuropNet">
+                
+		
+             
+             
+             
+                <h4>
+						<p>Europe Net</p>
+					</h4>
+             
+             
+             
+<p><span class="long_text" id="result_box"><span title="Europe Net is a leading European service organisation that offers individual mobility packages and breakdown services for the commercial vehicle sector within Europe." style="BACKGROUND-COLOR: #fff">Unser europäisches Netzwerk in über 39 Ländern.</span></span><a href="#" class="icon-document" target="_blank" title="weiter zu EuropNet" onclick="JS_Tracking('click','true','extern.produkte.truckservice.europenet24,service-24');">Mehr</a></p>
+                
+                   
+                
+          
+          
+      </div>
+      
+      
+      
+      </div>
+      
+    </div>
+  </div>
+</div>      
+   
+      
+      
+   <div class="content-box-double mb1">
+
+
+
+  <div class="sh-box-outer">
+    
+    <div class="sh-box">
+    
+    
+      
+      <div class="content-row clearfix">
+      
+        
+	  
+        
+        <div class="content-left clearfix">
+        
+        
+        
+          
+             
+             
+                
+                
+		                                  
+                   <img src="assets/Nutzfahrzeuge_Trainings_174x70_238921.jpg" title="Fahrsicherheitstraining für Transporter, Lkw und Bus" alt="Fahrsicherheitstraining für Transporter, Lkw und Bus">
+                
+		
+             
+             
+             
+                <h4>Trainings für Kleintransporter, Lkw und Bus
+<br></h4>
+             
+             
+             
+Lernen Sie das besondere Fahrverhalten kennen. <a href="#" title="weiter zum Training für Kleintransporter, Lkw und Bus" target="_top">Mehr</a><br>
+                
+                   
+                
+          
+          
+      </div>
+      
+      
+	  
+        
+        
+        <div class="content-right clearfix">
+        
+        
+          
+             
+             
+                
+                
+		                                  
+                   <img src="assets/Gutscheine_174x70_238920.jpg" title="Gutschein für Fahrsicherheitstraining" alt="Gutschein für Fahrsicherheitstraining">
+                
+		
+             
+             
+             
+                <h4>
+						<p>Gutscheine verschenken!
+<br></p>
+					</h4>
+             
+             
+             
+<p><span class="long_text" id="result_box">Ein Geschenk, das mit Sicherheit gut ankommt. <a href="#" title="weiter zu Gutscheine verschenken" target="_top">Mehr</a><br></span></p>
+                
+                   
+                
+          
+          
+      </div>
+      
+      
+      
+      </div>
+      
+    </div>
+  </div>
+</div>      
+   
+
+
+<!-- end content from CT "A07a"-->    
+  
+    
+        <!-- start content from CT -->
+
+<style type="text/css">
+a.GrauerButton_links {
+  background: url("assets/arrow-left_new.gif") no-repeat scroll 0 0 #666666;
+}
+li sup{ position:relative !important;}
+
+  </style>
+
+   
+
+  
+  
+  
+  <a name="8"></a>
+  
+    
+    <div class="sh-box-outer colw1 mb20 ">
+      <div class="sh-box">
+   
+        
+                <div class="content-box-left  ">
+         
+        
+
+
+
+
+      
+    
+    
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+   
+  
+  
+    
+    <!-- ########## Standard ######################-->
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        
+        
+        
+            
+          <strong>Folgen Sie uns auf</strong>
+        
+        
+        
+
+      
+      
+        
+        
+           
+           
+           
+            <table width="100%" cellspacing="1" cellpadding="1" border="0"><tbody><tr><td><img src="assets/Facebook-Icon_19x18_73598.jpg" title="Facebook-Icon_19x18.jpg" style="WIDTH: 19px; HEIGHT: 18px" alt="Facebook-Icon_19x18.jpg" width="19" height="18"></td><td><a href="#" title="http://www.facebook.com/ADAC.TruckService" target="_blank" onclick="JS_Tracking('click','true','extern.produkte.truckservice.facebook.adac-truckservice,service-24');">facebook.com/ADAC.TruckService</a></td><td><img src="assets/Twitter-Icon_20x18_73597.jpg" title="Twitter-Icon_20x18.jpg" style="WIDTH: 20px; HEIGHT: 18px" alt="Twitter-Icon_20x18.jpg" width="20" height="18"></td><td><a href="#" title="http://twitter.com/ADAC_TS" target="_blank" onclick="JS_Tracking('click','true','extern.produkte.truckservice.twitter.adac_ts,service-24');">twitter.com/truckservice</a></td></tr></tbody></table>
+	    
+	    
+           
+        
+      
+
+      
+      
+    <!-- ########## Standard END ######################-->
+    
+<!-- TC: Hotline-Box -->
+
+
+<!-- TC: MGL Werbepartner -->
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+    
+
+            
+
+            
+
+  
+  
+          <br class="v-clear">
+  
+        </div>
+        
+      </div>
+       
+          </div>
+       
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end Content from CT -->    
+  
+
+	<!--googleoff: all-->
+
+      </div>
+      <!-- ################ ende box-left-outer ################ -->
+
+      <!-- ################ start box-right-outer ################ -->
+      <div id="box-right-outer" class="box-right-outer ">
+      
+
+
+
+      
+      
+      </div>
+      <!-- ################ ende box-right-outer ################ -->
+</div>
+    
+
+    
+
+    
+    
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+    
+    </div> <!-- id="content -->    
+
+
+    <!-- ENDE  ASPX-Content -->
+    <!-- ##################################################################################################### -->
+    <!-- ##################################################################################################### -->
+
+    <div class="v-clear"></div>
+
+
+
+            <div id="zone1" class="banner-skyscraper"></div>
+            <!-- ENDE  SUB.MASTER -->
+            <!-- ========================================================= -->
+            <!-- ========================================================= -->
+        </div>
+        <!-- END Main container -->
+        <!-- ===endof-file=== page-footer.html -->
+        <!-- ========================================================= -->
+        <!-- ========================================================= -->
+        <!-- Kontaktleiste -->
+        <div class="contact-bar-outer-wrapper gray-background">
+  <div id="contact-bar-inner-wrapper" class="contact-bar-inner-wrapper">
+    <div class="heading-wrapper">
+      <div class="heading-centered">Ihr Kontakt zum ADAC: Hilfe, Rat und Schutz für Ihre Mobilität</div>
+    </div>
+    <div id="contact-bar" class="" style="text-align:center;">
+      
+      <div class="inline">
+        
+        
+        <a href="#" title="Pannenhilfe" class="white-link icon-list-element pl0" onmouseover="javascript:selectIcon('kontaktIcon0', '/_mmm/png/panne_gelb_227142.png')" onmouseout="selectIcon('kontaktIcon0', '/_mmm/png/panne_weiss_227143.png')">
+        
+          
+          <img src="assets/panne_weiss_227143.png" class="left pt4" id="kontaktIcon0">
+          
+          <span class="left pl8 pt11">Pannenhilfe</span>
+        </a>
+      </div>
+      
+      <div class="inline">
+        
+        
+        <a href="#" title="E-Mail" class="white-link icon-list-element " onmouseover="javascript:selectIcon('kontaktIcon1', '/_mmm/png/kontakt_gelb_227140.png')" onmouseout="selectIcon('kontaktIcon1', '/_mmm/png/kontakt_weiss_227141.png')">
+        
+          
+          <img src="assets/kontakt_weiss_227141.png" class="left pt4" id="kontaktIcon1">
+          
+          <span class="left pl8 pt11">E-Mail</span>
+        </a>
+      </div>
+      
+      <div class="inline">
+        
+        <a href="#" title="Lob &amp; Kritik" class="white-link icon-list-element " onmouseover="javascript:selectIcon('kontaktIcon2', '/_mmm/png/lob_kritik_gelb_227136.png')" onmouseout="selectIcon('kontaktIcon2', '/_mmm/png/lob_kritik_weiss_227137.png')" target="_top"><img src="assets/lob_kritik_weiss_227137.png" class="left pt4" id="kontaktIcon2">
+          
+          <span class="left pl8 pt11">Lob &amp; Kritik</span></a>      </div>
+      
+      <div class="inline">
+        
+        
+        <a href="#" title="Rufnummern" class="white-link icon-list-element " onmouseover="javascript:selectIcon('kontaktIcon3', '/_mmm/png/service-hotline_gelb_227146.png')" onmouseout="selectIcon('kontaktIcon3', '/_mmm/png/service-hotline_weiss_227147.png')">
+        
+          
+          <img src="assets/service-hotline_weiss_227147.png" class="left pt4" id="kontaktIcon3">
+          
+          <span class="left pl8 pt11">Rufnummern</span>
+        </a>
+      </div>
+      
+      <div class="inline">
+        
+        <a href="#" title="Postalisch" class="white-link icon-list-element " onmouseover="javascript:selectIcon('kontaktIcon4', '/_mmm/png/postalisch_gelb_227144.png')" onmouseout="selectIcon('kontaktIcon4', '/_mmm/png/postalisch_weiss_227145.png')" target="_top"><img src="assets/postalisch_weiss_227145.png" class="left pt4" id="kontaktIcon4">
+          
+          <span class="left pl8 pt11">Postalisch</span></a>      </div>
+      
+      <div class="inline">
+        
+        
+        <a href="#" title="Geschäftsstelle" class="white-link icon-list-element " onmouseover="javascript:selectIcon('kontaktIcon5', '/_mmm/png/vor_ort_gelb_227138.png')" onmouseout="selectIcon('kontaktIcon5', '/_mmm/png/vor_ort_weiss_227139.png')">
+        
+          
+          <img src="assets/vor_ort_weiss_227139.png" class="left pt4" id="kontaktIcon5">
+          
+          <span class="left pl8 pt11">Geschäftsstelle</span>
+        </a>
+      </div>
+      
+      <div class="inline">
+        
+        <a href="#" title="Soziale Medien" class="white-link icon-list-element " onmouseover="javascript:selectIcon('kontaktIcon6', '/_mmm/png/share_gelb_230331.png')" onmouseout="selectIcon('kontaktIcon6', '/_mmm/png/share_weiss_230326.png')" target="_top"><img src="assets/share_weiss_230326.png" class="left pt4" id="kontaktIcon6">
+          
+          <span class="left pl8 pt11">Soziale Medien</span></a>      </div>
+      
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function selectIcon(id, icon)
+  {
+    $(id).src = icon;
+  }
+</script>
+        <!-- ===BEGIN-FILE=== page-footer.html -->
+        <!-- Footer -->
+        <div id="footer" class="noprint">
+            <div id="overviewnavigation">
+              
+            </div>
+            <div class="moduleFooterNavi clearfix">
+              <div class="box-wrap">
+                <div class="boxRight SocialMedia clearfix">
+                    
+  <div class="inline">  
+    <a href="#" title="Facebook" target="_blank" class="" style=""><img src="assets/facebook-icon_232010.png"></a>    
+  </div>
+  
+
+  
+  <div class="inline">  
+    <a href="#" title="Twitter" target="_blank" class="" style=""><img src="assets/twitter-icon_232012.png"></a>    
+  </div>
+  
+
+  
+  <div class="inline">  
+    <a href="#" title="Youtube" target="_blank" class="" style=""><img src="assets/youtube-icon_232013.png"></a>    
+  </div>
+  
+
+  
+  <div class="inline">  
+    <a href="#" title="Blog" target="_blank" class="" style="vertical-align:super;">
+      Blog
+      
+    </a>
+    
+  </div>
+  
+
+                </div>
+                <div class="boxLeft">
+		    
+  <div class="inline">  
+    <a href="#" title="Zum Stellenmarkt des ADAC" target="_blank" class="" style="vertical-align:super;">
+      Karriere
+      
+    </a>
+    <span style="vertical-align:super;">|</span>
+  </div>
+  
+
+  
+  <div class="inline">  
+    <a href="#" title="Der ADAC" target="_self" class="" style="vertical-align:super;">
+      Der ADAC
+      
+    </a>
+    <span style="vertical-align:super;">|</span>
+  </div>
+  
+
+  
+  <div class="inline">  
+    <a href="#" title="Presse" target="_blank" class="" style="vertical-align:super;">
+      Presse
+      
+    </a>
+    <span style="vertical-align:super;">|</span>
+  </div>
+  
+
+  
+  <div class="inline">  
+    <a href="#" title="Werbung" target="_self" class="" style="vertical-align:super;">Werbung</a>    <span style="vertical-align:super;">|</span>
+  </div>
+  
+
+  
+  <div class="inline">  
+    <a href="#" title="Kostenlose Informationen des ADAC per E-Mail" target="_self" class="" style="vertical-align:super;">Newsletter</a>    <span style="vertical-align:super;">|</span>
+  </div>
+  
+
+  
+  <div class="inline">  
+    <a href="#" title="Sitemap" target="_self" class="" style="vertical-align:super;">Sitemap</a>    <span style="vertical-align:super;">|</span>
+  </div>
+  
+
+  
+  <div class="inline">  
+    <a href="#" title="Datenschutz &amp; Cookies" target="_self" class="" style="vertical-align:super;">Datenschutz &amp; Cookies</a>    <span style="vertical-align:super;">|</span>
+  </div>
+  
+
+		  <div class="inline"><literal style="vertical-align:super;">
+    <a href="#" title="Zur Seite Impressum" target="_top">Impressum</a>
+</literal></div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- END Footer -->
+        <!-- ===endof-file=== page-footer.html -->
+        <!-- ========================================================= -->
+        <!-- ========================================================= -->
+        <!-- ===BEGIN-FILE=== footer.html -->
+    </div>
+    <div id="PopuplayerBox" style="display:block;" class="popuplayer-box"></div><div id="transfer_inlinelayer" style="display:none;" class="transfer-layer"></div></form>
+    <!-- id="ADACForm" -->
+
+
+    <!-- Infolayer container box -->
+    <div id="infolayer-container-box">
+    </div>
+    <!-- Tooltip container box -->
+    <div id="tooltip-container-box" style="display: none;">
+    </div>
+    
+    
+<span id="ctl00_ctl00_cphWebTrekk_cphWebTrekk_WebTrekkCall1"></span><!-- start JSTSConfigs -->
+<script type="text/javascript" src="assets/webtrekk_v4.js"></script>
+<script type="text/javascript">
+    <!--
+var pageConfig={
+contentId: "pr.truckservice.pannenhilfe.default",
+linkTrack:"",
+heatmap:""
+};
+    var wt = new webtrekkV3(pageConfig);
+    wt.contentId = "pr.truckservice.pannenhilfe.default";
+    wt.trackDomain = "webts.adac.de";
+    wt.trackId = "312287255193038";
+    wt.mediaCode = "mc";
+
+    wt.domain = "www.adac.de";
+    wt.contentGroup = new Array();
+    wt.contentGroup[1] = "produkte";
+    wt.contentGroup[2] = "truckservice";
+    wt.contentGroup[3] = "pannenhilfe";
+    wt.linkTrackAttribute = "dummy";
+    wt.linkTrackParams = "";
+    wt.form = "";
+    wt.customParameter = new Array();
+    wt.customParameter[1] = "adac.de";
+    wt.customParameter[2] = "content";
+    wt.customParameter[4] = "service-24";
+    wt.customParameter[7] = "";
+    wt.customParameter[10] = "";
+    wt.customParameter[11] = "n";
+    wt.internalSearch = "";
+    wt.sendinfo();    //--> 
+    </script> 
+    <noscript>
+      <img src="https://webts.adac.de/312287255193038/wt?p=326,pr.truckservice.pannenhilfe.default,0,0,0,1,1507881426,,0,0&cg1=produkte.truckservice.pannenhilfe&mc=mc&cp1=adac.de&cp2=content&cp4=service-24&cp7=&cp10=&cp11=n&cet=6" style="width:0px;height:0px" alt="" />
+    </noscript>
+<!--  end JSTSConfigs  -->
+
+
+
+    
+    <div id="ctl00_ctl00__divLexikonContainer">
+    </div>
+    
+
+<!-- modallayer.wucMLControl BEGIN -->
+<div id="ModalPanel">
+
+    <script type="text/javascript" src="assets/adac_003.js"></script>
+		
+    <div id="AbsoftDiv" style="z-index:11; position:absolute; display:none; top:0px; left:0px; height:0px; width:0px; filter:alpha(opacity=70);-moz-opacity:0.7;-khtml-opacity: 0.7;opacity: 0.7; background-color: rgb(255, 255, 255); "></div>
+		
+	<iframe id="ModalFrame0" name="ModalFrameX" allowtransparency="true" scrolling="no" style="position:absolute; z-index: 6000; display:none; border:none;" frameborder="0"></iframe>
+
+    <script language="javascript" type="text/javascript">
+        window.onresize = ParentPage_NeuAufbau;
+	</script>
+</div>
+<!-- modallayer.wucMLControl END -->
+
+
+
+<div id="overlay" style="display: none; background-color: rgb(255, 255, 255); z-index: 1100; position: absolute; top: 0px; left: 0px;"></div></body></html>
+<!-- ===endof-file=== footer.html -->

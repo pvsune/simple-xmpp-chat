@@ -1,0 +1,1 @@
+function disableMaxymiserCookies(){if(typeof mmcore!="undefined")mmcore.SetCookie("gm","2",256),window.location.search="optout=1";else{var lp=window.location.protocol;lp.substr(0,4)!="http"&&(lp="http:"),window.open(lp+"//www.maxymiser.com/cookie_optout.htm","optout","width=620,height=350,menubar=no,resizable=no,scrollbars=no,toolbar=no")}};
