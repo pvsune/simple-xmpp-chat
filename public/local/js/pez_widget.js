@@ -1,29 +1,11 @@
-var pez_widget_connection = 'bosch';
-
-var pez_widget_api_key = null;
-var pez_widget_client = null;
-var pez_widget_client_domain = null;
-var pez_widget_prefix = 'pez-widget-';
-var pez_widget_url = 'http://localhost:8080/';
-var pez_widget_env = 'local';
-var pez_widget_xmpp_url = 'http://localhost:5280/http-bind'
-var pez_widget_dotmin = '';
-var pez_widget_online = true;
-var pez_widget_debug = true;
-
-var pez_widget_title = '',
-    pez_widget_slogan = '',
-    pez_widget_message = '',
-    pez_widget_bubbletext = '',
-    pez_widget_prechat = true,
-    pez_widget_prechat_email = true,
-    pez_widget_prechat_phone = true,
-    pez_widget_prechat_question = true,
-    pez_widget_bgcolor = '',
-    pez_widget_fgcolor = '',
-    pez_widget_avatar = '',
-    pez_widget_window_state = 'closed';
-
+/* main setup */
+var pez_widget_connection = 'bosch',
+    pez_widget_xmpp_url = 'http://localhost:5280/http-bind',
+    pez_widget_url = 'http://localhost:8080/',
+    pez_widget_env = 'local',
+    pez_widget_dotmin = '',
+    pez_widget_online = true,
+    pez_widget_debug = true;
 
 function device_os() {
     var useragent = navigator.userAgent;
@@ -50,6 +32,23 @@ function device_os() {
 }
 
 var pez_widget_device = device_os();
+
+var pez_widget_title = '',
+    pez_widget_slogan = '',
+    pez_widget_message = '',
+    pez_widget_bubbletext = '',
+    pez_widget_prechat = true,
+    pez_widget_prechat_email = true,
+    pez_widget_prechat_phone = true,
+    pez_widget_prechat_question = true,
+    pez_widget_bgcolor = '',
+    pez_widget_fgcolor = '',
+    pez_widget_avatar = '',
+    pez_widget_window_state = 'closed',
+    pez_widget_api_key = null,
+    pez_widget_client = null,
+    pez_widget_client_domain = null,
+    pez_widget_prefix = 'pez-widget-';
 
 function get_client_data() {
     data = {}

@@ -525,6 +525,7 @@
             var i, t, d, h, a, seconds, text, timestr
             var now = new Date();
             var yesterday = new Date();
+            var minutes;
             yesterday.setDate(now.getDate() - 1);
             for (i=0;i<times.length;i++) {
                 t = times[i].className.split(' ')[1];
@@ -542,7 +543,11 @@
                 } else if (seconds < 60) {
                     text = seconds+' seconds ago';
                 } else if (seconds < (60 * 60)) {
-                    text = Math.floor(seconds/60)+' minutes ago';
+                    minutes = Math.floor(seconds/60);
+                    if (minutes > 1)
+                        text = minutes+' minutes ago';
+                    else
+                        text = '1 minute ago';
                 } else {
                     text = '';
                     if (t.substr(0,8) != date_timestamp(now).substring(0,8)) {
