@@ -595,7 +595,7 @@
         if (cnt > 0)
             i_bubble.innerHTML = '<span id="'+pez_widget_prefix+'unread-counter" class="unread">'+cnt+' Unread Messages</span>';
         else 
-            i_bubble.innerHTML = '<span>'+client.bubble_text+'!</span>';
+            i_bubble.innerHTML = '<span>'+client.bubble_text+'</span>';
     }
 
     function load_widget() {
