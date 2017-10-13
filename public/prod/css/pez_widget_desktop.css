@@ -33,8 +33,8 @@
   height: 21px;
   background: #555;
   display: inline-block;
-  position: absolute;
-  top: 0;
+  position: fixed;
+  bottom: 531px;
   right: 20px;
   font-size: 11px;
   line-height: 20px;
@@ -50,7 +50,7 @@
 }
 
 #pez-widget-launcher-open {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 20px;
   padding: 15px;
